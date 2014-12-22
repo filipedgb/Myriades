@@ -26,8 +26,40 @@ void ProjScene::updateDrawing() {
 	}
 }
 
+void ProjScene::setAllAmbient() {
+	GLfloat p1Pos[3] = {0,2,1};
+	GLfloat p1Tar[3] = {0,1.5,0};
+	GLfloat p2Pos[3] = {2,2,2};
+	GLfloat p2Tar[3] = {0,2,0};
+	GLfloat p3Pos[3] = {2,5,2};
+	GLfloat p3Tar[3] = {0,0,0};
+	/* CAMARAS */
+	Perspective* p1 = new Perspective("p1",0,0,0,p1Pos,p1Tar);
+	Perspective* p2 = new Perspective("p2",0,0,0,p2Pos,p2Tar);
+	Perspective* p3 = new Perspective("p3",0,0,0,p3Pos,p3Tar);
+
+	cameras.push_back(p1);
+	cameras.push_back(p2);
+	cameras.push_back(p3);
+
+	/*Lights*/
+	GLfloat l1Pos[3] = {0,15,3};
+	GLfloat ambientl1[4] = {0.2,0.2,0.2,0.1};
+	GLfloat diffusel1[4] = {0.4,0.4,0.4,0.1};
+	GLfloat specularl1[4] = {0.5,0.5,0.5,0.1};
+	Light* l1 = new Light("Omni", "omni",true,true,l1Pos,ambientl1,diffusel1,specularl1);
+
+	lights.push_back(l1);
+
+	/*Texturas*/
+
+}
+
+
 void ProjScene::init() {
-	sck.loop();
+	setAllAmbient();
+	//sck.loop(); //Socket
+
 	unsigned long updatePeriod=50;
 	setUpdatePeriod(updatePeriod);
 

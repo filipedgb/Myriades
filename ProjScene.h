@@ -13,7 +13,10 @@
 #include "Graph.h"
 #include "Light.h"
 #include "Texture.h"
-#include "Camera.h"
+
+#include "Perspective.h"
+#include "Ortho.h"
+
 #include "Animation.h"
 
 #include "Socket.h"
@@ -38,6 +41,8 @@ public:
 	void update(unsigned long t);
 	void applyMatrixDraw(Node* node, Appearance* appID);
 	~ProjScene();
+
+	void setAllAmbient();
 
 	vector<Light*>  getLights() { return lights;}
 	vector<Camera*> getCameras() { return cameras;} 
