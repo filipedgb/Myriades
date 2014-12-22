@@ -4,6 +4,7 @@
 #include <math.h>
 #include <iostream>
 
+
 #include "CGFscene.h"
 #include "CGFshader.h"
 #include "CGFappearance.h"
@@ -14,6 +15,8 @@
 #include "Texture.h"
 #include "Camera.h"
 #include "Animation.h"
+
+#include "Socket.h"
 
 class ProjScene : public CGFscene {
 private:
@@ -26,6 +29,8 @@ private:
 
 	Animation* teste;
 	CGFshader* shader;
+
+	CtoPlSocket sck;
 
 public:
 	void init();

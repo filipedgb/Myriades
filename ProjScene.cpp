@@ -27,6 +27,7 @@ void ProjScene::updateDrawing() {
 }
 
 void ProjScene::init() {
+	sck.loop();
 	unsigned long updatePeriod=50;
 	setUpdatePeriod(updatePeriod);
 
@@ -100,7 +101,7 @@ void ProjScene::display() {
 
 	// ---- BEGIN feature demos
 	updateDrawing();
-	updateLightState();
+	updateLightState();	
 
 	//applyMatrixDraw(theGraph.searchNode(theGraph.getRoot()), theGraph.searchNode(theGraph.getRoot())->getAppearance());
 
