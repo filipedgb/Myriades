@@ -3,6 +3,9 @@
 GLfloat ambientLight[4] = {0.8, 0.8, 0.8, 1};
 GLfloat background[4] = {0, 0, 0, 0.8};
 
+GLfloat black[4] = {0,0,0,1};
+GLfloat white[4] = {1,1,1,0};
+GLfloat grey[4] = {0.8,0.8,0.8,1};
 
 #define NUM_OBJS 7
 #define NUM_ROWS 5
@@ -61,10 +64,24 @@ void ProjScene::setAllAmbient() {
 
 }
 
+// TODO change this
+void ProjScene::setPieceColor() {
+	GLfloat amb[4] = {0.8,0.8,0.8,1};
+	GLfloat spec[4] = {0.8,0.8,0.8,1};
+
+	Appearance* w = new Appearance("w",120,NULL,amb,white,spec);
+	Appearance* b = new Appearance("b",120,NULL,amb,black,spec);
+	Appearance* g = new Appearance("g",120,NULL,amb,grey,spec);
+
+	this->appearances.push_back(w);
+	this->appearances.push_back(b);
+	this->appearances.push_back(g);
+}
+
 
 void ProjScene::init() {
 	setAllAmbient();
-	//sck.loop(); //Socket
+	sck.loop(); //Socket
 
 	unsigned long updatePeriod=50;
 	setUpdatePeriod(updatePeriod);
@@ -78,6 +95,7 @@ void ProjScene::init() {
 	shading = 1;
 	cameraState = 0;
 	setLightState();
+	setPieceColor();
 
 	// Enables lighting computations
 	glEnable(GL_LIGHTING);
@@ -98,9 +116,7 @@ void ProjScene::init() {
 	// Defines a default normal
 	glNormal3f(0,0,1);
 	
-
-	obj = new Cylinder(1,1,0.2,30,30);
-
+	obj = new Piece(1,"g");
 
 	glEnable(GL_NORMALIZE);
 }
@@ -141,11 +157,15 @@ void ProjScene::display() {
 
 	glPushName(-1);		// Load a default name
 
+	int aIndex;
+
 	for (int i=0; i< NUM_OBJS;i++)
 	{
 		glPushMatrix();
 		glTranslatef(i*5,0,0);
 		glLoadName(i);		//replaces the value on top of the name stack
+		aIndex = searchAppearance((char*)obj->getColor());
+		appearances[aIndex]->apply();
 		obj->draw(1,1);
 		glPopMatrix();
 	}
@@ -163,6 +183,8 @@ void ProjScene::display() {
 			glTranslatef(0,0,(c+1)*5);
 			glRotatef(90,0,1,0);
 			glPushName(c);
+			aIndex = searchAppearance((char*)obj->getColor());
+			appearances[aIndex]->apply();
 			obj->draw(1,1);
 			glPopName();
 			glPopMatrix();
@@ -270,6 +292,13 @@ int ProjScene::searchAnimation(char* id) {
 int ProjScene::searchTexture(char* id) {
 	for(unsigned int i=0; i < texturas.size();i++)
 		if(!strcmp(texturas[i]->getId(),id))
+			return i;
+	return -1;
+}
+
+int ProjScene::searchAppearance(char* id) {
+	for(unsigned int i=0; i < appearances.size();i++)
+		if(!strcmp(appearances[i]->getId(),id))
 			return i;
 	return -1;
 }
