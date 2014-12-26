@@ -5,8 +5,6 @@
 #include "ProjScene.h"
 #include "TPinterface.h"
 
-#include "PickScene.h"
-#include "PickInterface.h"
 
 using std::cout;
 using std::exception;
