@@ -19,7 +19,7 @@
 
 #include "Animation.h"
 
-#include "Cylinder.h"
+#include "Piece.h"
 
 #include "Socket.h"
 
@@ -29,15 +29,15 @@ private:
 	CGFlight* light0;
 	vector<Light*> lights;
 	vector<Texture*> texturas;
+	vector<Appearance*> appearances;
 	vector<Camera*> cameras; 
 	vector<Animation*> animations;
 
 	Animation* teste;
 	CGFshader* shader;
 
+	Piece* obj;
 	CtoPlSocket sck;
-	Cylinder* obj;
-
 
 public:
 	void init();
@@ -47,6 +47,7 @@ public:
 	~ProjScene();
 
 	void setAllAmbient();
+	void setPieceColor();
 
 	vector<Light*>  getLights() { return lights;}
 	vector<Camera*> getCameras() { return cameras;} 
@@ -54,6 +55,7 @@ public:
 	int searchCamera(char* id);
 	int searchTexture(char* id);
 	int searchAnimation(char* id);
+	int searchAppearance(char* id);
 
 	/** INTERFACE OPTIONS*/
 	int sceneVar;

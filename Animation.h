@@ -24,7 +24,6 @@ public:
 	virtual void update(unsigned long t)=0;
 	virtual void draw()=0;
 	virtual void reset()=0;
-
 };
 
 #endif
