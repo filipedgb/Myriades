@@ -3,6 +3,12 @@
 GLfloat ambientLight[4] = {0.8, 0.8, 0.8, 1};
 GLfloat background[4] = {0, 0, 0, 0.8};
 
+
+#define NUM_OBJS 7
+#define NUM_ROWS 5
+#define NUM_COLS 4
+
+
 void ProjScene::updateDrawing() {
 	switch(this->mode) {
 	case 0: //fill
@@ -91,6 +97,10 @@ void ProjScene::init() {
 
 	// Defines a default normal
 	glNormal3f(0,0,1);
+	
+
+	obj = new Cylinder(1,1,0.2,30,30);
+
 
 	glEnable(GL_NORMALIZE);
 }
@@ -123,6 +133,41 @@ void ProjScene::display() {
 
 	for(unsigned int i = 0; i < lights.size(); i++) {
 		this->lights[i]->display();
+	}
+
+
+	// Example 1: simple naming
+	glPushMatrix();
+
+	glPushName(-1);		// Load a default name
+
+	for (int i=0; i< NUM_OBJS;i++)
+	{
+		glPushMatrix();
+		glTranslatef(i*5,0,0);
+		glLoadName(i);		//replaces the value on top of the name stack
+		obj->draw(1,1);
+		glPopMatrix();
+	}
+	glPopMatrix();
+
+	// example 2: structured naming
+	for (int r=0; r < NUM_ROWS; r++)
+	{
+		glPushMatrix();
+		glTranslatef(0, r*4, 0);
+		glLoadName(r);
+		for (int c=0; c < NUM_COLS; c++)
+		{
+			glPushMatrix();
+			glTranslatef(0,0,(c+1)*5);
+			glRotatef(90,0,1,0);
+			glPushName(c);
+			obj->draw(1,1);
+			glPopName();
+			glPopMatrix();
+		}
+		glPopMatrix();
 	}
 
 	// Draw axis

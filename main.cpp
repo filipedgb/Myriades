@@ -5,6 +5,9 @@
 #include "ProjScene.h"
 #include "TPinterface.h"
 
+#include "PickScene.h"
+#include "PickInterface.h"
+
 using std::cout;
 using std::exception;
 
@@ -17,6 +20,11 @@ int main(int argc, char* argv[]) {
 
 		app.setScene(new ProjScene());
 		app.setInterface(new TPinterface());
+
+//app.setScene(new PickScene());
+//app.setInterface(new PickInterface());
+
+
 
 		app.run();
 	}

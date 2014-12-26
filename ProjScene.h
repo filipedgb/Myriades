@@ -19,6 +19,8 @@
 
 #include "Animation.h"
 
+#include "Cylinder.h"
+
 #include "Socket.h"
 
 class ProjScene : public CGFscene {
@@ -34,6 +36,8 @@ private:
 	CGFshader* shader;
 
 	CtoPlSocket sck;
+	Cylinder* obj;
+
 
 public:
 	void init();
