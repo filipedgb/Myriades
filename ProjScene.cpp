@@ -78,10 +78,12 @@ void ProjScene::setPieceColor() {
 	this->appearances.push_back(g);
 }
 
-
 void ProjScene::init() {
 	setAllAmbient();
 	sck.loop(); //Socket
+
+	//printBoard(boardParser("s"));
+	getchar();
 
 	unsigned long updatePeriod=50;
 	setUpdatePeriod(updatePeriod);
@@ -115,8 +117,8 @@ void ProjScene::init() {
 
 	// Defines a default normal
 	glNormal3f(0,0,1);
-	
-	obj = new Piece(1,"g");
+
+	obj = new Piece(1,'g');
 
 	glEnable(GL_NORMALIZE);
 }

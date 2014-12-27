@@ -1,12 +1,12 @@
 #include "Piece.h"
 
-Piece::Piece(int number, char* color) {
+Piece::Piece(int number, char color) {
 	this->color = color; 
 	this->number = number;
 	this->piece = new Cylinder(1,1,0.2,30,30);
 }
 
-char* Piece::getColor() const {
+char Piece::getColor() const {
 	return color;
 }
 
@@ -14,7 +14,7 @@ int Piece::getNumber() const {
 	return number;
 }
 
-void Piece::setColor(char* c) {
+void Piece::setColor(char c) {
 	this->color = c;
 }
 
