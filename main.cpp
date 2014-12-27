@@ -15,7 +15,6 @@ int main(int argc, char* argv[]) {
 
 	try {
 		app.init(&argc, argv);
-
 		app.setScene(new ProjScene());
 		app.setInterface(new TPinterface());
 

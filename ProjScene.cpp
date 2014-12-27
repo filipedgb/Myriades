@@ -80,10 +80,14 @@ void ProjScene::setPieceColor() {
 
 void ProjScene::init() {
 	setAllAmbient();
-	sck.loop(); //Socket
+
+	theBoard = Board();
+	theBoard.boardParser(sck.loop()) ; //Socket
+
+
 
 	//printBoard(boardParser("s"));
-	getchar();
+	//getchar();
 
 	unsigned long updatePeriod=50;
 	setUpdatePeriod(updatePeriod);
@@ -118,9 +122,11 @@ void ProjScene::init() {
 	// Defines a default normal
 	glNormal3f(0,0,1);
 
-	obj = new Piece(1,'g');
+	//obj = new Piece(1,'g');
 
 	glEnable(GL_NORMALIZE);
+
+	system("pause");
 }
 
 void ProjScene::update(unsigned long t) {
@@ -154,6 +160,10 @@ void ProjScene::display() {
 	}
 
 
+			theBoard.draw();
+
+
+	/*
 	// Example 1: simple naming
 	glPushMatrix();
 
@@ -193,6 +203,8 @@ void ProjScene::display() {
 		}
 		glPopMatrix();
 	}
+
+	*/
 
 	// Draw axis
 	axis.draw();
