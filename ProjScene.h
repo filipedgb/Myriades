@@ -20,13 +20,8 @@
 #include "Animation.h"
 
 #include "Piece.h"
-
-#include "Socket.h"
-
 #include "Board.h"
-
-
-
+#include "Socket.h"
 
 class ProjScene : public CGFscene {
 private:
@@ -55,7 +50,6 @@ public:
 	~ProjScene();
 
 	void setAllAmbient();
-	void setPieceColor();
 
 	vector<Light*>  getLights() { return lights;}
 	vector<Camera*> getCameras() { return cameras;} 

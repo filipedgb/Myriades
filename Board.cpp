@@ -1,5 +1,36 @@
 #include "Board.h"
 
+Board::Board() {
+	this->size = 5;
+	setAppearance();
+}
+
+Board::Board(int s) {
+	this->size = s;
+	setAppearance();
+}
+
+Board::Board(vector<vector<Piece*>> boardIn) {
+	board = boardIn;
+	size = boardIn.size();
+	setAppearance();
+}
+
+void Board::setAppearance(Appearance* a) {
+	this->boardApp = a;
+}
+
+void Board::setAppearance() {
+	GLfloat diff[4] = {0.8,0.8,0.8,1};
+	GLfloat spec[4] = {0.8,0.8,0.8,1};
+	GLfloat amb[4] = {0.8,0.8,0.8,1};
+
+	this->boardApp = new Appearance("boardApp",120,"woodBoard",amb,diff,spec);
+}
+
+void Board::setTexture(Texture* t) {
+	this->boardTex = t;
+}
 
 void Board::draw() { 
 
@@ -19,16 +50,14 @@ void Board::draw() {
 			glRotatef(90,1,0,0) ;
 
 			if(	board[row][col] != NULL) {
-							glPushMatrix();
+				glPushMatrix();
 
 				printf("Esta null\n");
 				board[row][col]->draw(1,1);
 
-							glPopMatrix();
+				glPopMatrix();
 			}
 			glPopMatrix();
-
-
 		}
 
 	}
@@ -39,17 +68,14 @@ void Board::drawBase() {
 	glPushMatrix();
 
 	glTranslatef(0,0,4*size) ;
-
-
 	glRotatef(-90,1,0,0) ;
 
-
 	Primitive* temp = new Rectangle(0,0,4*size,4*size);
+	boardTex->apply();
+	boardApp->apply();
 	temp->draw(1,1);
 
 	glPopMatrix();
-
-
 }
 
 void Board::boardParser(string answer) {
@@ -58,9 +84,8 @@ void Board::boardParser(string answer) {
 	answer.erase(0,1); // erase first '['
 	answer.erase(answer.size()-3,answer.size()-3); // erase last '].\r'
 
-	int posEnd, posBegin;
+	int posEnd;
 
-	
 	while(answer != "") {
 		if(answer[0] == ',')
 			answer.erase(0,1);
@@ -85,6 +110,4 @@ void Board::boardParser(string answer) {
 		}
 		answer.erase(0,posEnd+1);
 	}
-
-	return ;
 }

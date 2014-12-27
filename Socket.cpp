@@ -75,9 +75,6 @@ void CtoPlSocket::quit() {
 	recebe(ans);
 }
 
-
-
-
 void printBoard(vector<vector<Piece*>> b) {
 	for (int i = 0; i < b.size(); i++) {
 		printf("%d\n",i);
@@ -94,7 +91,7 @@ void printBoard(vector<vector<Piece*>> b) {
 string CtoPlSocket::loop() {
 	socketConnect();
 	//char *s = "comando(1, 2).\n";
-	char *s = "comando(5,'b').\n";
+	char *s = "comando(5,'w').\n";
 	envia(s, strlen(s));
 	char ans[256];
 	recebe(ans);
