@@ -98,8 +98,9 @@ string CtoPlSocket::loop() {
 	return NULL;
 }
 
-string CtoPlSocket::addPiece(char* board, Piece* p, int posX, int posY) {
-	string s = "addPiece(["+p->getColor();
+string CtoPlSocket::addPiece(Board* board, Piece* p, int posX, int posY) {
+	string s = "addPiece([";
+	s+= p->getColor();
 	s.append(",");
 	s.append(to_string(p->getNumber()));
 	s.append("],");
@@ -107,7 +108,7 @@ string CtoPlSocket::addPiece(char* board, Piece* p, int posX, int posY) {
 	s.append(",");
 	s.append(to_string(posY));
 	s.append(",");
-	s.append(string(board));
+	s.append(board->toString());
 	s.append(").\n");
 
 	envia(s);
@@ -131,7 +132,7 @@ string CtoPlSocket::initBoard(int size) {
 	return string(ans);
 }
 
-string CtoPlSocket::movePiece(char* board, int posX, int posY, int newPx, int newPy) {
+string CtoPlSocket::movePiece(Board* board, int posX, int posY, int newPx, int newPy) {
 	string s = "movePiece(";
 	s.append(to_string(posX));
 	s.append(",");
@@ -141,7 +142,7 @@ string CtoPlSocket::movePiece(char* board, int posX, int posY, int newPx, int ne
 	s.append(",");
 	s.append(to_string(newPy));
 	s.append(",");
-	s.append(string(board));
+	s.append(board->toString());
 	s.append(").\n");
 
 	envia(s);

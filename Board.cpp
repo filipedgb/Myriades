@@ -79,6 +79,7 @@ void Board::drawBase() {
 }
 
 void Board::boardParser(string answer) {
+	this->board.clear();
 	vector<Piece*> row;
 
 	answer.erase(0,1); // erase first '['
@@ -110,4 +111,32 @@ void Board::boardParser(string answer) {
 		}
 		answer.erase(0,posEnd+1);
 	}
+}
+
+string Board::toString() {
+	string b = "[";
+
+	for(unsigned int i = 0; i < this->board.size(); i++) {
+		b.append("[");
+		for(unsigned int j = 0; j < this->board[i].size(); j++) {
+			if(board[i][j] == NULL)
+				b.append("[]");
+			else {
+				b.append("["+board[i][j]->getColor());
+				b.append(",");
+				b.append(to_string(board[i][j]->getNumber()));
+				b.append("]");
+			}
+
+			if(j < board[i].size()-1)
+				b.append(",");
+		}
+		b.append("]");
+
+		if(i < board.size()-1)
+			b.append(",");
+	}
+	b.append("]");
+
+	return b;
 }

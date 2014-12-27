@@ -26,6 +26,8 @@ public:
 	void setAppearance(Appearance* a);
 	void setAppearance();
 	void setTexture(Texture* t);
+
+	string toString();
 };
 
 #endif
