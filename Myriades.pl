@@ -1094,20 +1094,14 @@ serverLoop(Stream) :-
 	write('Wrote: '), write(MyReply), nl,
 	flush_output(Stream),
 	(ClientMsg == quit; ClientMsg == end_of_file), !.
-
-parse_input(comando(Arg1, Arg2), Answer) :-
-	comando(Arg1, Arg2, Answer).
 	
 parse_input(quit, ok-bye) :- !.
 		
-comando(Arg1, Arg2, Answer) :-
-	write(Arg1), nl, write(Arg2), nl,
-	initBoard(B,Arg1),
-	addPiece([Arg2,3],0,0,B,B1),
-	addPiece([Arg2,5],0,1,B1,B2),
-	addPiece([Arg2,4],1,1,B2,B3),
-	addPiece([Arg2,2],2,3,B3,B4),
-	addPiece([Arg2,9],4,2,B4,B5),
+parse_input(initBoard(Size),Answer):-
+	initBoard(Answer,Size).		
 
-	write(B1),
-	Answer = B5.
+parse_input(addPiece([Color,N],X,Y,Board),Answer):-
+	addPiece([Color,N],X,Y,Board,Answer).
+
+parse_input(movePiece(OldX,OldY,NewX,NewY,Board),Answer):-
+	movePiece(OldX,OldY,NewX,NewY,Board,Answer).
