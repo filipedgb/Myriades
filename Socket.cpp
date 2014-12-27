@@ -1,10 +1,9 @@
-#include "Socket.h"
 
 #include <winsock2.h>
 
 #include <stdio.h>
 #include <string.h>
-#include "Piece.h" 
+#include "Socket.h"
 
 SOCKET m_socket;
 
@@ -48,8 +47,11 @@ bool CtoPlSocket::socketConnect() {// Initialize Winsock.
 	return true;
 }
 
-void CtoPlSocket::envia(char *s, int len) {
-	int bytesSent = send(m_socket, s, len, 0);
+void CtoPlSocket::envia(string s1) {
+	char *s = new char[s1.length() + 1];
+	strcpy(s, s1.c_str());
+
+	int bytesSent = send(m_socket, s, s1.length(), 0);
 	if(bytesSent == SOCKET_ERROR)
 		printf("Client: send() error %ld.\n", WSAGetLastError());
 }
@@ -69,37 +71,82 @@ void CtoPlSocket::recebe(char *ans) {
 
 void CtoPlSocket::quit() {
 	cout << "Asking prolog to quit\n";
-	char buff[] = "quit.\n";
-	envia(buff, 6);
+	//char buff[] = "quit.\n";
+	//envia(buff, 6);
 	char ans[128];
 	recebe(ans);
 }
 
-void printBoard(vector<vector<Piece*>> b) {
-	for (int i = 0; i < b.size(); i++) {
-		printf("%d\n",i);
-		
-		for (int j = 0; j < b[i].size(); j++) {
-			if(b[i][j]!=NULL)
-				printf("%d, %c - %d \t",j, b[i][j]->getColor(), b[i][j]->getNumber());
-			else printf("NULL");
-		}
-		printf("\n");
-	}
-}
-
 string CtoPlSocket::loop() {
 	socketConnect();
-	//char *s = "comando(1, 2).\n";
+
 	char *s = "comando(5,'w').\n";
-	envia(s, strlen(s));
+	/*envia(s, strlen(s));
 	char ans[256];
 	recebe(ans);
 
-	string str(ans);
+	char s1[256] = "addPiece([b,15],3,3,";
+	strncat(s1,ans, strlen(ans)-2);
+	strcat(s1,").\n");
 
-	printf("\n size %d\n",str.size());
+	envia(s1, strlen(s1));
+	char ans1[256];
+	recebe(ans1);*/
+
 	//quit();
 	//getchar();
-	return ans;
+	return NULL;
+}
+
+string CtoPlSocket::addPiece(char* board, Piece* p, int posX, int posY) {
+	string s = "addPiece(["+p->getColor();
+	s.append(",");
+	s.append(to_string(p->getNumber()));
+	s.append("],");
+	s.append(to_string(posX));
+	s.append(",");
+	s.append(to_string(posY));
+	s.append(",");
+	s.append(string(board));
+	s.append(").\n");
+
+	envia(s);
+	char ans[256];
+	recebe(ans);
+
+	return string(ans);
+}
+
+string CtoPlSocket::initBoard(int size) {
+	if(size > 10) return NULL;
+
+	string s ="initBoard(";
+	s.append(to_string(size));
+	s.append(").\n");
+
+	envia(s);
+	char ans[256];
+	recebe(ans);
+
+	return string(ans);
+}
+
+string CtoPlSocket::movePiece(char* board, int posX, int posY, int newPx, int newPy) {
+	string s = "movePiece(";
+	s.append(to_string(posX));
+	s.append(",");
+	s.append(to_string(posY));
+	s.append(",");
+	s.append(to_string(newPx));
+	s.append(",");
+	s.append(to_string(newPy));
+	s.append(",");
+	s.append(string(board));
+	s.append(").\n");
+
+	envia(s);
+	char ans[256];
+	recebe(ans);
+
+	return string(ans);
 }
