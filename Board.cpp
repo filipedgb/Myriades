@@ -71,8 +71,8 @@ void Board::drawBase() {
 	glRotatef(-90,1,0,0) ;
 
 	Primitive* temp = new Rectangle(0,0,4*size,4*size);
-	boardTex->apply();
 	boardApp->apply();
+	boardTex->apply();
 	temp->draw(1,1);
 
 	glPopMatrix();

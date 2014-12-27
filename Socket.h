@@ -2,21 +2,25 @@
 #define SOCKET_H
 
 #include <iostream>
-
+#include "Board.h"
 
 #define IPADDRESS "127.0.0.1"
 #define PORT 60070
-
 
 using namespace std;
 
 class CtoPlSocket {
 public: 
 	bool socketConnect();
-	void envia(char *s, int len);
-	void recebe(char *ans);
+	void envia(string s);
+	void recebe(char* ans);
 	void quit();
 	string loop();
+
+	string initBoard(int size);
+	string addPiece(char* board, Piece* p, int posX, int posY);
+	string movePiece(char* board, int posX, int posY, int newPx, int newPy);
+
 };
 
 #endif
