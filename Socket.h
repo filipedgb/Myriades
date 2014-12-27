@@ -18,8 +18,8 @@ public:
 	string loop();
 
 	string initBoard(int size);
-	string addPiece(char* board, Piece* p, int posX, int posY);
-	string movePiece(char* board, int posX, int posY, int newPx, int newPy);
+	string addPiece(Board* board, Piece* p, int posX, int posY);
+	string movePiece(Board* board, int posX, int posY, int newPx, int newPy);
 
 };
 

@@ -70,6 +70,8 @@ void ProjScene::init() {
 	theBoard.boardParser(sck.initBoard(3)); //Socket
 	theBoard.setTexture(texturas[searchTexture("woodBoard")]);
 
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(20,'b'),1,1));
+
 	//printBoard(boardParser("s"));
 	//getchar();
 
