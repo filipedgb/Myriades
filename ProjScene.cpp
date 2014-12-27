@@ -65,7 +65,7 @@ void ProjScene::setAllAmbient() {
 void ProjScene::init() {
 	setAllAmbient();
 
-	theBoard = Board();
+	theBoard = Board(3);
 	sck.socketConnect();
 	theBoard.boardParser(sck.initBoard(3)); //Socket
 	theBoard.setTexture(texturas[searchTexture("woodBoard")]);
