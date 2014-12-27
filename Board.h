@@ -4,6 +4,8 @@
 
 #include <vector>
 #include "Piece.h"
+#include "Primitive.h"
+#include "Rectangle.h"
 #include <GL/glut.h>
 
 
@@ -22,6 +24,7 @@ public:
 	}
 	void boardParser(string answer);
 	void draw();
+	void drawBase() ;
 };
 
 

@@ -3,6 +3,8 @@
 
 void Board::draw() { 
 
+	drawBase();
+
 	for(unsigned int row = 0; row < size; row++) {
 		for(unsigned int col = 0; col < size; col++) {
 
@@ -12,14 +14,17 @@ void Board::draw() {
 
 			glTranslatef(4*col,0,0) ;
 			glTranslatef(0,0,4*row) ;
+
+			glTranslatef(1,1,1) ;
 			glRotatef(90,1,0,0) ;
 
-
-
 			if(	board[row][col] != NULL) {
+							glPushMatrix();
+
 				printf("Esta null\n");
 				board[row][col]->draw(1,1);
 
+							glPopMatrix();
 			}
 			glPopMatrix();
 
@@ -27,6 +32,23 @@ void Board::draw() {
 		}
 
 	}
+
+}
+
+void Board::drawBase() {
+	glPushMatrix();
+
+	glTranslatef(0,0,4*size) ;
+
+
+	glRotatef(-90,1,0,0) ;
+
+
+	Primitive* temp = new Rectangle(0,0,4*size,4*size);
+	temp->draw(1,1);
+
+	glPopMatrix();
+
 
 }
 
