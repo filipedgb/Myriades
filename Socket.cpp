@@ -78,44 +78,50 @@ void CtoPlSocket::quit() {
 
 vector<vector<Piece*>> boardParser(string answer) {
 	vector<vector<Piece*>> board;
-
 	vector<Piece*> row;
 
 	answer.erase(0,1); // erase first '['
-	answer.erase(answer.size()-1,answer.size()-1); // erase last ']'
+	answer.erase(answer.size()-3,answer.size()-3); // erase last '].\r'
 
 	int posEnd, posBegin;
 
-	while(answer.size() > 0) {
-		answer.erase(0,1);
+	
+	while(answer != "") {
+		if(answer[0] == ',')
+			answer.erase(0,1);
+		if(answer.find("[[") == 0)
+			answer.erase(0,1); // erase row '['
+
 		posEnd = answer.find("]");
 		if(posEnd != 0) {
-			posBegin = answer.find("[");
-			if(posEnd != posBegin+1) {
-				string cell = answer.substr(posBegin+1,posEnd-posBegin-1);
-				char* color = (char*) cell[0];
-				int number = atoi( cell.substr(cell.find(","), cell.find("]")-cell.find(",")).c_str());
+			if(posEnd != 1) {
+				string cell = answer.substr(1,posEnd-1);
 
-				row.push_back(new Piece(number,color));
+				char color = cell[0];
+				int number = (int) atoi(cell.substr(cell.find(",") + 1, cell.size()-2).c_str());
+
+				row.push_back(new Piece(number, color));
 			}
+			else row.push_back(NULL); //empty cell
 		}
-		else {
+		else { //end of row
 			board.push_back(row);
 			row.clear();
 		}
-		answer.erase(0,posEnd);
+		answer.erase(0,posEnd+1);
 	}
 
 	return board;
 }
 
 void printBoard(vector<vector<Piece*>> b) {
-	for (int i = 0; i < b.size(); i++)
-	{
+	for (int i = 0; i < b.size(); i++) {
 		printf("%d\n",i);
-		for (int j = 0; j < b[i].size(); j++)
-		{
-			printf("%d, %c - %s \t",j, b[i][j]->getColor(), b[i][j]->getNumber());
+		
+		for (int j = 0; j < b[i].size(); j++) {
+			if(b[i][j]!=NULL)
+				printf("%d, %c - %d \t",j, b[i][j]->getColor(), b[i][j]->getNumber());
+			else printf("NULL");
 		}
 		printf("\n");
 	}
