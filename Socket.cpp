@@ -76,43 +76,7 @@ void CtoPlSocket::quit() {
 }
 
 
-vector<vector<Piece*>> boardParser(string answer) {
-	vector<vector<Piece*>> board;
-	vector<Piece*> row;
 
-	answer.erase(0,1); // erase first '['
-	answer.erase(answer.size()-3,answer.size()-3); // erase last '].\r'
-
-	int posEnd, posBegin;
-
-	
-	while(answer != "") {
-		if(answer[0] == ',')
-			answer.erase(0,1);
-		if(answer.find("[[") == 0)
-			answer.erase(0,1); // erase row '['
-
-		posEnd = answer.find("]");
-		if(posEnd != 0) {
-			if(posEnd != 1) {
-				string cell = answer.substr(1,posEnd-1);
-
-				char color = cell[0];
-				int number = (int) atoi(cell.substr(cell.find(",") + 1, cell.size()-2).c_str());
-
-				row.push_back(new Piece(number, color));
-			}
-			else row.push_back(NULL); //empty cell
-		}
-		else { //end of row
-			board.push_back(row);
-			row.clear();
-		}
-		answer.erase(0,posEnd+1);
-	}
-
-	return board;
-}
 
 void printBoard(vector<vector<Piece*>> b) {
 	for (int i = 0; i < b.size(); i++) {
@@ -127,7 +91,7 @@ void printBoard(vector<vector<Piece*>> b) {
 	}
 }
 
-int CtoPlSocket::loop() {
+string CtoPlSocket::loop() {
 	socketConnect();
 	//char *s = "comando(1, 2).\n";
 	char *s = "comando(5,'b').\n";
@@ -138,8 +102,7 @@ int CtoPlSocket::loop() {
 	string str(ans);
 
 	printf("\n size %d\n",str.size());
-	quit();
-	printBoard(boardParser(str));
-	getchar();
-	return 0;
+	//quit();
+	//getchar();
+	return ans;
 }

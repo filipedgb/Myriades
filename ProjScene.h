@@ -23,6 +23,11 @@
 
 #include "Socket.h"
 
+#include "Board.h"
+
+
+
+
 class ProjScene : public CGFscene {
 private:
 	Grafo theGraph;
@@ -32,6 +37,9 @@ private:
 	vector<Appearance*> appearances;
 	vector<Camera*> cameras; 
 	vector<Animation*> animations;
+
+	Board theBoard;
+
 
 	Animation* teste;
 	CGFshader* shader;
