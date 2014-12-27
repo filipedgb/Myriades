@@ -1103,6 +1103,11 @@ parse_input(quit, ok-bye) :- !.
 comando(Arg1, Arg2, Answer) :-
 	write(Arg1), nl, write(Arg2), nl,
 	initBoard(B,Arg1),
-	addPiece([Arg2,3],2,2,B,B1),
+	addPiece([Arg2,3],0,0,B,B1),
+	addPiece([Arg2,5],0,1,B1,B2),
+	addPiece([Arg2,4],1,1,B2,B3),
+	addPiece([Arg2,2],2,3,B3,B4),
+	addPiece([Arg2,9],4,2,B4,B5),
+
 	write(B1),
-	Answer = B1.
+	Answer = B5.
