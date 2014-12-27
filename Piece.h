@@ -17,7 +17,6 @@ class Piece: public Primitive {
 		void setColor(char c);
 		void setNumber(int n);
 		void draw(float text_s, float text_t);
-
 };
 
 #endif
