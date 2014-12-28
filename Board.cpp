@@ -84,6 +84,8 @@ void Board::draw() {
 
 	drawBase();
 	setAppearance();
+
+	drawSolidBase();
 	
 	
 	glTranslatef(0,0,-2);
@@ -98,7 +100,7 @@ void Board::draw() {
 			glTranslatef(2*col,0,0);
 			glTranslatef(0,0,2*row);
 
-			glTranslatef(1,0.2,1);
+			glTranslatef(1,0.7,1);
 			glRotatef(90,1,0,0);
 
 			if(board[row][col] != NULL) {
@@ -116,8 +118,20 @@ void Board::draw() {
 	}
 }
 
-void Board::drawBase() {
 
+void Board::drawSolidBase() {
+	Primitive* cube = new Cube();
+
+	glPushMatrix();
+	glScaled(size*2,0.5,size*2);
+	glTranslatef(0.5,0.45,0.5);
+
+	cube->draw();
+	glPopMatrix();
+}
+
+
+void Board::drawBase() {
 	char lastRow ;
 	char lastCol;
 
@@ -135,7 +149,7 @@ void Board::drawBase() {
 			glTranslatef(2*col,0,0);
 			glTranslatef(0,0,2*row);
 
-			glTranslatef(0,0,2);
+			glTranslatef(0,0.5,2);
 
 			glRotatef(-90,1,0,0);
 

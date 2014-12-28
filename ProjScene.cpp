@@ -54,6 +54,9 @@ void ProjScene::setAllAmbient() {
 
 void ProjScene::setSelectedCoords(int x, int y) { 
 	if(toMove == 1) {
+		oldX = newX;
+		oldY = newY;
+		
 		newX = x;
 		newY = y;
 		toMove = 0;
@@ -74,8 +77,8 @@ void ProjScene::setSelectedCoords(int x, int y) {
 
 
 		if(theBoard.getPieceColor(x,y) == currentPlayer) {
-			oldX = x;
-			oldY = y;
+			newX = x;
+			newY = y;
 			toMove = 1;
 		}
 	}
@@ -195,7 +198,8 @@ void ProjScene::addPieceValue(float valueIn) {
 	value = valueIn;
 	cout << "Valor: " << value << endl;
 
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(value,'w'),oldX,oldY));
+
+	if(!toMove) theBoard.boardParser(sck.addPiece(&theBoard,new Piece(value,currentPlayer),oldX,oldY));
 
 }
 
