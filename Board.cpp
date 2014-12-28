@@ -32,6 +32,11 @@ void Board::setTexture(Texture* t) {
 	this->boardTex = t;
 }
 
+int Board::getPieceNumber(int row, int col) { 
+	return board[row][col]->getNumber();
+}
+
+
 void Board::draw() { 
 
 	glPushMatrix();
@@ -54,6 +59,11 @@ void Board::draw() {
 			if(board[row][col] != NULL) {
 				glPushMatrix();
 				board[row][col]->draw(1,1);
+
+				glRasterPos3f(row-0.5, col-0.5, -2);
+
+				glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, '0'+getPieceNumber(row,col));
+
 				glPopMatrix();
 			}
 			glPopMatrix();

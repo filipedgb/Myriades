@@ -26,6 +26,8 @@ public:
 	void setAppearance();
 	void setTexture(Texture* t);
 
+	int getPieceNumber(int row, int col);
+
 	string toString();
 };
 

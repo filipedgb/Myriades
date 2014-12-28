@@ -28,7 +28,7 @@ private:
 	vector<Camera*> cameras; 
 	vector<Animation*> animations;
 
-	int oldX, oldY, newX,newY, toMove;
+	int oldX, oldY, newX,newY, toMove, value;
 
 	Board theBoard;
 
@@ -72,6 +72,7 @@ public:
 	void setInitialCamera();	
 
 	void setSelectedCoords(int x, int y);
+	void addPieceValue(float value);
 };
 
 #endif
