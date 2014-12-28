@@ -28,6 +28,8 @@ private:
 	vector<Camera*> cameras; 
 	vector<Animation*> animations;
 
+	int oldX, oldY, newX,newY, toMove;
+
 	Board theBoard;
 
 	Piece* obj;
@@ -66,6 +68,8 @@ public:
 	/* -- CAMERAS -- */
 	int cameraState;
 	void setInitialCamera();	
+
+	void setSelectedCoords(int x, int y);
 };
 
 #endif
