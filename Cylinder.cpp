@@ -20,13 +20,13 @@ void Cylinder::draw(float text_s, float text_l) {
 	gluQuadricTexture(quadObj, GLU_TRUE); 
 	gluQuadricNormals(quadObj, GLU_SMOOTH);
 	gluCylinder(quadObj, base, top, height, slices, stacks);
+	
+	drawBase1();
 
 	glPushMatrix();
 	glScalef(-1,1,1);
-	drawBase1();
-	glPopMatrix();
-
 	drawBase2();
+	glPopMatrix();
 }
 
 void Cylinder::drawBase1() {
@@ -62,8 +62,8 @@ void Cylinder::calculateBase(std::vector<std::vector<float>>& vecV, std::vector<
 	std::vector<float> t(2);
 
 	while (ang1<=360) {
-		x = radius * cos(ang1 * deg2rad);
-		y = radius * sin(ang1 * deg2rad);
+		y = radius * cos(ang1 * deg2rad);
+		x = radius * sin(ang1 * deg2rad);
 		tx = cos(ang1 * deg2rad) * 0.5 + 0.5;
 		ty = sin(ang1 * deg2rad) * 0.5 + 0.5;
 

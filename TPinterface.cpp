@@ -170,7 +170,7 @@ void TPinterface::performPicking(int x, int y)
 	processHits(hits, selectBuf);
 }
 
-void TPinterface::processHits (GLint hits, GLuint buffer[]) 
+void TPinterface::processHits(GLint hits, GLuint buffer[]) 
 {
 	GLuint *ptr = buffer;
 	GLuint mindepth = 0xFFFFFFFF;
@@ -197,7 +197,7 @@ void TPinterface::processHits (GLint hits, GLuint buffer[])
 		// this should be replaced by code handling the picked object's ID's (stored in "selected"), 
 		// possibly invoking a method on the scene class and passing "selected" and "nselected"
 		printf("Picked ID's: ");
-		for (int i=0; i<nselected; i++)
+		for (unsigned int i=0; i<nselected; i++)
 			printf("%d ",selected[i]);
 		printf("\n");
 	}
