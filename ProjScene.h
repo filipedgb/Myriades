@@ -8,7 +8,6 @@
 #include "CGFaxis.h"
 #include "CGFapplication.h"
 #include "Light.h"
-#include "Texture.h"
 
 #include "Perspective.h"
 #include "Ortho.h"
@@ -23,8 +22,6 @@ class ProjScene : public CGFscene {
 private:
 	CGFlight* light0;
 	vector<Light*> lights;
-	vector<Texture*> texturas;
-	vector<Appearance*> appearances;
 	vector<Camera*> cameras; 
 	vector<Animation*> animations;
 
@@ -49,9 +46,7 @@ public:
 	vector<Camera*> getCameras() { return cameras;} 
 
 	int searchCamera(char* id);
-	int searchTexture(char* id);
 	int searchAnimation(char* id);
-	int searchAppearance(char* id);
 
 	/** INTERFACE OPTIONS*/
 	int sceneVar;

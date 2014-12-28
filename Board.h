@@ -3,17 +3,16 @@
 
 #include <vector>
 #include "Piece.h"
-#include "Rectangle.h"
+#include "Cube.h"
 #include <GL/glut.h>
-#include "Appearance.h"
-#include "Texture.h"
+#include "CGFappearance.h"
 
 class Board {	
 	vector<vector<Piece*>> board;
 	int size;
 
-	Appearance* boardApp;
-	Texture* boardTex;
+	CGFappearance* boardApp;
+
 public:
 	Board();
 	Board(int s);
@@ -22,9 +21,9 @@ public:
 	void boardParser(string answer);
 	void draw();
 	void drawBase();
-	void setAppearance(Appearance* a);
+	void drawBox();
 	void setAppearance();
-	void setTexture(Texture* t);
+	void setAppearance(CGFappearance* a);
 
 	int getPieceNumber(int row, int col);
 

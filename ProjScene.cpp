@@ -50,10 +50,6 @@ void ProjScene::setAllAmbient() {
 	Light* l1 = new Light("Omni", "omni",true,true,l1Pos,ambientl1,diffusel1,specularl1);
 
 	lights.push_back(l1);
-
-	/*Texturas*/
-	Texture *woodBoard = new Texture("woodBoard","woodBoard.jpg",5,5);
-	texturas.push_back(woodBoard);
 }
 
 void ProjScene::setSelectedCoords(int x, int y) { 
@@ -78,12 +74,10 @@ void ProjScene::setSelectedCoords(int x, int y) {
 
 void ProjScene::init() {
 	setAllAmbient();
-	Texture *woodBoard = new Texture("woodBoard","woodBoard.jpg",5,5);
-
+	
 	theBoard = Board(3);
 	sck.socketConnect();
 	theBoard.boardParser(sck.initBoard(3)); //Socket
-	theBoard.setTexture(woodBoard);
 
 	
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(0,'w'),0,0));
@@ -218,7 +212,7 @@ int ProjScene::searchAnimation(char* id) {
 			return i;
 	return -1;
 }
-
+/*
 int ProjScene::searchTexture(char* id) {
 	for(unsigned int i=0; i < texturas.size();i++)
 		if(!strcmp(texturas[i]->getId(),id))
@@ -231,13 +225,10 @@ int ProjScene::searchAppearance(char* id) {
 		if(!strcmp(appearances[i]->getId(),id))
 			return i;
 	return -1;
-}
+}*/
 
 ProjScene::~ProjScene() {
 	delete(light0);
-
-	for(unsigned int i=0; i<texturas.size();i++)
-		delete(texturas[i]);
 
 	for(unsigned int i=0; i<lights.size();i++)
 		delete(lights[i]);

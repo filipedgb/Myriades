@@ -11,6 +11,4 @@ public:
 	Rectangle(float x1, float y1, float x2, float y2);
 	void draw(float text_s, float text_l);
 };
-
-
 #endif
