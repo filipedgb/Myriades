@@ -16,20 +16,12 @@ Board::Board(vector<vector<Piece*>> boardIn) {
 	setAppearance();
 }
 
-void Board::setAppearance(Appearance* a) {
+void Board::setAppearance(CGFappearance* a) {
 	this->boardApp = a;
 }
 
 void Board::setAppearance() {
-	GLfloat diff[4] = {0.8,0.8,0.8,1};
-	GLfloat spec[4] = {0.8,0.8,0.8,1};
-	GLfloat amb[4] = {0.8,0.8,0.8,1};
-
-	this->boardApp = new Appearance("boardApp",120,"woodBoard",amb,diff,spec);
-}
-
-void Board::setTexture(Texture* t) {
-	this->boardTex = t;
+	setAppearance(new CGFappearance("woodBoard.jpg",1,1));
 }
 
 int Board::getPieceNumber(int row, int col) { 
@@ -38,14 +30,13 @@ int Board::getPieceNumber(int row, int col) {
 
 
 void Board::draw() { 
-
 	glPushMatrix();
-	this->boardTex->apply();
+	this->boardApp->apply();
+	drawBox();
 	drawBase();
 	glPopMatrix();
 
 	for(int row = 0; row < size; row++) {
-		glPushMatrix();
 		for(int col = 0; col < size; col++) {
 			//printf("size: %d row: %d, col: %d\n",row,col,size);
 
@@ -68,7 +59,6 @@ void Board::draw() {
 			}
 			glPopMatrix();
 		}
-		glPopMatrix();
 	}
 }
 
@@ -100,6 +90,62 @@ void Board::drawBase() {
 
 		glPopMatrix();
 	}
+}
+
+void Board::drawBox() {
+	Primitive* cube = new Cube();
+	glPushMatrix();
+	glTranslated(0,0,-1);
+
+	//base
+	glPushMatrix();
+	glScaled(4,0.5,2);
+	cube->draw();
+	glPopMatrix();
+
+	//sides
+	glPushMatrix();
+	glTranslated(0,1.25,0);
+
+	//right side
+	glPushMatrix();
+	glTranslated(0,0,0.9);
+	glScaled(4,2,0.2);
+	cube->draw();
+	glPopMatrix();
+
+	//left side
+	glPushMatrix();
+	glTranslated(0,0,-0.9);
+	glScaled(4,2,0.2);
+	cube->draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	
+	glRotated(90,0,1,0);
+	glScaled(1.6,2,0.2);
+
+	//division
+	glPushMatrix();
+	cube->draw();
+	glPopMatrix();
+
+	//up side
+	glPushMatrix();
+	glTranslated(0,0,-9.5);
+	cube->draw();
+	glPopMatrix();
+
+	//down side
+	glPushMatrix();
+	glTranslated(0,0,9.5);
+	cube->draw();
+	glPopMatrix();
+
+	glPopMatrix();
+	glPopMatrix();
+	glPopMatrix();
 }
 
 void Board::boardParser(string answer) {

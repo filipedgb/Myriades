@@ -2,13 +2,13 @@
 #define PIECE_H
 
 #include "Cylinder.h"
-#include "Appearance.h"
+#include "CGFappearance.h"
 
 class Piece: public Primitive {
 	Cylinder* piece;
 	char color; //(w)hite, (b)lack, (g)ray
 	int number;
-	Appearance *app;
+	CGFappearance *app;
 
 	public:
 		Piece(int number, char color);

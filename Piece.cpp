@@ -18,19 +18,7 @@ Piece::Piece(int number, char color) {
 	this->number = number;
 	this->piece = new Cylinder(1,1,0.2,30,30);
 
-	switch (color) {
-	case 'w':
-		this->app = new Appearance("w",120,NULL,ambW,white,specW);
-		break;
-	case 'b':
-		this->app = new Appearance("b",120,NULL,ambB,black,specB);
-		break;
-	case 'g':
-		this->app = new Appearance("g",120,NULL,ambG,grey,specG);
-		break;
-	default:
-		break;
-	}
+	setColor(color);
 }
 
 char Piece::getColor() const {
@@ -46,13 +34,13 @@ void Piece::setColor(char c) {
 
 	switch (color) {
 	case 'w':
-		this->app = new Appearance("w",120,NULL,ambW,white,specW);
+		this->app = new CGFappearance(ambW,white,specW,120);
 		break;
 	case 'b':
-		this->app = new Appearance("b",120,NULL,ambB,black,specB);
+		this->app = new CGFappearance(ambB,black,specB,120);
 		break;
 	case 'g':
-		this->app = new Appearance("g",120,NULL,ambG,grey,specG);
+		this->app = new CGFappearance(ambG,grey,specG,120);
 		break;
 	default:
 		break;
