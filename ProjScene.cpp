@@ -93,10 +93,7 @@ void ProjScene::init() {
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(5,'b'),2,0));
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(6,'b'),2,1));
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(7,'b'),2,2));
-
 	*/
-
-
 
 	setUpdatePeriod(50);
 

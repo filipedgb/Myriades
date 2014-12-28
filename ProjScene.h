@@ -43,6 +43,8 @@ public:
 
 	void setAllAmbient();
 
+	CtoPlSocket* getSck() { return &sck;}
+
 	vector<Light*>  getLights() { return lights;}
 	vector<Camera*> getCameras() { return cameras;} 
 
