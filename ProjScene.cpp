@@ -56,6 +56,26 @@ void ProjScene::setAllAmbient() {
 	texturas.push_back(woodBoard);
 }
 
+void ProjScene::setSelectedCoords(int x, int y) { 
+	if(toMove == 1) {
+		newX = x;
+		newY = y;
+		toMove = 0;
+
+		printf("Chegou aqui\n");
+
+		theBoard.boardParser(sck.movePiece(&theBoard,oldX,oldY,newX,newY));
+	}
+	else { 
+		oldX = x;
+		oldY = y;
+		toMove = 1;
+
+	}
+
+}
+
+
 void ProjScene::init() {
 	setAllAmbient();
 	Texture *woodBoard = new Texture("woodBoard","woodBoard.jpg",5,5);
@@ -65,18 +85,18 @@ void ProjScene::init() {
 	theBoard.boardParser(sck.initBoard(3)); //Socket
 	theBoard.setTexture(woodBoard);
 
-	
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(20,'b'),0,0));
-/*	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(21,'b'),0,1));
-	the.boardParser(sck.addPiece(&theBoard,new Piece(22,'b'),0,2));
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(23,'b'),1,0));
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(24,'b'),1,1));
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(25,'b'),1,2));
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(26,'b'),2,0));
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(27,'b'),2,1));
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(28,'b'),2,2));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(0,'w'),0,0));
+	/*theBoard.boardParser(sck.addPiece(&theBoard,new Piece(1,'b'),0,1));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(2,'b'),1,0));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(3,'b'),1,1));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(4,'b'),1,2));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(5,'b'),2,0));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(6,'b'),2,1));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(7,'b'),2,2));
 
 	*/
+
+
 
 	setUpdatePeriod(50);
 

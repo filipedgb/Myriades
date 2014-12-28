@@ -88,6 +88,7 @@ void Board::drawBase() {
 			glPopName();
 			glPopMatrix();
 		}
+
 		glPopMatrix();
 	}
 }
@@ -136,7 +137,8 @@ string Board::toString() {
 			if(board[i][j] == NULL)
 				b.append("[]");
 			else {
-				b.append("["+board[i][j]->getColor());
+				b.append("[");
+				b+=board[i][j]->getColor();
 				b.append(",");
 				b.append(to_string(board[i][j]->getNumber()));
 				b.append("]");
