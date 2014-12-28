@@ -36,6 +36,12 @@ public:
 
 	int getPieceNumber(int row, int col);
 
+	char getPieceColor(int row, int col);
+
+	int getSize() { 
+		return size;
+	}
+
 	string toString();
 };
 
