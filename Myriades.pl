@@ -1101,7 +1101,7 @@ parse_input(initBoard(Size),Answer):-
 	initBoard(Answer,Size).		
 
 parse_input(addPiece([Color,N],X,Y,Board),Answer):-
-	addPiece([Color,N],X,Y,Board,Answer).
+	addPiece([Color,N],X,Y,Board,Answer),!; Answer = Board.
 
 parse_input(movePiece(OldX,OldY,NewX,NewY,Board),Answer):-
-	movePiece(OldX,OldY,NewX,NewY,Board,Answer).
+	movePiece(OldX,OldY,NewX,NewY,Board,Answer),!; Answer = Board.
