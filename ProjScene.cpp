@@ -85,15 +85,13 @@ void ProjScene::init() {
 	theBoard.boardParser(sck.initBoard(3)); //Socket
 	theBoard.setTexture(woodBoard);
 
+	
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(0,'w'),0,0));
-	/*theBoard.boardParser(sck.addPiece(&theBoard,new Piece(1,'b'),0,1));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(1,'b'),0,1));
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(2,'b'),1,0));
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(3,'b'),1,1));
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(4,'b'),1,2));
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(5,'b'),2,0));
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(6,'b'),2,1));
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(7,'b'),2,2));
-	*/
+	
+	
 
 	setUpdatePeriod(50);
 
@@ -185,6 +183,14 @@ void ProjScene::setLightState() {
 			lightState.push_back(1);
 		else lightState.push_back(0);
 	}
+}
+
+void ProjScene::addPieceValue(float valueIn) {
+		value = valueIn;
+		cout << "Valor: " << value << endl;
+
+		theBoard.boardParser(sck.addPiece(&theBoard,new Piece(value,'w'),oldX,oldY));
+
 }
 
 void ProjScene::updateLightState() {

@@ -68,4 +68,6 @@ void Piece::draw(float text_s, float text_t) {
 	this->app->apply();
 	this->piece->draw(text_s,text_t);
 	glPopMatrix();
+
+
 }
