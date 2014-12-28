@@ -8,7 +8,8 @@ class Piece: public Primitive {
 	Cylinder* piece;
 	char color; //(w)hite, (b)lack, (g)ray
 	int number;
-	CGFappearance *app;
+
+	CGFappearance* pieceApp;
 
 	public:
 		Piece(int number, char color);
@@ -17,6 +18,9 @@ class Piece: public Primitive {
 		void setColor(char c);
 		void setNumber(int n);
 		void draw(float text_s, float text_t);
+
+			void setAppearance();
+	void setAppearance(CGFappearance* a);
 };
 
 #endif
