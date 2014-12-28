@@ -33,12 +33,36 @@ void Board::setTexture(Texture* t) {
 }
 
 void Board::draw() { 
-	
+
 	glPushMatrix();
 	this->boardTex->apply();
 	drawBase();
 	glPopMatrix();
 
+	for(int row = 0; row < size; row++) {
+		glPushMatrix();
+		for(int col = 0; col < size; col++) {
+			//printf("size: %d row: %d, col: %d\n",row,col,size);
+
+			glPushMatrix();
+			glTranslatef(2.5*col,0,0);
+			glTranslatef(0,0,2.5*row);
+
+			glTranslatef(1,1,1);
+			glRotatef(90,1,0,0);
+
+			if(board[row][col] != NULL) {
+				glPushMatrix();
+				board[row][col]->draw(1,1);
+				glPopMatrix();
+			}
+			glPopMatrix();
+		}
+		glPopMatrix();
+	}
+}
+
+void Board::drawBase() {
 	glPushName(-1);
 
 	for(int row = 0; row < size; row++) {
@@ -50,34 +74,22 @@ void Board::draw() {
 			glPushMatrix();
 
 			glPushName(col);
-			glTranslatef(4*col,0,0);
-			glTranslatef(0,0,4*row);
+			glTranslatef(2.5*col,0,0);
+			glTranslatef(0,0,2.5*row);
 
-			glTranslatef(1,1,1);
-			glRotatef(90,1,0,0);
+			glTranslatef(0,0,2);
 
-			if(board[row][col] != NULL) {
-				glPushMatrix();
-				board[row][col]->draw(1,1);
-				glPopMatrix();
-			}
+
+			glRotatef(-90,1,0,0);
+
+			Primitive* temp = new Rectangle(0,0,2,2);
+			temp->draw(1,1);
+
 			glPopName();
 			glPopMatrix();
 		}
 		glPopMatrix();
 	}
-}
-
-void Board::drawBase() {
-	glPushMatrix();
-
-	glTranslatef(0,0,4*size) ;
-	glRotatef(-90,1,0,0) ;
-
-	Primitive* temp = new Rectangle(0,0,4*size,4*size);
-	temp->draw(1,1);
-
-	glPopMatrix();
 }
 
 void Board::boardParser(string answer) {

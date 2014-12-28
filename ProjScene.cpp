@@ -65,7 +65,18 @@ void ProjScene::init() {
 	theBoard.boardParser(sck.initBoard(3)); //Socket
 	theBoard.setTexture(woodBoard);
 
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(20,'b'),1,1));
+	
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(20,'b'),0,0));
+/*	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(21,'b'),0,1));
+	the.boardParser(sck.addPiece(&theBoard,new Piece(22,'b'),0,2));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(23,'b'),1,0));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(24,'b'),1,1));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(25,'b'),1,2));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(26,'b'),2,0));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(27,'b'),2,1));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(28,'b'),2,2));
+
+	*/
 
 	setUpdatePeriod(50);
 
