@@ -3,14 +3,11 @@
 
 #include <iostream> 
 
-TPinterface::TPinterface()
-{
-}
+TPinterface::TPinterface() {}
 
-void TPinterface::initGUI()
-{
+void TPinterface::initGUI() {
 	//main panel
-	GLUI_Panel* panel = addPanel("Options",1); 
+	GLUI_Panel* panel = addPanel("Environment Options",1); 
 
 	//adding panel for controling lights
 	GLUI_Panel *lights = addPanelToPanel(panel,"Lights",1);
@@ -61,6 +58,14 @@ void TPinterface::initGUI()
 	}
 
 	addColumnToPanel(panel);
+
+
+	//////////////////////////////////
+	//game panel
+	GLUI_Panel* gamePanel = addPanel("Game",1); 
+
+	GLUI_Button* addPiece = addButtonToPanel(gamePanel,"addPiece",11);
+	GLUI_Button* movePiece = addButtonToPanel(gamePanel,"movePiece",12);
 }
 
 void TPinterface::processGUI(GLUI_Control *ctrl)
@@ -102,6 +107,12 @@ void TPinterface::processGUI(GLUI_Control *ctrl)
 	case 10:
 		printf("Camera: %d\n",(((ProjScene*) scene)->cameraState));
 		break;
+	case 11:
+		printf("Button addPiece\n");
+		break;
+	case 12:
+		printf("Button movePiece\n");
+		break;
 	};
 }
 
@@ -120,8 +131,7 @@ void TPinterface::processMouse(int button, int state, int x, int y)
 		performPicking(x,y);
 }
 
-void TPinterface::performPicking(int x, int y) 
-{
+void TPinterface::performPicking(int x, int y) {
 	// Sets the buffer to be used for selection and activate selection mode
 	glSelectBuffer (BUFSIZE, selectBuf);
 	glRenderMode(GL_SELECT);
@@ -134,7 +144,7 @@ void TPinterface::performPicking(int x, int y)
 	glMatrixMode(GL_PROJECTION);
 
 	//store current projmatrix to restore easily in the end with a pop
-	glPushMatrix ();
+	glPushMatrix();
 
 	//get the actual projection matrix values on an array of our own to multiply with pick matrix later
 	GLfloat projmat[16];
@@ -149,7 +159,7 @@ void TPinterface::performPicking(int x, int y)
 	glGetIntegerv(GL_VIEWPORT, viewport);
 
 	// this is multiplied in the projection matrix
-	gluPickMatrix ((GLdouble) x, (GLdouble) (CGFapplication::height - y), 5.0, 5.0, viewport);
+	gluPickMatrix((GLdouble) x, (GLdouble) (CGFapplication::height - y), 5.0, 5.0, viewport);
 
 	// multiply the projection matrix stored in our array to ensure same conditions as in normal render
 	glMultMatrixf(projmat);
@@ -159,8 +169,8 @@ void TPinterface::performPicking(int x, int y)
 	scene->display();
 
 	// restore original projection matrix
-	glMatrixMode (GL_PROJECTION);
-	glPopMatrix ();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
 
 	glFlush();
 
@@ -190,7 +200,7 @@ void TPinterface::processHits(GLint hits, GLuint buffer[])
 		for (int j=0; j < num; j++) 
 			ptr++;
 	}
-	
+
 	// if there were hits, the one selected is in "selected", and it consist of nselected "names" (integer ID's)
 	if (selected!=NULL)
 	{

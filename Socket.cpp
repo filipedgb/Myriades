@@ -49,7 +49,7 @@ bool CtoPlSocket::socketConnect() {// Initialize Winsock.
 
 void CtoPlSocket::envia(string s1) {
 	char *s = new char[s1.length() + 1];
-	strcpy(s, s1.c_str());
+	strcpy_s(s, s1.length()+1, s1.c_str());
 
 	int bytesSent = send(m_socket, s, s1.length(), 0);
 	if(bytesSent == SOCKET_ERROR)
@@ -71,31 +71,10 @@ void CtoPlSocket::recebe(char *ans) {
 
 void CtoPlSocket::quit() {
 	cout << "Asking prolog to quit\n";
-	//char buff[] = "quit.\n";
-	//envia(buff, 6);
+	string s("quit.\n");
+	envia(s);
 	char ans[128];
 	recebe(ans);
-}
-
-string CtoPlSocket::loop() {
-	socketConnect();
-
-	char *s = "comando(5,'w').\n";
-	/*envia(s, strlen(s));
-	char ans[256];
-	recebe(ans);
-
-	char s1[256] = "addPiece([b,15],3,3,";
-	strncat(s1,ans, strlen(ans)-2);
-	strcat(s1,").\n");
-
-	envia(s1, strlen(s1));
-	char ans1[256];
-	recebe(ans1);*/
-
-	//quit();
-	//getchar();
-	return NULL;
 }
 
 string CtoPlSocket::addPiece(Board* board, Piece* p, int posX, int posY) {

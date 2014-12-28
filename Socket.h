@@ -15,7 +15,6 @@ public:
 	void envia(string s);
 	void recebe(char* ans);
 	void quit();
-	string loop();
 
 	string initBoard(int size);
 	string addPiece(Board* board, Piece* p, int posX, int posY);

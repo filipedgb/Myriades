@@ -54,16 +54,16 @@ void ProjScene::setAllAmbient() {
 	/*Texturas*/
 	Texture *woodBoard = new Texture("woodBoard","woodBoard.jpg",5,5);
 	texturas.push_back(woodBoard);
-
 }
 
 void ProjScene::init() {
 	setAllAmbient();
+	Texture *woodBoard = new Texture("woodBoard","woodBoard.jpg",5,5);
 
 	theBoard = Board(3);
 	sck.socketConnect();
 	theBoard.boardParser(sck.initBoard(3)); //Socket
-	theBoard.setTexture(texturas[searchTexture("woodBoard")]);
+	theBoard.setTexture(woodBoard);
 
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(20,'b'),1,1));
 
@@ -93,8 +93,6 @@ void ProjScene::init() {
 
 	// Defines a default normal
 	glNormal3f(0,0,1);
-
-	//obj = new Piece(1,'g');
 
 	glEnable(GL_NORMALIZE);
 
