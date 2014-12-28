@@ -25,6 +25,8 @@ private:
 	vector<Camera*> cameras; 
 	vector<Animation*> animations;
 
+	char currentPlayer;
+
 	int oldX, oldY, newX,newY, toMove, value;
 
 	Board theBoard;

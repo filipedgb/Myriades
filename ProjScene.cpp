@@ -61,31 +61,43 @@ void ProjScene::setSelectedCoords(int x, int y) {
 		printf("Chegou aqui\n");
 
 		theBoard.boardParser(sck.movePiece(&theBoard,oldX,oldY,newX,newY));
+
+		if(currentPlayer == 'b') {
+			currentPlayer = 'w';
+		} else if (currentPlayer == 'w') {
+			currentPlayer = 'b';
+		}
+
 	}
 	else { 
-		oldX = x;
-		oldY = y;
-		toMove = 1;
+		cout << "old x : " << oldX << "old y: " << oldY << endl;
 
+
+		if(theBoard.getPieceColor(x,y) == currentPlayer) {
+			oldX = x;
+			oldY = y;
+			toMove = 1;
+		}
 	}
-
 }
 
 
 void ProjScene::init() {
 	setAllAmbient();
-	
-	theBoard = Board(3);
-	sck.socketConnect();
-	theBoard.boardParser(sck.initBoard(3)); //Socket
 
-	
+	currentPlayer = 'b';
+
+	theBoard = Board(5);
+	sck.socketConnect();
+	theBoard.boardParser(sck.initBoard(5)); //Socket
+
+
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(0,'w'),0,0));
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(1,'b'),0,1));
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(2,'b'),1,0));
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(3,'b'),1,1));
-	
-	
+
+
 
 	setUpdatePeriod(50);
 
@@ -180,10 +192,10 @@ void ProjScene::setLightState() {
 }
 
 void ProjScene::addPieceValue(float valueIn) {
-		value = valueIn;
-		cout << "Valor: " << value << endl;
+	value = valueIn;
+	cout << "Valor: " << value << endl;
 
-		theBoard.boardParser(sck.addPiece(&theBoard,new Piece(value,'w'),oldX,oldY));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(value,'w'),oldX,oldY));
 
 }
 
@@ -214,17 +226,17 @@ int ProjScene::searchAnimation(char* id) {
 }
 /*
 int ProjScene::searchTexture(char* id) {
-	for(unsigned int i=0; i < texturas.size();i++)
-		if(!strcmp(texturas[i]->getId(),id))
-			return i;
-	return -1;
+for(unsigned int i=0; i < texturas.size();i++)
+if(!strcmp(texturas[i]->getId(),id))
+return i;
+return -1;
 }
 
 int ProjScene::searchAppearance(char* id) {
-	for(unsigned int i=0; i < appearances.size();i++)
-		if(!strcmp(appearances[i]->getId(),id))
-			return i;
-	return -1;
+for(unsigned int i=0; i < appearances.size();i++)
+if(!strcmp(appearances[i]->getId(),id))
+return i;
+return -1;
 }*/
 
 ProjScene::~ProjScene() {

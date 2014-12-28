@@ -60,7 +60,22 @@ void Board::setAppearance() {
 }
 
 int Board::getPieceNumber(int row, int col) { 
+	if(board[row][col] != NULL) { 
 	return board[row][col]->getNumber();
+	} 
+	else { 
+		return -1;
+	}
+}
+
+char Board::getPieceColor(int row, int col) {
+	if(board[row][col] != NULL ) { 
+		return board[row][col]->getColor();
+	} 
+	else { 
+		return 'a';
+	}
+
 }
 
 
@@ -168,6 +183,9 @@ void Board::drawBase() {
 
 		glPopMatrix();
 	}
+
+	glPopName();
+
 }
 
 void Board::drawBox() {
