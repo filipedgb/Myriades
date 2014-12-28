@@ -27,6 +27,7 @@ public:
 
 	void boardParser(string answer);
 	void draw();
+	void drawSolidBase();
 	void drawBase();
 	void drawBox();
 	void setAppearance();
