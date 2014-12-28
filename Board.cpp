@@ -33,21 +33,20 @@ void Board::setTexture(Texture* t) {
 }
 
 void Board::draw() { 
-
 	drawBase();
 
 	for(unsigned int row = 0; row < size; row++) {
 		for(unsigned int col = 0; col < size; col++) {
 
-			printf("size: %d row: %d, col: %d\n",row,col,size);
+			//printf("size: %d row: %d, col: %d\n",row,col,size);
 
 			glPushMatrix();
 
-			glTranslatef(4*col,0,0) ;
-			glTranslatef(0,0,4*row) ;
+			glTranslatef(4*col,0,0);
+			glTranslatef(0,0,4*row);
 
-			glTranslatef(1,1,1) ;
-			glRotatef(90,1,0,0) ;
+			glTranslatef(1,1,1);
+			glRotatef(90,1,0,0);
 
 			if(	board[row][col] != NULL) {
 				glPushMatrix();

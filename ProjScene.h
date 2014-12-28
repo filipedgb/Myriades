@@ -4,13 +4,9 @@
 #include <math.h>
 #include <iostream>
 
-
 #include "CGFscene.h"
-#include "CGFshader.h"
-#include "CGFappearance.h"
 #include "CGFaxis.h"
 #include "CGFapplication.h"
-#include "Graph.h"
 #include "Light.h"
 #include "Texture.h"
 
@@ -25,7 +21,6 @@
 
 class ProjScene : public CGFscene {
 private:
-	Grafo theGraph;
 	CGFlight* light0;
 	vector<Light*> lights;
 	vector<Texture*> texturas;
@@ -35,10 +30,6 @@ private:
 
 	Board theBoard;
 
-
-	Animation* teste;
-	CGFshader* shader;
-
 	Piece* obj;
 	CtoPlSocket sck;
 
@@ -46,7 +37,6 @@ public:
 	void init();
 	void display();
 	void update(unsigned long t);
-	void applyMatrixDraw(Node* node, Appearance* appID);
 	~ProjScene();
 
 	void setAllAmbient();

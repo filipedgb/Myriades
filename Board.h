@@ -3,7 +3,6 @@
 
 #include <vector>
 #include "Piece.h"
-#include "Primitive.h"
 #include "Rectangle.h"
 #include <GL/glut.h>
 #include "Appearance.h"

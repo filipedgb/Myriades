@@ -3,11 +3,6 @@
 GLfloat ambientLight[4] = {0.8, 0.8, 0.8, 1};
 GLfloat background[4] = {0, 0, 0, 0.8};
 
-#define NUM_OBJS 7
-#define NUM_ROWS 5
-#define NUM_COLS 4
-
-
 void ProjScene::updateDrawing() {
 	switch(this->mode) {
 	case 0: //fill
@@ -72,15 +67,7 @@ void ProjScene::init() {
 
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(20,'b'),1,1));
 
-	//printBoard(boardParser("s"));
-	//getchar();
-
-	unsigned long updatePeriod=50;
-	setUpdatePeriod(updatePeriod);
-
-	theGraph = Grafo();
-
-	printf("Size do vector animaçoes %d\n", animations.size());
+	setUpdatePeriod(50);
 
 	/* init values */
 	mode = 0;
@@ -115,7 +102,7 @@ void ProjScene::init() {
 }
 
 void ProjScene::update(unsigned long t) {
-	for(int i = 0; i < animations.size(); i++) {
+	for(unsigned int i = 0; i < animations.size(); i++) {
 		animations[i]->update(t);
 	}
 }
@@ -144,52 +131,7 @@ void ProjScene::display() {
 		this->lights[i]->display();
 	}
 
-
 	theBoard.draw();
-
-
-	/*
-	// Example 1: simple naming
-	glPushMatrix();
-
-	glPushName(-1);		// Load a default name
-
-	int aIndex;
-
-	for (int i=0; i< NUM_OBJS;i++)
-	{
-	glPushMatrix();
-	glTranslatef(i*5,0,0);
-	glLoadName(i);		//replaces the value on top of the name stack
-	aIndex = searchAppearance((char*)obj->getColor());
-	appearances[aIndex]->apply();
-	obj->draw(1,1);
-	glPopMatrix();
-	}
-	glPopMatrix();
-
-	// example 2: structured naming
-	for (int r=0; r < NUM_ROWS; r++)
-	{
-	glPushMatrix();
-	glTranslatef(0, r*4, 0);
-	glLoadName(r);
-	for (int c=0; c < NUM_COLS; c++)
-	{
-	glPushMatrix();
-	glTranslatef(0,0,(c+1)*5);
-	glRotatef(90,0,1,0);
-	glPushName(c);
-	aIndex = searchAppearance((char*)obj->getColor());
-	appearances[aIndex]->apply();
-	obj->draw(1,1);
-	glPopName();
-	glPopMatrix();
-	}
-	glPopMatrix();
-	}
-
-	*/
 
 	// Draw axis
 	axis.draw();
@@ -201,55 +143,12 @@ void ProjScene::display() {
 	updateDrawing();
 	updateLightState();	
 
-	//applyMatrixDraw(theGraph.searchNode(theGraph.getRoot()), theGraph.searchNode(theGraph.getRoot())->getAppearance());
-
-
 	// ---- END feature demos
 
 	// We have been drawing in a memory area that is not visible - the back buffer, 
 	// while the graphics card is showing the contents of another buffer - the front buffer
 	// glutSwapBuffers() will swap pointers so that the back buffer becomes the front buffer and vice-versa
 	glutSwapBuffers();
-}
-
-void ProjScene::applyMatrixDraw(Node* node, Appearance *appID) {
-	glPushMatrix();
-	glMultMatrixf(node->getMatrix());
-
-	if(node->getInherits()) {
-		node->setAppearance(appID);
-	}
-
-	for(unsigned int k = 0; k < node->getPrimitives().size(); k++) {
-		node->getAppearance()->apply();
-
-		if(node->getAppearance()->getTextureRef() != NULL) {
-			int textRef = searchTexture(node->getAppearance()->getTextureRef());
-			float s = texturas[textRef]->getLengthS();
-			float t = texturas[textRef]->getLengthT();
-			node->getPrimitives()[k]->draw(s,t);
-		}
-		else node->getPrimitives()[k]->draw();
-	}
-
-	for(unsigned int i = 0; i < node->getDescendants().size(); i++) {
-		Node* n = node->getDescendants()[i];
-
-		if(n->getIndex() < n->getAnimation().size()) {
-			n->getAnimation()[n->getIndex()]->draw();
-			if(n->getAnimation()[n->getIndex()]->isStopped()) {
-				n->incIndex();
-
-				if(n->getIndex() < n->getAnimation().size()) {
-					n->getAnimation()[n->getIndex()]->reset();
-				}
-			}
-		}
-		applyMatrixDraw(n, node->getAppearance());
-		if(n->getAnimation().size()) glPopMatrix();
-	}
-	glPopMatrix();
-
 }
 
 void ProjScene::setLightState() {
@@ -303,7 +202,6 @@ int ProjScene::searchAppearance(char* id) {
 }
 
 ProjScene::~ProjScene() {
-	delete(shader);
 	delete(light0);
 
 	for(unsigned int i=0; i<texturas.size();i++)
