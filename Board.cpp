@@ -1,5 +1,19 @@
 #include "Board.h"
 
+
+GLfloat ambB[4] = {0.2,0.2,0.2,1};
+GLfloat ambW[4] = {0.5,0.5,0.5,1};
+GLfloat ambG[4] = {0.1,0.1,0.1,1};
+
+GLfloat specB[4] = {0.5,0.5,0.5,1};
+GLfloat specW[4] = {1,1,1,1};
+GLfloat specG[4] = {0.8,0.8,0.8,1};
+
+GLfloat black[4] = {0,0,0,1};
+GLfloat white[4] = {1,1,1,0};
+GLfloat grey[4] = {0.8,0.8,0.8,1};
+
+
 Board::Board() {
 	this->size = 5;
 	setAppearance();
@@ -8,6 +22,12 @@ Board::Board() {
 Board::Board(int s) {
 	this->size = s;
 	setAppearance();
+
+	whiteApp = new CGFappearance(ambW,white,specW,120);
+	blackApp =  new CGFappearance(ambB,black,specB,120);
+
+	woodTex = new CGFtexture("woodBoard.jpg");
+
 }
 
 Board::Board(vector<vector<Piece*>> boardIn) {
@@ -18,6 +38,21 @@ Board::Board(vector<vector<Piece*>> boardIn) {
 
 void Board::setAppearance(CGFappearance* a) {
 	this->boardApp = a;
+}
+
+void Board::setTexture(char c) {
+switch (c) {
+	case 'w':
+		boardApp = whiteApp;
+		boardApp->setTexture(woodTex) ;
+		break;
+	case 'b':
+		boardApp = blackApp;
+		boardApp->setTexture(woodTex) ;
+		break;
+	default:
+		break;
+	}
 }
 
 void Board::setAppearance() {
@@ -31,9 +66,13 @@ int Board::getPieceNumber(int row, int col) {
 
 void Board::draw() { 
 	glPushMatrix();
-	this->boardApp->apply();
-	drawBox();
+
 	drawBase();
+	setAppearance();
+	
+	
+	glTranslatef(0,0,-2);
+	drawBox();
 	glPopMatrix();
 
 	for(int row = 0; row < size; row++) {
@@ -41,10 +80,10 @@ void Board::draw() {
 			//printf("size: %d row: %d, col: %d\n",row,col,size);
 
 			glPushMatrix();
-			glTranslatef(2.5*col,0,0);
-			glTranslatef(0,0,2.5*row);
+			glTranslatef(2*col,0,0);
+			glTranslatef(0,0,2*row);
 
-			glTranslatef(1,1,1);
+			glTranslatef(1,0.2,1);
 			glRotatef(90,1,0,0);
 
 			if(board[row][col] != NULL) {
@@ -63,6 +102,10 @@ void Board::draw() {
 }
 
 void Board::drawBase() {
+
+	char lastRow ;
+	char lastCol;
+
 	glPushName(-1);
 
 	for(int row = 0; row < size; row++) {
@@ -74,13 +117,48 @@ void Board::drawBase() {
 			glPushMatrix();
 
 			glPushName(col);
-			glTranslatef(2.5*col,0,0);
-			glTranslatef(0,0,2.5*row);
+			glTranslatef(2*col,0,0);
+			glTranslatef(0,0,2*row);
 
 			glTranslatef(0,0,2);
 
 			glRotatef(-90,1,0,0);
 
+
+			if(row%2 == 0) {
+				if(col == 0) {
+					lastCol = 'b';
+				}
+		
+				if(lastCol == 'b') {
+					this->setTexture('w');
+					this->boardApp->apply();
+					lastCol = 'w';
+				}
+				else { 
+					this->setTexture('b');
+					this->boardApp->apply();
+					lastCol = 'b';
+				}
+			}
+			else {
+				if(col == 0) {
+					lastCol = 'w';
+				}
+
+				if(lastCol == 'b') {
+					this->setTexture('w');
+					this->boardApp->apply();
+					lastCol = 'w';
+				}
+				else { 
+					this->setTexture('b');
+					this->boardApp->apply();
+					lastCol = 'b';
+				}
+
+			}
+			
 			Primitive* temp = new Rectangle(0,0,2,2);
 			temp->draw(1,1);
 

@@ -13,6 +13,13 @@ class Board {
 
 	CGFappearance* boardApp;
 
+	CGFappearance* whiteApp;
+	CGFappearance* blackApp;
+
+	CGFtexture* woodTex;
+
+
+
 public:
 	Board();
 	Board(int s);
@@ -24,6 +31,8 @@ public:
 	void drawBox();
 	void setAppearance();
 	void setAppearance(CGFappearance* a);
+
+	void Board::setTexture(char c) ;
 
 	int getPieceNumber(int row, int col);
 
