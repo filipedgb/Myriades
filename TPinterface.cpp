@@ -66,6 +66,7 @@ void TPinterface::initGUI() {
 
 	GLUI_Button* addPiece = addButtonToPanel(gamePanel,"addPiece",11);
 	GLUI_Button* movePiece = addButtonToPanel(gamePanel,"movePiece",12);
+	GLUI_Button* exitGame = addButtonToPanel(gamePanel,"exitGame",13);
 }
 
 void TPinterface::processGUI(GLUI_Control *ctrl)
@@ -112,6 +113,11 @@ void TPinterface::processGUI(GLUI_Control *ctrl)
 		break;
 	case 12:
 		printf("Button movePiece\n");
+		break;
+	case 13:
+		printf("Button exit game\n");
+		(((ProjScene*) scene)->getSck()->quit());
+		exit(0);
 		break;
 	};
 }

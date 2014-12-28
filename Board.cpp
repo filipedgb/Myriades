@@ -79,7 +79,6 @@ void Board::drawBase() {
 
 			glTranslatef(0,0,2);
 
-
 			glRotatef(-90,1,0,0);
 
 			Primitive* temp = new Rectangle(0,0,2,2);
