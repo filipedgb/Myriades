@@ -23,6 +23,7 @@ public:
 	int numberOfAdjacentes(int x, int y, Board* board);
 	int numPieces(char player, Board* board);
 	bool isFull(Board* b);
+	string getWinner(Board* b);
 };
 
 #endif

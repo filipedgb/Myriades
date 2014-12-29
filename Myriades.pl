@@ -546,6 +546,15 @@ winner(B):- sumOfBlack(B,Sb),
                 write('*******************************************************'), nl,
         		write('*******************************************************'), nl
         	)), pause.
+
+winner(B,Player):- 
+			sumOfBlack(B,Sb),
+			sumOfWhite(B,Sw), 
+			(
+				(Sb < Sw, !, Player = b);
+				(Sb > Sw, !, Player = w);
+				Player = g
+			).
 				
 
 /* Jogo termina quando o tabuleiro esta cheio, de seguida imprime o tabuleiro e o respetivo vencedor*/
@@ -1107,10 +1116,13 @@ parse_input(movePiece(OldX,OldY,NewX,NewY,Board),Answer):-
 	movePiece(OldX,OldY,NewX,NewY,Board,Answer),!; Answer = Board.
 
 parse_input(isFull(Board),Answer):-
-	isFull(Board), Answer = 1; Answer = 0.
+	isFull(Board), Answer = 1, !; Answer = 0.
+
+parse_input(endOfGame(Board),Answer):-
+	winner(Board,Answer).
 
 parse_input(adjacentes(X,Y,Board),Answer):-
-	adjacentes(X,Y,Board,Answer). /*sometimes it doesnt work*/
+	adjacentes(X,Y,Board,Answer).
 
 parse_input(addGray(R,C,B),Answer):-
 	changePiece(R,C,B,Answer).

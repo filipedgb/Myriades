@@ -147,9 +147,9 @@ void ProjScene::init() {
 	toMove = false;
 	hasMoved = false;
 
-	theBoard = Board(5);
+	theBoard = Board(3);
 	sck.socketConnect();
-	theBoard.boardParser(sck.initBoard(5)); //Socket
+	theBoard.boardParser(sck.initBoard(3)); //Socket
 
 	moves.push_back(theBoard);
 
@@ -279,15 +279,20 @@ void ProjScene::addPieceValue() {
 		theBoard.getPiece(oldX,oldY)->setNew(oldY,oldX,theBoard.getSize());
 
 		string out = "Added a piece.\n";
+		TPinterface::setOutput(out);
 
 		if(currentPlayer == 'b') currentPlayer = 'w';
 		else currentPlayer = 'b';
 
-		out.append("Next player: Move or add a piece.\n");
-
-		TPinterface::setOutput(out);
-
 		moves.push_back(theBoard);
+
+		if(sck.isFull(&theBoard)) {
+			TPinterface::setOutput("Winner is: " + sck.getWinner(&theBoard));
+			return;
+		}
+
+		out.append("Next player: Move or add a piece.\n");
+		TPinterface::setOutput(out);
 	}
 	else {
 		string out = "Can't add that piece.\n";
