@@ -11,6 +11,9 @@ class Board {
 	vector<vector<Piece*>> board;
 	int size;
 
+	Piece* whitePiece;
+	Piece* blackPiece;
+
 	CGFappearance* boardApp;
 
 	CGFappearance* whiteApp;
@@ -30,7 +33,7 @@ public:
 	void drawSolidBase();
 	void drawBase();
 	void drawBox();
-	void setAppearance();
+	void drawBoxPiece();
 	void setAppearance(CGFappearance* a);
 
 	void Board::setTexture(char c) ;

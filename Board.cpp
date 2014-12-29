@@ -16,24 +16,40 @@ GLfloat grey[4] = {0.8,0.8,0.8,1};
 
 Board::Board() {
 	this->size = 5;
-	setAppearance();
+	setAppearance(boardApp);
 }
 
 Board::Board(int s) {
 	this->size = s;
-	setAppearance();
 
 	whiteApp = new CGFappearance(ambW,white,specW,120);
 	blackApp =  new CGFappearance(ambB,black,specB,120);
 
+	blackPiece = new Piece(-1,'b');
+	whitePiece = new Piece(-1,'w');
+
+
 	woodTex = new CGFtexture("woodBoard.jpg");
+
+	setAppearance(boardApp);
+
 
 }
 
 Board::Board(vector<vector<Piece*>> boardIn) {
 	board = boardIn;
 	size = boardIn.size();
-	setAppearance();
+
+
+
+	whiteApp = new CGFappearance(ambW,white,specW,120);
+	blackApp =  new CGFappearance(ambB,black,specB,120);
+
+	woodTex = new CGFtexture("woodBoard.jpg");
+
+	setAppearance(boardApp);
+
+
 }
 
 void Board::setAppearance(CGFappearance* a) {
@@ -41,7 +57,7 @@ void Board::setAppearance(CGFappearance* a) {
 }
 
 void Board::setTexture(char c) {
-switch (c) {
+	switch (c) {
 	case 'w':
 		boardApp = whiteApp;
 		boardApp->setTexture(woodTex) ;
@@ -55,13 +71,11 @@ switch (c) {
 	}
 }
 
-void Board::setAppearance() {
-	setAppearance(new CGFappearance("woodBoard.jpg",1,1));
-}
+
 
 int Board::getPieceNumber(int row, int col) { 
 	if(board[row][col] != NULL) { 
-	return board[row][col]->getNumber();
+		return board[row][col]->getNumber();
 	} 
 	else { 
 		return -1;
@@ -79,17 +93,42 @@ char Board::getPieceColor(int row, int col) {
 }
 
 
+void Board::drawBoxPiece() { 
+	glPushMatrix();
+
+			glPushMatrix();
+				glTranslatef(-3,2.25,size+1);
+				glRotatef(90,1,0,0);
+				whitePiece->draw(1,1);
+			glPopMatrix();
+			
+			glTranslatef(-3,2.25,size-1);
+			glRotatef(90,1,0,0);
+			
+			blackPiece->draw(1,1);
+
+		glPopMatrix();
+
+}
+
 void Board::draw() { 
 	glPushMatrix();
 
-	drawBase();
-	setAppearance();
 
-	drawSolidBase();
-	
-	
-	glTranslatef(0,0,-2);
-	drawBox();
+		glPushMatrix();
+			drawBase();
+			setAppearance(boardApp);
+			drawSolidBase();
+			glTranslatef(-2,0.25,size);
+			glRotatef(90,0,1,0);
+			drawBox();
+			glTranslatef(+1.25,2,-1.3);
+			glRotatef(90,1,0,0);
+		glPopMatrix();
+
+		drawBoxPiece();
+
+
 	glPopMatrix();
 
 	for(int row = 0; row < size; row++) {
@@ -137,6 +176,9 @@ void Board::drawBase() {
 
 	glPushName(-1);
 
+	Primitive* temp = new Rectangle(0,0,2,2);
+
+
 	for(int row = 0; row < size; row++) {
 		glPushMatrix();
 		glLoadName(row);
@@ -158,7 +200,7 @@ void Board::drawBase() {
 				if(col == 0) {
 					lastCol = 'b';
 				}
-		
+
 				if(lastCol == 'b') {
 					this->setTexture('w');
 					this->boardApp->apply();
@@ -187,8 +229,7 @@ void Board::drawBase() {
 				}
 
 			}
-			
-			Primitive* temp = new Rectangle(0,0,2,2);
+
 			temp->draw(1,1);
 
 			glPopName();
@@ -232,7 +273,7 @@ void Board::drawBox() {
 	glPopMatrix();
 
 	glPushMatrix();
-	
+
 	glRotated(90,0,1,0);
 	glScaled(1.6,2,0.2);
 
