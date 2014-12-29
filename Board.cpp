@@ -151,7 +151,6 @@ void Board::draw() {
 	}
 }
 
-
 void Board::drawSolidBase() {
 	Primitive* cube = new Cube();
 
@@ -222,12 +221,9 @@ void Board::drawBase() {
 			glPopName();
 			glPopMatrix();
 		}
-
 		glPopMatrix();
 	}
-
 	glPopName();
-
 }
 
 void Board::drawBox() {

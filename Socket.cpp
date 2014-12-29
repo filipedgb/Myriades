@@ -91,7 +91,7 @@ string CtoPlSocket::addPiece(Board* board, Piece* p, int posX, int posY) {
 	s.append(").\n");
 
 	envia(s);
-	char ans[256];
+	char ans[512];
 	recebe(ans);
 
 	return string(ans);
@@ -105,7 +105,7 @@ string CtoPlSocket::initBoard(int size) {
 	s.append(").\n");
 
 	envia(s);
-	char ans[256];
+	char ans[512];
 	recebe(ans);
 
 	return string(ans);
@@ -125,7 +125,7 @@ string CtoPlSocket::movePiece(Board* board, int posX, int posY, int newPx, int n
 	s.append(").\n");
 
 	envia(s);
-	char ans[256];
+	char ans[512];
 	recebe(ans);
 
 	return string(ans);
