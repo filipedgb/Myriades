@@ -50,33 +50,59 @@ void ProjScene::setAllAmbient() {
 	Light* l1 = new Light("Omni", "omni",true,true,l1Pos,ambientl1,diffusel1,specularl1);
 
 	lights.push_back(l1);
+
+	/*Ambient*/
+	CGFtexture* woodPiece = new CGFtexture("woodPiece.jpg");
+	CGFtexture* woodBoard = new CGFtexture("woodBoard.jpg");
+
+	addNewAmbient("Wood",woodPiece,woodBoard);
+
+	CGFtexture* porcelainPiece = new CGFtexture("porcelainPiece.jpg");
+	CGFtexture* porcelainBoard = new CGFtexture("porcelainBoard.jpg");
+
+	addNewAmbient("Porcelain",porcelainPiece,porcelainBoard);
+
+	CGFtexture* metalPiece = new CGFtexture("metalPiece.jpg");
+	CGFtexture* metalBoard = new CGFtexture("metalBoard.jpg");
+
+	addNewAmbient("Metal",metalPiece,metalBoard);
+
+}
+
+void ProjScene::addNewAmbient(string id, CGFtexture* pieceApp, CGFtexture* boardApp) {
+	vector<CGFtexture*> ambient;
+
+	ambientID.push_back(id);
+
+	ambient.push_back(pieceApp);
+	ambient.push_back(boardApp);
+
+	ambients.push_back(ambient);
 }
 
 void ProjScene::setSelectedCoords(int x, int y) { 
-	if(!hasMoved) {
-		if(toMove) { //ja escolheu peca para mover
-			newX = x;
-			newY = y;
+	if(!hasMoved && toMove) { //ja escolheu peca para mover
+		newX = x;
+		newY = y;
 
-			theBoard.boardParser(sck.movePiece(&theBoard,oldX,oldY,newX,newY));
+		theBoard.boardParser(sck.movePiece(&theBoard,oldX,oldY,newX,newY));
 
-			if(theBoard != moves[moves.size()-1]) {
-				toMove = false;
-				hasMoved = true;
-				moves.push_back(theBoard);
-				movedX = newX;			//guardar para nao poder retirar a peca que acabou de mover
-				movedY = newY;
-			}
+		if(theBoard != moves[moves.size()-1]) {
+			toMove = false;
+			hasMoved = true;
+			moves.push_back(theBoard);
+			movedX = newX;			//guardar para nao poder retirar a peca que acabou de mover
+			movedY = newY;
 		}
-		else {
-			cout << "old x : " << oldX << " old y: " << oldY << endl;
+	}
+	else {
+		cout << "old x : " << oldX << " old y: " << oldY << endl;
 
-			oldX = x;
-			oldY = y;
+		oldX = x;
+		oldY = y;
 
-			if(theBoard.getPieceColor(x,y) == currentPlayer) {
-				toMove = true;
-			}
+		if(theBoard.getPieceColor(x,y) == currentPlayer) {
+			toMove = true;
 		}
 	}
 }
@@ -100,6 +126,8 @@ void ProjScene::init() {
 	moves.push_back(theBoard);
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(2,'b'),1,0));
 	moves.push_back(theBoard);
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(0,'g'),2,1));
+	moves.push_back(theBoard);
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(3,'b'),1,1));
 	moves.push_back(theBoard);
 
@@ -110,6 +138,8 @@ void ProjScene::init() {
 	shading = 1;
 	cameraState = 0;
 	setLightState();
+	ambientState = 0;
+	changeTextures();
 
 	// Enables lighting computations
 	glEnable(GL_LIGHTING);
@@ -138,6 +168,10 @@ void ProjScene::init() {
 void ProjScene::update(unsigned long t) {
 	for(unsigned int i = 0; i < animations.size(); i++)
 		animations[i]->update(t);
+}
+
+void ProjScene::changeTextures() {
+	theBoard.setTexture(ambients[ambientState][1], ambients[ambientState][0]);
 }
 
 void ProjScene::display() {
@@ -194,11 +228,10 @@ void ProjScene::setLightState() {
 	}
 }
 
-void ProjScene::addPieceValue(float valueIn) {
-	value = valueIn;
-	cout << "Valor: " << value << endl;
+void ProjScene::addPieceValue() {
+	cout << "Valor: " << addNewPieceValue << endl;
 
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(value,currentPlayer),oldX,oldY));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(addNewPieceValue,currentPlayer),oldX,oldY));
 
 	if(theBoard != moves[moves.size()-1]) {			
 		hasMoved = false;

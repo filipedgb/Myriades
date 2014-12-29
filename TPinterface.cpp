@@ -5,6 +5,8 @@
 
 TPinterface::TPinterface() {}
 
+GLUI_StaticText* TPinterface::gameOutput = new GLUI_StaticText();
+
 void TPinterface::initGUI() {
 	//main panel
 	GLUI_Panel* panel = addPanel("Environment Options",1); 
@@ -15,10 +17,20 @@ void TPinterface::initGUI() {
 	//adding checkBoxes for each light to the panel
 	addCheckboxToPanel(lights, "default", &(((ProjScene*) scene)->lightState[0]),0);
 
-	for(unsigned int i=1; i < ((ProjScene*)scene)->lightState.size(); i++) {
+	for(unsigned int i = 1; i < ((ProjScene*)scene)->lightState.size(); i++) {
 		char* a = (char*) ((ProjScene*) scene)->getLights()[i-1]->getId();
 		addCheckboxToPanel(lights, a, &(((ProjScene*) scene)->lightState[i]), i);
 	}
+	
+	//add separator
+	addSeparatorToPanel(panel);
+
+	//add ambient
+	GLUI_Listbox *ambient = addListboxToPanel(panel,"ambient",&(((ProjScene*) scene)->ambientState),15);
+	for(unsigned int i = 0; i < ((ProjScene*) scene)->getAmbientID().size(); i++) {
+		ambient->add_item(i, ((ProjScene*) scene)->getAmbientID()[i].c_str());
+	}
+
 	//add column
 	addColumnToPanel(panel);
 
@@ -57,9 +69,9 @@ void TPinterface::initGUI() {
 		addRadioButtonToGroup(camera, ((ProjScene*)scene)->getCameras()[i]->getId());
 	}
 
-	addColumnToPanel(panel);
-
 	//////////////////////////////////
+	addColumn();
+
 	//game panel
 	GLUI_Panel* gamePanel = addPanel("Game",1); 
 
@@ -67,14 +79,14 @@ void TPinterface::initGUI() {
 	GLUI_Button* movePiece = addButtonToPanel(gamePanel,"movePiece",12);
 	GLUI_Button* undo = addButtonToPanel(gamePanel,"undo",13);
 	GLUI_Button* exitGame = addButtonToPanel(gamePanel,"exitGame",14);
-	segment_spinner =	addSpinnerToPanel(gamePanel,"Value: ",GLUI_SPINNER_INT,NULL,-1);
-
+	segment_spinner = addSpinnerToPanel(gamePanel,"Value: ",GLUI_SPINNER_INT,&(((ProjScene*) scene)->addNewPieceValue),-1);
 	segment_spinner->set_int_limits(0,49, GLUI_LIMIT_WRAP);
+	segment_spinner->set_int_val(0);
 
+	gameOutput = addStaticTextToPanel(gamePanel,"gameOutput");
 }
 
-void TPinterface::processGUI(GLUI_Control *ctrl)
-{
+void TPinterface::processGUI(GLUI_Control *ctrl) {
 	printf ("GUI control id: %d\n  ",ctrl->user_id);
 
 	switch (ctrl->user_id)
@@ -114,7 +126,7 @@ void TPinterface::processGUI(GLUI_Control *ctrl)
 		break;
 	case 11:
 		printf("Button addPiece\n");
-		((ProjScene*) scene)->addPieceValue(segment_spinner->get_float_val());
+		((ProjScene*) scene)->addPieceValue();
 		break;
 	case 12:
 		printf("Button movePiece\n");
@@ -127,6 +139,10 @@ void TPinterface::processGUI(GLUI_Control *ctrl)
 		printf("Button exit game\n");
 		((ProjScene*) scene)->getSck()->quit();
 		exit(0);
+		break;
+	case 15:
+		printf("Change ambient\n");
+		((ProjScene*) scene)->changeTextures();
 		break;
 	};
 }

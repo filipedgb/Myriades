@@ -25,17 +25,17 @@ private:
 	vector<Camera*> cameras; 
 	vector<Animation*> animations;
 
-	char currentPlayer;
+	vector<vector<CGFtexture*>> ambients;	//each i is a vector to use in all pieces-board/boardBox
+	vector<string> ambientID;					//id to show in interface
 
-	int oldX, oldY, newX,newY, value;
+	char currentPlayer;
+	int oldX, oldY, newX,newY;
 	int movedX, movedY;
 	bool hasMoved, toMove;
 
 	Board theBoard;
 
 	vector<Board> moves;
-
-	Piece* obj;
 	CtoPlSocket sck;
 
 public:
@@ -44,13 +44,11 @@ public:
 	void update(unsigned long t);
 	~ProjScene();
 
-	void setAllAmbient();
-
 	CtoPlSocket* getSck() { return &sck;}
 
 	vector<Light*>  getLights() { return lights;}
 	vector<Camera*> getCameras() { return cameras;} 
-
+	
 	int searchCamera(char* id);
 	int searchAnimation(char* id);
 
@@ -72,8 +70,16 @@ public:
 	int cameraState;
 	void setInitialCamera();	
 
+	/* -- Ambient --*/
+	int ambientState;
+	void setAllAmbient();
+	void addNewAmbient(string id, CGFtexture* pieceApp, CGFtexture* boardApp);
+	vector<string> getAmbientID() {return ambientID;}
+	void changeTextures();
+
+	int addNewPieceValue;
 	void setSelectedCoords(int x, int y);
-	void addPieceValue(float value);
+	void addPieceValue();
 	void undo();
 };
 

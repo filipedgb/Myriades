@@ -10,6 +10,7 @@ class Piece: public Primitive {
 	int number;
 
 	CGFappearance* pieceApp;
+	CGFtexture* text;
 
 public:
 	Piece(int number, char color);
@@ -21,6 +22,7 @@ public:
 
 	void setAppearance();
 	void setAppearance(CGFappearance* a);
+	void setTexture(CGFtexture* t);
 
 	bool operator== (const Piece& p) {
 		return (color == p.color && number == p.number);

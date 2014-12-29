@@ -39,7 +39,8 @@ void Board::setPiecesAppearances() {
 	whiteApp = new CGFappearance(ambW,white,specW,120);
 	blackApp =  new CGFappearance(ambB,black,specB,120);
 
-	woodTex = new CGFtexture("woodBoard.jpg");
+	this->whiteApp->setTexture(pieceText);
+	this->blackApp->setTexture(pieceText);
 }
 
 void Board::setAppearance(CGFappearance* a) {
@@ -50,15 +51,19 @@ void Board::setTexture(char c) {
 	switch (c) {
 	case 'w':
 		boardApp = whiteApp;
-		boardApp->setTexture(woodTex) ;
 		break;
 	case 'b':
 		boardApp = blackApp;
-		boardApp->setTexture(woodTex) ;
 		break;
 	default:
 		break;
 	}
+	boardApp->setTexture(boardText);
+}
+
+void Board::setTexture(CGFtexture* bt, CGFtexture* pt) {
+	this->boardText = bt;
+	this->pieceText = pt;
 }
 
 int Board::getPieceNumber(int row, int col) { 
@@ -79,12 +84,14 @@ void Board::drawBoxPiece() {
 	glPushMatrix();
 	glTranslatef(-3,2.25,size+1);
 	glRotatef(90,1,0,0);
+	whitePiece->setTexture(pieceText);
 	whitePiece->draw(1,1);
 	glPopMatrix();
 
 	glTranslatef(-3,2.25,size-1);
 	glRotatef(90,1,0,0);
 
+	blackPiece->setTexture(pieceText);
 	blackPiece->draw(1,1);
 
 	glPopMatrix();
@@ -117,6 +124,7 @@ void Board::draw() {
 
 			if(board[row][col] != NULL) {
 				glPushMatrix();
+				board[row][col]->setTexture(this->pieceText);
 				board[row][col]->draw(1,1);
 
 				glRasterPos3f(row-0.5, col-0.5, -2);
