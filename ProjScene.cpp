@@ -56,19 +56,20 @@ void ProjScene::setSelectedCoords(int x, int y) {
 	if(toMove == 1) {
 		newX = x;
 		newY = y;
-		toMove = 0;
-
-		printf("Chegou aqui\n");
 
 		theBoard.boardParser(sck.movePiece(&theBoard,oldX,oldY,newX,newY));
 
-		moves.push_back(theBoard);
+		if(theBoard != moves[moves.size()-1]) {
+			printf("\ncenas\n");
+			toMove = 0;
+			moves.push_back(theBoard);
 
-		if(currentPlayer == 'b') currentPlayer = 'w';
-		else currentPlayer = 'b';
+			if(currentPlayer == 'b') currentPlayer = 'w';
+			else currentPlayer = 'b';
+		}
 	}
 	else { 
-		cout << "old x : " << oldX << "old y: " << oldY << endl;
+		cout << "old x : " << oldX << " old y: " << oldY << endl;
 		oldX = x;
 		oldY = y;
 
@@ -84,9 +85,9 @@ void ProjScene::init() {
 
 	currentPlayer = 'b';
 
-	theBoard = Board(8);
+	theBoard = Board(5);
 	sck.socketConnect();
-	theBoard.boardParser(sck.initBoard(8)); //Socket
+	theBoard.boardParser(sck.initBoard(5)); //Socket
 
 	moves.push_back(theBoard);
 
@@ -237,7 +238,7 @@ ProjScene::~ProjScene() {
 
 void ProjScene::undo() {
 	if(moves.size() > 1) 
-		moves.pop_back();
+			moves.pop_back();
 
 	theBoard = moves[moves.size()-1];
 }

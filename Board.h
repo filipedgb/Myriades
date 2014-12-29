@@ -34,7 +34,7 @@ public:
 	void drawBoxPiece();
 	void setPiecesAppearances();
 	void setAppearance(CGFappearance* a);
-	void setTexture(char c) ;
+	void setTexture(char c);
 
 	int getPieceNumber(int row, int col);
 	char getPieceColor(int row, int col);
@@ -47,6 +47,10 @@ public:
 		this->size = b.size;
 		return *this;
 	}
+
+	bool operator== (const Board& b);
+
+	bool operator!= (const Board& b) {return !(*this == b);}
 };
 
 #endif

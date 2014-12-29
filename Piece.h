@@ -11,16 +11,24 @@ class Piece: public Primitive {
 
 	CGFappearance* pieceApp;
 
-	public:
-		Piece(int number, char color);
-		char getColor() const;
-		int getNumber() const;
-		void setColor(char c);
-		void setNumber(int n);
-		void draw(float text_s, float text_t);
+public:
+	Piece(int number, char color);
+	char getColor() const;
+	int getNumber() const;
+	void setColor(char c);
+	void setNumber(int n);
+	void draw(float text_s, float text_t);
 
-			void setAppearance();
+	void setAppearance();
 	void setAppearance(CGFappearance* a);
+
+	bool operator== (const Piece& p) {
+		return (color == p.color && number == p.number);
+	}
+
+	bool operator!= (const Piece& p) {
+		return !(*this == p);
+	}
 };
 
 #endif

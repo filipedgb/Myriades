@@ -100,8 +100,6 @@ void Board::draw() {
 	glTranslatef(-2,0.25,size);
 	glRotatef(90,0,1,0);
 	drawBox();
-	//glTranslatef(+1.25,2,-1.3);
-	//glRotatef(90,1,0,0);
 	glPopMatrix();
 
 	drawBoxPiece();
@@ -110,8 +108,6 @@ void Board::draw() {
 
 	for(int row = 0; row < size; row++) {
 		for(int col = 0; col < size; col++) {
-			//printf("size: %d row: %d, col: %d\n",row,col,size);
-
 			glPushMatrix();
 			glTranslatef(2*col,0,0);
 			glTranslatef(0,0,2*row);
@@ -156,8 +152,6 @@ void Board::drawBase() {
 		glPushMatrix();
 		glLoadName(row);
 		for(int col = 0; col < size; col++) {
-			//printf("size: %d row: %d, col: %d\n",row,col,size);
-
 			glPushMatrix();
 
 			glPushName(col);
@@ -332,4 +326,32 @@ string Board::toString() {
 	b.append("]");
 
 	return b;
+}
+
+bool Board::operator== (const Board& b) {
+	if(board.size() != b.board.size()) {
+		printf("board size\n");
+		return false;
+	}
+
+	for(unsigned int i=0; i < board.size(); i++) {
+		if(board[i].size() != b.board[i].size())
+			return false;
+
+		for(unsigned int j=0; j < board.size(); j++) {
+			if(board[i][j] == NULL && b.board[i][j] == NULL)
+				continue;
+
+			if(board[i][j] != NULL && b.board[i][j] == NULL)
+				return false;
+
+			if(board[i][j] == NULL && b.board[i][j] != NULL)
+				return false;
+
+			if(*(board[i][j]) != *(b.board[i][j]))
+				return false;
+		}
+	}
+
+	return true;
 }
