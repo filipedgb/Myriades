@@ -4,10 +4,8 @@
 #include "CGFinterface.h"
 
 class TPinterface: public CGFinterface {
-
 	GLUI_Spinner *segment_spinner;
-
-
+	
 public:
 	TPinterface();
 
@@ -18,7 +16,11 @@ public:
 	void performPicking(int x, int y);
 	void processHits(GLint hits, GLuint buffer[]); 
 
+	static GLUI_StaticText* gameOutput;
 
+	static void setOutput(char* output) {
+		gameOutput->set_text(output);
+	}
 };
 
 

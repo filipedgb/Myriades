@@ -19,7 +19,8 @@ class Board {
 	CGFappearance* whiteApp;
 	CGFappearance* blackApp;
 
-	CGFtexture* woodTex;
+	CGFtexture* boardText;
+	CGFtexture* pieceText;
 
 public:
 	Board();
@@ -35,6 +36,7 @@ public:
 	void setPiecesAppearances();
 	void setAppearance(CGFappearance* a);
 	void setTexture(char c);
+	void setTexture(CGFtexture* bt, CGFtexture* pt);
 
 	int getPieceNumber(int row, int col);
 	char getPieceColor(int row, int col);
