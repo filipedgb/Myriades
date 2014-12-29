@@ -121,11 +121,21 @@ void Board::draw() {
 				board[row][col]->setTexture(this->pieceText);
 
 				if(board[row][col]->isNew()) {
-					if(board[row][col]->getAnimation()->isStopped()) {
+					if(board[row][col]->getAddingAnimation()->isStopped()) {
 						board[row][col]->setOld();
 					}
 					else{
-						board[row][col]->getAnimation()->draw();
+						board[row][col]->getAddingAnimation()->draw();
+						glTranslatef(1,0.7,1);
+						glRotatef(90,1,0,0);
+					}
+				}
+				else if(board[row][col]->isMoving()) {
+					if(board[row][col]->getMovingAnimation()->isStopped()) {
+						board[row][col]->setMoving(false);
+					}
+					else{
+						board[row][col]->getMovingAnimation()->draw();
 						glTranslatef(1,0.7,1);
 						glRotatef(90,1,0,0);
 					}

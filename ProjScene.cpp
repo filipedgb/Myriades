@@ -95,6 +95,8 @@ void ProjScene::setSelectedCoords(int x, int y) {
 			movedX = newX;			//guardar para nao poder retirar a peca que acabou de mover
 			movedY = newY;
 
+			theBoard.getPiece(movedX,movedY)->setMoving(oldX,oldY,movedX,movedY, theBoard.getSize());
+
 			string out = "Player " + currentPlayer;
 			out.append(": moved a piece.\n");
 			TPinterface::setOutput(out);
@@ -200,7 +202,10 @@ void ProjScene::update(unsigned long t) {
 	for(int i = 0; i < theBoard.getSize(); i++)
 		for(int k = 0; k <  theBoard.getSize(); k++) {
 			if(theBoard.getPiece(i,k) != NULL && theBoard.getPiece(i,k)->isNew())
-				theBoard.getPiece(i,k)->getAnimation()->update(t);
+				theBoard.getPiece(i,k)->getAddingAnimation()->update(t);
+
+			if(theBoard.getPiece(i,k) != NULL && theBoard.getPiece(i,k)->isMoving())
+				theBoard.getPiece(i,k)->getMovingAnimation()->update(t);
 		}
 }
 
