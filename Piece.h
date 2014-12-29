@@ -3,6 +3,7 @@
 
 #include "Cylinder.h"
 #include "CGFappearance.h"
+#include "Linear.h"
 
 class Piece: public Primitive {
 	Cylinder* piece;
@@ -11,6 +12,10 @@ class Piece: public Primitive {
 
 	CGFappearance* pieceApp;
 	CGFtexture* text;
+
+	Linear* addingPiece;
+
+	bool newPiece;
 
 public:
 	Piece(int number, char color);
@@ -30,6 +35,27 @@ public:
 
 	bool operator!= (const Piece& p) {
 		return !(*this == p);
+	}
+
+	Linear* getAnimation(){
+		return addingPiece;
+	}
+		
+	bool isNew(){
+		return newPiece;
+	}
+
+		void setOld() {
+		newPiece = false;
+	}
+
+	void setNew(int x, int y, int size) {
+		newPiece = true;
+		addingPiece->addControlPoint(-3,2.25,size+1);
+		addingPiece->addControlPoint(-3,3,size+1);
+		addingPiece->addControlPoint(2*x,3,2*y+2);
+		addingPiece->addControlPoint(2*x,0,2*y+2);
+
 	}
 };
 

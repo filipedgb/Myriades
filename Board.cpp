@@ -115,17 +115,29 @@ void Board::draw() {
 
 	for(int row = 0; row < size; row++) {
 		for(int col = 0; col < size; col++) {
-			glPushMatrix();
-			glTranslatef(2*col,0,0);
-			glTranslatef(0,0,2*row);
-
-			glTranslatef(1,0.7,1);
-			glRotatef(90,1,0,0);
-
 			if(board[row][col] != NULL) {
 				glPushMatrix();
-				board[row][col]->setTexture(this->pieceText);
+
+				if(board[row][col]->isNew()) {
+					if(board[row][col]->getAnimation()->isStopped()) {
+						board[row][col]->setOld();
+					}
+					else{
+						board[row][col]->getAnimation()->draw();
+						glTranslatef(1,0.7,1);
+						glRotatef(90,1,0,0);
+					}
+				}
+				else { 
+					glTranslatef(2*col,0,0);
+					glTranslatef(0,0,2*row);
+					glTranslatef(1,0.7,1);
+					glRotatef(90,1,0,0);
+				}
+
 				board[row][col]->draw(1,1);
+
+				glPopMatrix();
 
 				glRasterPos3f(row-0.5, col-0.5, -2);
 
@@ -137,6 +149,7 @@ void Board::draw() {
 		}
 	}
 }
+
 
 void Board::drawSolidBase() {
 	Primitive* cube = new Cube();

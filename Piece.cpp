@@ -16,6 +16,8 @@ Piece::Piece(int number, char color) {
 	this->color = color; 
 	this->number = number;
 	this->piece = new Cylinder(0.7,0.7,0.2,30,30);
+	this->newPiece = false;
+	this->addingPiece = new Linear("lol",2);
 
 	setAppearance();
 }

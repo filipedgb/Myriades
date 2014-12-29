@@ -50,6 +50,10 @@ public:
 		return *this;
 	}
 
+	Piece* getPiece(int row, int col) {
+		return board[row][col];
+	}
+
 	bool operator== (const Board& b);
 
 	bool operator!= (const Board& b) {return !(*this == b);}

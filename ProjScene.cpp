@@ -179,8 +179,13 @@ void ProjScene::init() {
 }
 
 void ProjScene::update(unsigned long t) {
-	for(unsigned int i = 0; i < animations.size(); i++)
-		animations[i]->update(t);
+	for(unsigned int i = 0; i < theBoard.getSize(); i++)
+		for(unsigned int k = 0; k <  theBoard.getSize(); k++) {
+			if(theBoard.getPiece(i,k) != NULL && theBoard.getPiece(i,k)->isNew()){
+				theBoard.getPiece(i,k)->getAnimation()->update(t);
+			}
+
+		}
 }
 
 void ProjScene::changeTextures() {
@@ -245,6 +250,8 @@ void ProjScene::addPieceValue() {
 	cout << "Valor: " << addNewPieceValue << endl;
 
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(addNewPieceValue,currentPlayer),oldX,oldY));
+		theBoard.getPiece(oldX,oldY)->setNew(oldY,oldX,theBoard.getSize());
+
 
 	if(theBoard != moves[moves.size()-1]) {			
 		hasMoved = false;
