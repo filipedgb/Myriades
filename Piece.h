@@ -37,26 +37,13 @@ public:
 		return !(*this == p);
 	}
 
-	Linear* getAnimation(){
-		return addingPiece;
-	}
-		
-	bool isNew(){
-		return newPiece;
-	}
+	Linear* getAnimation() {return addingPiece;}
 
-		void setOld() {
-		newPiece = false;
-	}
+	bool isNew() {return newPiece;}
 
-	void setNew(int x, int y, int size) {
-		newPiece = true;
-		addingPiece->addControlPoint(-3,2.25,size+1);
-		addingPiece->addControlPoint(-3,3,size+1);
-		addingPiece->addControlPoint(2*x,3,2*y+2);
-		addingPiece->addControlPoint(2*x,0,2*y+2);
+	void setOld() {newPiece = false;}
 
-	}
+	void setNew(int x, int y, int size);
 };
 
 #endif
