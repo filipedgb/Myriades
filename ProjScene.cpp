@@ -62,12 +62,10 @@ void ProjScene::setSelectedCoords(int x, int y) {
 
 		theBoard.boardParser(sck.movePiece(&theBoard,oldX,oldY,newX,newY));
 
-		if(currentPlayer == 'b') {
-			currentPlayer = 'w';
-		} else if (currentPlayer == 'w') {
-			currentPlayer = 'b';
-		}
+		moves.push_back(theBoard);
 
+		if(currentPlayer == 'b') currentPlayer = 'w';
+		else currentPlayer = 'b';
 	}
 	else { 
 		cout << "old x : " << oldX << "old y: " << oldY << endl;
@@ -75,7 +73,6 @@ void ProjScene::setSelectedCoords(int x, int y) {
 		oldY = y;
 
 		if(theBoard.getPieceColor(x,y) == currentPlayer) {
-			
 			toMove = 1;
 		}
 	}
@@ -91,13 +88,16 @@ void ProjScene::init() {
 	sck.socketConnect();
 	theBoard.boardParser(sck.initBoard(8)); //Socket
 
-	/*
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(0,'w'),0,0));
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(1,'b'),0,1));
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(2,'b'),1,0));
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(3,'b'),1,1));
+	moves.push_back(theBoard);
 
-	*/
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(0,'w'),0,0));
+	moves.push_back(theBoard);
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(1,'b'),0,1));
+	moves.push_back(theBoard);
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(2,'b'),1,0));
+	moves.push_back(theBoard);
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(3,'b'),1,1));
+	moves.push_back(theBoard);
 
 	setUpdatePeriod(50);
 
@@ -132,9 +132,8 @@ void ProjScene::init() {
 }
 
 void ProjScene::update(unsigned long t) {
-	for(unsigned int i = 0; i < animations.size(); i++) {
+	for(unsigned int i = 0; i < animations.size(); i++)
 		animations[i]->update(t);
-	}
 }
 
 void ProjScene::display() {
@@ -195,9 +194,9 @@ void ProjScene::addPieceValue(float valueIn) {
 	value = valueIn;
 	cout << "Valor: " << value << endl;
 
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(value,currentPlayer),oldX,oldY));
 
-  theBoard.boardParser(sck.addPiece(&theBoard,new Piece(value,currentPlayer),oldX,oldY));
-
+	moves.push_back(theBoard);
 }
 
 void ProjScene::updateLightState() {
@@ -225,20 +224,6 @@ int ProjScene::searchAnimation(char* id) {
 			return i;
 	return -1;
 }
-/*
-int ProjScene::searchTexture(char* id) {
-for(unsigned int i=0; i < texturas.size();i++)
-if(!strcmp(texturas[i]->getId(),id))
-return i;
-return -1;
-}
-
-int ProjScene::searchAppearance(char* id) {
-for(unsigned int i=0; i < appearances.size();i++)
-if(!strcmp(appearances[i]->getId(),id))
-return i;
-return -1;
-}*/
 
 ProjScene::~ProjScene() {
 	delete(light0);
@@ -248,4 +233,11 @@ ProjScene::~ProjScene() {
 
 	for(unsigned int i=0; i<cameras.size();i++)
 		delete(cameras[i]);
+}
+
+void ProjScene::undo() {
+	if(moves.size() > 1) 
+		moves.pop_back();
+
+	theBoard = moves[moves.size()-1];
 }

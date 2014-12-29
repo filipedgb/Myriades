@@ -31,6 +31,8 @@ private:
 
 	Board theBoard;
 
+	vector<Board> moves;
+
 	Piece* obj;
 	CtoPlSocket sck;
 
@@ -70,6 +72,7 @@ public:
 
 	void setSelectedCoords(int x, int y);
 	void addPieceValue(float value);
+	void undo();
 };
 
 #endif

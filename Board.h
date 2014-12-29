@@ -21,8 +21,6 @@ class Board {
 
 	CGFtexture* woodTex;
 
-
-
 public:
 	Board();
 	Board(int s);
@@ -34,19 +32,21 @@ public:
 	void drawBase();
 	void drawBox();
 	void drawBoxPiece();
+	void setPiecesAppearances();
 	void setAppearance(CGFappearance* a);
-
-	void Board::setTexture(char c) ;
+	void setTexture(char c) ;
 
 	int getPieceNumber(int row, int col);
-
 	char getPieceColor(int row, int col);
+	int getSize() { return size;}
 
-	int getSize() { 
-		return size;
+	string toString();	
+
+	Board& operator= (const Board& b) {
+		this->board = b.board;
+		this->size = b.size;
+		return *this;
 	}
-
-	string toString();
 };
 
 #endif

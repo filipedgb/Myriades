@@ -59,18 +59,17 @@ void TPinterface::initGUI() {
 
 	addColumnToPanel(panel);
 
-
 	//////////////////////////////////
 	//game panel
 	GLUI_Panel* gamePanel = addPanel("Game",1); 
 
 	GLUI_Button* addPiece = addButtonToPanel(gamePanel,"addPiece",11);
 	GLUI_Button* movePiece = addButtonToPanel(gamePanel,"movePiece",12);
-	GLUI_Button* exitGame = addButtonToPanel(gamePanel,"exitGame",13);
+	GLUI_Button* undo = addButtonToPanel(gamePanel,"undo",13);
+	GLUI_Button* exitGame = addButtonToPanel(gamePanel,"exitGame",14);
 	segment_spinner =	addSpinnerToPanel(gamePanel,"Value: ",GLUI_SPINNER_INT,NULL,-1);
 
-	segment_spinner->set_int_limits(0,49, GLUI_LIMIT_WRAP );
-
+	segment_spinner->set_int_limits(0,49, GLUI_LIMIT_WRAP);
 
 }
 
@@ -114,14 +113,19 @@ void TPinterface::processGUI(GLUI_Control *ctrl)
 		printf("Camera: %d\n",(((ProjScene*) scene)->cameraState));
 		break;
 	case 11:
-		printf("Button addPiece\n"), (((ProjScene*) scene)->addPieceValue(segment_spinner->get_float_val() ));
+		printf("Button addPiece\n");
+		((ProjScene*) scene)->addPieceValue(segment_spinner->get_float_val());
 		break;
 	case 12:
 		printf("Button movePiece\n");
 		break;
 	case 13:
+		printf("Button undo\n");
+		((ProjScene*) scene)->undo();
+		break;
+	case 14:
 		printf("Button exit game\n");
-		(((ProjScene*) scene)->getSck()->quit());
+		((ProjScene*) scene)->getSck()->quit();
 		exit(0);
 		break;
 	};
