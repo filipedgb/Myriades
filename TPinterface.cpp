@@ -8,8 +8,26 @@ TPinterface::TPinterface() {}
 GLUI_StaticText* TPinterface::gameOutput = new GLUI_StaticText();
 
 void TPinterface::initGUI() {
-	//main panel
-	GLUI_Panel* panel = addPanel("Environment Options",1); 
+
+	//game panel
+	GLUI_Panel* gamePanel = addPanel("Game",1); 
+
+	GLUI_Button* addPiece = addButtonToPanel(gamePanel,"addPiece",11);
+	GLUI_Button* movePiece = addButtonToPanel(gamePanel,"movePiece",12);
+	GLUI_Button* undo = addButtonToPanel(gamePanel,"undo",13);
+	GLUI_Button* exitGame = addButtonToPanel(gamePanel,"exitGame",14);
+	segment_spinner = addSpinnerToPanel(gamePanel,"Value: ",GLUI_SPINNER_INT,&(((ProjScene*) scene)->addNewPieceValue),-1);
+	segment_spinner->set_int_limits(0,49, GLUI_LIMIT_WRAP);
+	segment_spinner->set_int_val(0);
+
+	gameOutput = addStaticTextToPanel(gamePanel,"gameOutput");
+
+	addColumn();
+
+	/////////////////////////////////////////////////////////////////////////////////////////////
+
+	//options panel
+	GLUI_Rollout* panel = addRollout("Environment Options",0);
 
 	//adding panel for controling lights
 	GLUI_Panel *lights = addPanelToPanel(panel,"Lights",1);
@@ -26,7 +44,7 @@ void TPinterface::initGUI() {
 	addSeparatorToPanel(panel);
 
 	//add ambient
-	GLUI_Listbox *ambient = addListboxToPanel(panel,"ambient",&(((ProjScene*) scene)->ambientState),15);
+	GLUI_Listbox *ambient = addListboxToPanel(panel,"Ambient ",&(((ProjScene*) scene)->ambientState),15);
 	for(unsigned int i = 0; i < ((ProjScene*) scene)->getAmbientID().size(); i++) {
 		ambient->add_item(i, ((ProjScene*) scene)->getAmbientID()[i].c_str());
 	}
@@ -35,7 +53,7 @@ void TPinterface::initGUI() {
 	addColumnToPanel(panel);
 
 	//add centered panel for drawing options
-	GLUI_Panel *drawing = addPanelToPanel(panel,"Drawing",1);
+	GLUI_Rollout *drawing = addRolloutToPanel(panel,"Drawing",0);
 
 	//MODE
 	GLUI_Panel *modeP = addPanelToPanel(drawing,"Mode",1);
@@ -68,22 +86,6 @@ void TPinterface::initGUI() {
 	for(unsigned int i=0; i<((ProjScene*)scene)->getCameras().size();i++) {
 		addRadioButtonToGroup(camera, ((ProjScene*)scene)->getCameras()[i]->getId());
 	}
-
-	//////////////////////////////////
-	addColumn();
-
-	//game panel
-	GLUI_Panel* gamePanel = addPanel("Game",1); 
-
-	GLUI_Button* addPiece = addButtonToPanel(gamePanel,"addPiece",11);
-	GLUI_Button* movePiece = addButtonToPanel(gamePanel,"movePiece",12);
-	GLUI_Button* undo = addButtonToPanel(gamePanel,"undo",13);
-	GLUI_Button* exitGame = addButtonToPanel(gamePanel,"exitGame",14);
-	segment_spinner = addSpinnerToPanel(gamePanel,"Value: ",GLUI_SPINNER_INT,&(((ProjScene*) scene)->addNewPieceValue),-1);
-	segment_spinner->set_int_limits(0,49, GLUI_LIMIT_WRAP);
-	segment_spinner->set_int_val(0);
-
-	gameOutput = addStaticTextToPanel(gamePanel,"gameOutput");
 }
 
 void TPinterface::processGUI(GLUI_Control *ctrl) {

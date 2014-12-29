@@ -1,4 +1,5 @@
 #include "ProjScene.h"
+#include "TPinterface.h"
 
 GLfloat ambientLight[4] = {0.8, 0.8, 0.8, 1};
 GLfloat background[4] = {0, 0, 0, 0.8};
@@ -93,6 +94,18 @@ void ProjScene::setSelectedCoords(int x, int y) {
 			moves.push_back(theBoard);
 			movedX = newX;			//guardar para nao poder retirar a peca que acabou de mover
 			movedY = newY;
+
+			string out = "Player " + currentPlayer;
+			out.append(": moved a piece.\n");
+			out.append("Now add a piece.\n");
+
+			TPinterface::setOutput(out);
+		}
+		else {
+			string out = "Player " + currentPlayer;
+			out.append(": can't make that move.\n");
+
+			TPinterface::setOutput(out);
 		}
 	}
 	else {
@@ -236,8 +249,16 @@ void ProjScene::addPieceValue() {
 	if(theBoard != moves[moves.size()-1]) {			
 		hasMoved = false;
 
+		string out = "Player " + currentPlayer;
+		out.append(": added a piece.\n");
+
 		if(currentPlayer == 'b') currentPlayer = 'w';
 		else currentPlayer = 'b';
+
+		out.append("Player " + currentPlayer);
+		out.append(": move or add a piece.\n");
+
+		TPinterface::setOutput(out);
 	}
 }
 

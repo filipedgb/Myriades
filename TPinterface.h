@@ -18,8 +18,8 @@ public:
 
 	static GLUI_StaticText* gameOutput;
 
-	static void setOutput(char* output) {
-		gameOutput->set_text(output);
+	static void setOutput(std::string output) {
+		gameOutput->set_text(output.c_str());
 	}
 };
 
