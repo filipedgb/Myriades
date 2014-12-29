@@ -54,9 +54,6 @@ void ProjScene::setAllAmbient() {
 
 void ProjScene::setSelectedCoords(int x, int y) { 
 	if(toMove == 1) {
-		oldX = newX;
-		oldY = newY;
-		
 		newX = x;
 		newY = y;
 		toMove = 0;
@@ -74,11 +71,11 @@ void ProjScene::setSelectedCoords(int x, int y) {
 	}
 	else { 
 		cout << "old x : " << oldX << "old y: " << oldY << endl;
-
+		oldX = x;
+		oldY = y;
 
 		if(theBoard.getPieceColor(x,y) == currentPlayer) {
-			newX = x;
-			newY = y;
+			
 			toMove = 1;
 		}
 	}
@@ -90,17 +87,17 @@ void ProjScene::init() {
 
 	currentPlayer = 'b';
 
-	theBoard = Board(5);
+	theBoard = Board(8);
 	sck.socketConnect();
-	theBoard.boardParser(sck.initBoard(5)); //Socket
+	theBoard.boardParser(sck.initBoard(8)); //Socket
 
-
+	/*
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(0,'w'),0,0));
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(1,'b'),0,1));
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(2,'b'),1,0));
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(3,'b'),1,1));
 
-
+	*/
 
 	setUpdatePeriod(50);
 
@@ -199,7 +196,7 @@ void ProjScene::addPieceValue(float valueIn) {
 	cout << "Valor: " << value << endl;
 
 
-	if(!toMove) theBoard.boardParser(sck.addPiece(&theBoard,new Piece(value,currentPlayer),oldX,oldY));
+  theBoard.boardParser(sck.addPiece(&theBoard,new Piece(value,currentPlayer),oldX,oldY));
 
 }
 
