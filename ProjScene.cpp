@@ -53,37 +53,40 @@ void ProjScene::setAllAmbient() {
 }
 
 void ProjScene::setSelectedCoords(int x, int y) { 
-	if(toMove == 1) {
-		newX = x;
-		newY = y;
+	if(!hasMoved) {
+		if(toMove) { //ja escolheu peca para mover
+			newX = x;
+			newY = y;
 
-		theBoard.boardParser(sck.movePiece(&theBoard,oldX,oldY,newX,newY));
+			theBoard.boardParser(sck.movePiece(&theBoard,oldX,oldY,newX,newY));
 
-		if(theBoard != moves[moves.size()-1]) {
-			printf("\ncenas\n");
-			toMove = 0;
-			moves.push_back(theBoard);
-
-			if(currentPlayer == 'b') currentPlayer = 'w';
-			else currentPlayer = 'b';
+			if(theBoard != moves[moves.size()-1]) {
+				toMove = false;
+				hasMoved = true;
+				moves.push_back(theBoard);
+				movedX = newX;			//guardar para nao poder retirar a peca que acabou de mover
+				movedY = newY;
+			}
 		}
-	}
-	else { 
-		cout << "old x : " << oldX << " old y: " << oldY << endl;
-		oldX = x;
-		oldY = y;
+		else {
+			cout << "old x : " << oldX << " old y: " << oldY << endl;
 
-		if(theBoard.getPieceColor(x,y) == currentPlayer) {
-			toMove = 1;
+			oldX = x;
+			oldY = y;
+
+			if(theBoard.getPieceColor(x,y) == currentPlayer) {
+				toMove = true;
+			}
 		}
 	}
 }
-
 
 void ProjScene::init() {
 	setAllAmbient();
 
 	currentPlayer = 'b';
+	toMove = false;
+	hasMoved = false;
 
 	theBoard = Board(5);
 	sck.socketConnect();
@@ -197,7 +200,12 @@ void ProjScene::addPieceValue(float valueIn) {
 
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(value,currentPlayer),oldX,oldY));
 
-	moves.push_back(theBoard);
+	if(theBoard != moves[moves.size()-1]) {			
+		hasMoved = false;
+
+		if(currentPlayer == 'b') currentPlayer = 'w';
+		else currentPlayer = 'b';
+	}
 }
 
 void ProjScene::updateLightState() {
@@ -238,7 +246,7 @@ ProjScene::~ProjScene() {
 
 void ProjScene::undo() {
 	if(moves.size() > 1) 
-			moves.pop_back();
+		moves.pop_back();
 
 	theBoard = moves[moves.size()-1];
 }

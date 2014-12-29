@@ -27,7 +27,9 @@ private:
 
 	char currentPlayer;
 
-	int oldX, oldY, newX,newY, toMove, value;
+	int oldX, oldY, newX,newY, value;
+	int movedX, movedY;
+	bool hasMoved, toMove;
 
 	Board theBoard;
 
