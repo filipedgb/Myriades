@@ -180,6 +180,18 @@ bool CtoPlSocket::isFull(Board* b) {
 	return false;
 }
 
+string CtoPlSocket::getWinner(Board* b) {
+	string s = "endOfGame(";
+	s.append(b->toString());
+	s.append(").\n");
+
+	envia(s);
+	char ans[10];
+	recebe(ans);
+
+	return string(ans);
+}
+
 int CtoPlSocket::numPieces(char player, Board* board) {
 	string s = "numPieces(";
 	s+=player;
