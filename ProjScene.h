@@ -81,6 +81,9 @@ public:
 	void setSelectedCoords(int x, int y);
 	void addPieceValue();
 	void undo();
+
+	int newBoardSize;
+	void newGame();
 };
 
 #endif

@@ -11,15 +11,22 @@ void TPinterface::initGUI() {
 
 	//game panel
 	GLUI_Panel* gamePanel = addPanel("Game",1); 
+	
+	GLUI_Rollout* newGameR = addRolloutToPanel(gamePanel,"New Game",0);
+	GLUI_Button* newGame = addButtonToPanel(newGameR,"Start",12);
+	GLUI_Spinner *boardSize = addSpinnerToPanel(newGameR,"Board size: ", GLUI_SPINNER_INT,&(((ProjScene*) scene)->newBoardSize),-1);
+	boardSize->set_int_limits(3,11, GLUI_LIMIT_WRAP);
+	boardSize->set_int_val(5);
 
-	GLUI_Button* addPiece = addButtonToPanel(gamePanel,"addPiece",11);
-	GLUI_Button* movePiece = addButtonToPanel(gamePanel,"movePiece",12);
-	GLUI_Button* undo = addButtonToPanel(gamePanel,"undo",13);
-	GLUI_Button* exitGame = addButtonToPanel(gamePanel,"exitGame",14);
-	segment_spinner = addSpinnerToPanel(gamePanel,"Value: ",GLUI_SPINNER_INT,&(((ProjScene*) scene)->addNewPieceValue),-1);
-	segment_spinner->set_int_limits(0,49, GLUI_LIMIT_WRAP);
-	segment_spinner->set_int_val(0);
+	GLUI_Button* addPiece = addButtonToPanel(gamePanel,"Add Piece",11);
+	GLUI_Spinner *pieceValue = addSpinnerToPanel(gamePanel,"New piece Value: ", GLUI_SPINNER_INT,&(((ProjScene*) scene)->addNewPieceValue),-1);
+	pieceValue->set_int_limits(0,49, GLUI_LIMIT_WRAP);
+	pieceValue->set_int_val(0);
 
+	GLUI_Button* undo = addButtonToPanel(gamePanel,"Undo",13);
+	GLUI_Button* exitGame = addButtonToPanel(gamePanel,"Exit Game",14);
+
+	addSeparatorToPanel(gamePanel);
 	gameOutput = addStaticTextToPanel(gamePanel,"gameOutput");
 
 	addColumn();
@@ -133,7 +140,8 @@ void TPinterface::processGUI(GLUI_Control *ctrl) {
 		((ProjScene*) scene)->addPieceValue();
 		break;
 	case 12:
-		printf("Button movePiece\n");
+		printf("Button new Game\n");
+		((ProjScene*) scene)->newGame();
 		break;
 	case 13:
 		printf("Button undo\n");

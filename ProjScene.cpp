@@ -88,7 +88,7 @@ void ProjScene::setSelectedCoords(int x, int y) {
 
 		theBoard.boardParser(sck.movePiece(&theBoard,oldX,oldY,newX,newY));
 
-		if(theBoard != moves[moves.size()-1]) {
+		if(moves.empty() || theBoard != moves[moves.size()-1]) {
 			toMove = false;
 			hasMoved = true;
 			moves.push_back(theBoard);
@@ -179,12 +179,10 @@ void ProjScene::init() {
 }
 
 void ProjScene::update(unsigned long t) {
-	for(unsigned int i = 0; i < theBoard.getSize(); i++)
-		for(unsigned int k = 0; k <  theBoard.getSize(); k++) {
-			if(theBoard.getPiece(i,k) != NULL && theBoard.getPiece(i,k)->isNew()){
+	for(int i = 0; i < theBoard.getSize(); i++)
+		for(int k = 0; k <  theBoard.getSize(); k++) {
+			if(theBoard.getPiece(i,k) != NULL && theBoard.getPiece(i,k)->isNew())
 				theBoard.getPiece(i,k)->getAnimation()->update(t);
-			}
-
 		}
 }
 
@@ -251,28 +249,24 @@ void ProjScene::addPieceValue() {
 
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(addNewPieceValue,currentPlayer),oldX,oldY));
 
-	if(theBoard != moves[moves.size()-1]) {			
+	if(moves.empty() || theBoard != moves[moves.size()-1]) {			
 		hasMoved = false;
 
 		theBoard.getPiece(oldX,oldY)->setNew(oldY,oldX,theBoard.getSize());
 
-		string out = "Player " + currentPlayer;
-		out.append(": added a piece.\n");
+		string out = "Added a piece.\n";
 
 		if(currentPlayer == 'b') currentPlayer = 'w';
 		else currentPlayer = 'b';
 
-		out.append("Player " + currentPlayer);
-		out.append(": move or add a piece.\n");
+		out.append("Next player: Move or add a piece.\n");
 
 		TPinterface::setOutput(out);
 
 		moves.push_back(theBoard);
 	}
 	else {
-		string out = "Player " + currentPlayer;
-		out.append(": can't add that piece.\n");
-
+		string out = "Can't add that piece.\n";
 		TPinterface::setOutput(out);
 	}
 }
@@ -318,4 +312,12 @@ void ProjScene::undo() {
 		moves.pop_back();
 
 	theBoard = moves[moves.size()-1];
+}
+
+void ProjScene::newGame() {
+	theBoard = Board(this->newBoardSize);
+	theBoard.boardParser(sck.initBoard(this->newBoardSize)); //Socket
+
+	if(moves.size())
+		moves.clear();
 }
