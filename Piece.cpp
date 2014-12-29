@@ -17,7 +17,9 @@ Piece::Piece(int number, char color) {
 	this->number = number;
 	this->piece = new Cylinder(0.7,0.7,0.2,30,30);
 	this->newPiece = false;
-	this->addingPiece = new Linear("lol",2);
+	this->isMoving1 = false;
+	this->addingPiece = new Linear("adding piece",2);
+	this->movingPiece = new Linear("moving piece",2);
 
 	setAppearance();
 }
@@ -63,4 +65,10 @@ void Piece::setNew(int x, int y, int size) {
 	addingPiece->addControlPoint(-3,3,size+1);
 	addingPiece->addControlPoint(2*x,3,2*y+2);
 	addingPiece->addControlPoint(2*x,0,2*y+2);
+}
+
+void Piece::setMoving(int oldx, int oldy, int newx, int newy, int size) {
+	isMoving1 = true;
+	movingPiece->addControlPoint(2*oldy, 0, 2*oldx+2);
+	movingPiece->addControlPoint(2*newy, 0, 2*newx+2);
 }

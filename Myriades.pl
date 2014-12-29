@@ -1105,3 +1105,15 @@ parse_input(addPiece([Color,N],X,Y,Board),Answer):-
 
 parse_input(movePiece(OldX,OldY,NewX,NewY,Board),Answer):-
 	movePiece(OldX,OldY,NewX,NewY,Board,Answer),!; Answer = Board.
+
+parse_input(isFull(Board),Answer):-
+	isFull(Board), Answer = 1; Answer = 0.
+
+parse_input(adjacentes(X,Y,Board),Answer):-
+	adjacentes(X,Y,Board,Answer). /*sometimes it doesnt work*/
+
+parse_input(addGray(R,C,B),Answer):-
+	changePiece(R,C,B,Answer).
+
+parse_input(numPieces(Player,Board),Answer):-
+	numPieces(Player,Board,Answer).

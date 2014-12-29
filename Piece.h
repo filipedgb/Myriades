@@ -14,8 +14,10 @@ class Piece: public Primitive {
 	CGFtexture* text;
 
 	Linear* addingPiece;
+	Linear* movingPiece;
 
 	bool newPiece;
+	bool isMoving1;
 
 public:
 	Piece(int number, char color);
@@ -37,13 +39,18 @@ public:
 		return !(*this == p);
 	}
 
-	Linear* getAnimation() {return addingPiece;}
+	Linear* getAddingAnimation() {return addingPiece;}
+	Linear* getMovingAnimation() {return movingPiece;}
 
 	bool isNew() {return newPiece;}
+	bool isMoving() {return isMoving1;}
 
 	void setOld() {newPiece = false;}
 
 	void setNew(int x, int y, int size);
+	void setMoving(int oldx, int oldy, int newx, int newy, int size);
+
+	void setMoving(bool t) { isMoving1 = t;}
 };
 
 #endif
