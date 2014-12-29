@@ -1,6 +1,5 @@
 #include "Board.h"
 
-
 GLfloat ambB[4] = {0.2,0.2,0.2,1};
 GLfloat ambW[4] = {0.5,0.5,0.5,1};
 GLfloat ambG[4] = {0.1,0.1,0.1,1};
@@ -13,43 +12,34 @@ GLfloat black[4] = {0,0,0,1};
 GLfloat white[4] = {1,1,1,0};
 GLfloat grey[4] = {0.8,0.8,0.8,1};
 
-
 Board::Board() {
 	this->size = 5;
+	setPiecesAppearances();
 	setAppearance(boardApp);
 }
 
 Board::Board(int s) {
 	this->size = s;
-
-	whiteApp = new CGFappearance(ambW,white,specW,120);
-	blackApp =  new CGFappearance(ambB,black,specB,120);
-
-	blackPiece = new Piece(-1,'b');
-	whitePiece = new Piece(-1,'w');
-
-
-	woodTex = new CGFtexture("woodBoard.jpg");
-
+	setPiecesAppearances();
 	setAppearance(boardApp);
-
-
 }
 
 Board::Board(vector<vector<Piece*>> boardIn) {
 	board = boardIn;
 	size = boardIn.size();
 
+	setPiecesAppearances();
+	setAppearance(boardApp);
+}
 
+void Board::setPiecesAppearances() {
+	blackPiece = new Piece(-1,'b');
+	whitePiece = new Piece(-1,'w');
 
 	whiteApp = new CGFappearance(ambW,white,specW,120);
 	blackApp =  new CGFappearance(ambB,black,specB,120);
 
 	woodTex = new CGFtexture("woodBoard.jpg");
-
-	setAppearance(boardApp);
-
-
 }
 
 void Board::setAppearance(CGFappearance* a) {
@@ -71,63 +61,50 @@ void Board::setTexture(char c) {
 	}
 }
 
-
-
 int Board::getPieceNumber(int row, int col) { 
-	if(board[row][col] != NULL) { 
+	if(board[row][col] != NULL)
 		return board[row][col]->getNumber();
-	} 
-	else { 
-		return -1;
-	}
+	else return -1;
 }
 
 char Board::getPieceColor(int row, int col) {
-	if(board[row][col] != NULL ) { 
+	if(board[row][col] != NULL )
 		return board[row][col]->getColor();
-	} 
-	else { 
-		return 'a';
-	}
-
+	else return 'a';
 }
-
 
 void Board::drawBoxPiece() { 
 	glPushMatrix();
 
-			glPushMatrix();
-				glTranslatef(-3,2.25,size+1);
-				glRotatef(90,1,0,0);
-				whitePiece->draw(1,1);
-			glPopMatrix();
-			
-			glTranslatef(-3,2.25,size-1);
-			glRotatef(90,1,0,0);
-			
-			blackPiece->draw(1,1);
+	glPushMatrix();
+	glTranslatef(-3,2.25,size+1);
+	glRotatef(90,1,0,0);
+	whitePiece->draw(1,1);
+	glPopMatrix();
 
-		glPopMatrix();
+	glTranslatef(-3,2.25,size-1);
+	glRotatef(90,1,0,0);
 
+	blackPiece->draw(1,1);
+
+	glPopMatrix();
 }
 
 void Board::draw() { 
 	glPushMatrix();
 
+	glPushMatrix();
+	drawBase();
+	setAppearance(boardApp);
+	drawSolidBase();
+	glTranslatef(-2,0.25,size);
+	glRotatef(90,0,1,0);
+	drawBox();
+	//glTranslatef(+1.25,2,-1.3);
+	//glRotatef(90,1,0,0);
+	glPopMatrix();
 
-		glPushMatrix();
-			drawBase();
-			setAppearance(boardApp);
-			drawSolidBase();
-			glTranslatef(-2,0.25,size);
-			glRotatef(90,0,1,0);
-			drawBox();
-			glTranslatef(+1.25,2,-1.3);
-			glRotatef(90,1,0,0);
-		glPopMatrix();
-
-		drawBoxPiece();
-
+	drawBoxPiece();
 
 	glPopMatrix();
 
@@ -148,7 +125,7 @@ void Board::draw() {
 
 				glRasterPos3f(row-0.5, col-0.5, -2);
 
-				glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, '0'+getPieceNumber(row,col));
+				glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, getPieceNumber(row,col));
 
 				glPopMatrix();
 			}
@@ -156,7 +133,6 @@ void Board::draw() {
 		}
 	}
 }
-
 
 void Board::drawSolidBase() {
 	Primitive* cube = new Cube();
@@ -169,15 +145,12 @@ void Board::drawSolidBase() {
 	glPopMatrix();
 }
 
-
 void Board::drawBase() {
-	char lastRow ;
 	char lastCol;
 
 	glPushName(-1);
 
 	Primitive* temp = new Rectangle(0,0,2,2);
-
 
 	for(int row = 0; row < size; row++) {
 		glPushMatrix();
@@ -194,7 +167,6 @@ void Board::drawBase() {
 			glTranslatef(0,0.5,2);
 
 			glRotatef(-90,1,0,0);
-
 
 			if(row%2 == 0) {
 				if(col == 0) {
@@ -227,7 +199,6 @@ void Board::drawBase() {
 					this->boardApp->apply();
 					lastCol = 'b';
 				}
-
 			}
 
 			temp->draw(1,1);
