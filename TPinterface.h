@@ -4,8 +4,6 @@
 #include "CGFinterface.h"
 
 class TPinterface: public CGFinterface {
-	GLUI_Spinner *segment_spinner;
-	
 public:
 	TPinterface();
 
