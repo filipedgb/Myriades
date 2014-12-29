@@ -19,7 +19,10 @@ public:
 	string initBoard(int size);
 	string addPiece(Board* board, Piece* p, int posX, int posY);
 	string movePiece(Board* board, int posX, int posY, int newPx, int newPy);
-
+	string addGray(Board* board, int newPx, int newPy);
+	int numberOfAdjacentes(int x, int y, Board* board);
+	int numPieces(char player, Board* board);
+	bool isFull(Board* b);
 };
 
 #endif

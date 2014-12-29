@@ -82,6 +82,8 @@ public:
 	void addPieceValue();
 	void undo();
 
+	bool changePiece();
+
 	int newBoardSize;
 	void newGame();
 };
