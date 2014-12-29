@@ -117,6 +117,7 @@ void Board::draw() {
 		for(int col = 0; col < size; col++) {
 			if(board[row][col] != NULL) {
 				glPushMatrix();
+				board[row][col]->setTexture(this->pieceText);
 
 				if(board[row][col]->isNew()) {
 					if(board[row][col]->getAnimation()->isStopped()) {

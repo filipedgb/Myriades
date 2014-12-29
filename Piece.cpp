@@ -56,3 +56,11 @@ void Piece::draw(float text_s, float text_t) {
 	this->piece->draw(text_s,text_t);
 	glPopMatrix();
 }
+
+void Piece::setNew(int x, int y, int size) {
+	newPiece = true;
+	addingPiece->addControlPoint(-3,2.25,size+1);
+	addingPiece->addControlPoint(-3,3,size+1);
+	addingPiece->addControlPoint(2*x,3,2*y+2);
+	addingPiece->addControlPoint(2*x,0,2*y+2);
+}

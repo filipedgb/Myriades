@@ -86,6 +86,8 @@ void TPinterface::initGUI() {
 	for(unsigned int i=0; i<((ProjScene*)scene)->getCameras().size();i++) {
 		addRadioButtonToGroup(camera, ((ProjScene*)scene)->getCameras()[i]->getId());
 	}
+
+	GLUI_Rotation* rot = addRotation("rotation"); 
 }
 
 void TPinterface::processGUI(GLUI_Control *ctrl) {

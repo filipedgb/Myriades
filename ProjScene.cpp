@@ -250,11 +250,11 @@ void ProjScene::addPieceValue() {
 	cout << "Valor: " << addNewPieceValue << endl;
 
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(addNewPieceValue,currentPlayer),oldX,oldY));
-		theBoard.getPiece(oldX,oldY)->setNew(oldY,oldX,theBoard.getSize());
-
 
 	if(theBoard != moves[moves.size()-1]) {			
 		hasMoved = false;
+
+		theBoard.getPiece(oldX,oldY)->setNew(oldY,oldX,theBoard.getSize());
 
 		string out = "Player " + currentPlayer;
 		out.append(": added a piece.\n");
@@ -264,6 +264,14 @@ void ProjScene::addPieceValue() {
 
 		out.append("Player " + currentPlayer);
 		out.append(": move or add a piece.\n");
+
+		TPinterface::setOutput(out);
+
+		moves.push_back(theBoard);
+	}
+	else {
+		string out = "Player " + currentPlayer;
+		out.append(": can't add that piece.\n");
 
 		TPinterface::setOutput(out);
 	}
