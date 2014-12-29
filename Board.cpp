@@ -113,7 +113,8 @@ void Board::draw() {
 
 	glPopMatrix();
 
-	for(int row = 0; row < size; row++) {
+	glPushMatrix();
+	for(int row = 0; row < size; row++)
 		for(int col = 0; col < size; col++) {
 			if(board[row][col] != NULL) {
 				glPushMatrix();
@@ -137,18 +138,13 @@ void Board::draw() {
 				}
 
 				board[row][col]->draw(1,1);
-
 				glPopMatrix();
 
-				glRasterPos3f(row-0.5, col-0.5, -2);
-
-				glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, getPieceNumber(row,col));
-
-				glPopMatrix();
+				//glRasterPos3f(row*2 - 1, col*2 - 1, 2);
+				//glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, '0'+getPieceNumber(row,col));	
 			}
-			glPopMatrix();
 		}
-	}
+		glPopMatrix();
 }
 
 void Board::drawSolidBase() {
@@ -237,6 +233,15 @@ void Board::drawBox() {
 	cube->draw();
 	glPopMatrix();
 
+	//top
+	glPushMatrix();
+	if(currentPlayer == 'b') glTranslated(-1,0,0);
+	else glTranslated(1,0,0);
+	glTranslated(0,2,0);
+	glScaled(1.6,0.5,1.6);
+	cube->draw();
+	glPopMatrix();
+
 	//sides
 	glPushMatrix();
 	glTranslated(0,1.25,0);
@@ -261,15 +266,13 @@ void Board::drawBox() {
 	glScaled(1.6,2,0.2);
 
 	//division
-	glPushMatrix();
 	cube->draw();
-	glPopMatrix();
 
 	//up side
 	glPushMatrix();
 	glTranslated(0,0,-9.5);
 	cube->draw();
-	glPopMatrix();
+	glPopMatrix(); 
 
 	//down side
 	glPushMatrix();

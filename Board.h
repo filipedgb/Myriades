@@ -22,6 +22,8 @@ class Board {
 	CGFtexture* boardText;
 	CGFtexture* pieceText;
 
+	char currentPlayer;
+
 public:
 	Board();
 	Board(int s);
@@ -37,6 +39,8 @@ public:
 	void setAppearance(CGFappearance* a);
 	void setTexture(char c);
 	void setTexture(CGFtexture* bt, CGFtexture* pt);
+
+	void setPlayer(char c) {currentPlayer = c; }
 
 	int getPieceNumber(int row, int col);
 	char getPieceColor(int row, int col);

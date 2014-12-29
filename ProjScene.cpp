@@ -97,7 +97,25 @@ void ProjScene::setSelectedCoords(int x, int y) {
 
 			string out = "Player " + currentPlayer;
 			out.append(": moved a piece.\n");
-			out.append("Now add a piece.\n");
+			TPinterface::setOutput(out);
+
+			int adj = sck.numberOfAdjacentes(movedX,movedY,&theBoard);
+
+			while(adj) {
+				out = "You have ";
+				out.append(to_string(adj));
+				out.append(" adjacent pieces.\n");
+
+				if(changePiece())
+					adj--;
+
+				if(sck.numPieces(currentPlayer,&theBoard) < 2)
+					break;
+
+				TPinterface::setOutput(out);
+			}
+
+			out = "Now add a piece.\n";
 
 			TPinterface::setOutput(out);
 		}
@@ -214,6 +232,7 @@ void ProjScene::display() {
 		this->lights[i]->display();
 	}
 
+	theBoard.setPlayer(currentPlayer);
 	theBoard.draw();
 
 	// Draw axis
@@ -271,6 +290,20 @@ void ProjScene::addPieceValue() {
 	}
 }
 
+bool ProjScene::changePiece() {
+	if(oldX != movedX || oldY!= movedY) {
+		if(theBoard.getPiece(oldX,oldY) != NULL && theBoard.getPiece(oldX,oldY)->getColor() == currentPlayer)
+			theBoard.boardParser(sck.addGray(&theBoard,oldX,oldY));
+
+		if(theBoard != moves[moves.size()-1]) {
+			moves.push_back(theBoard);
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void ProjScene::updateLightState() {
 	if(lightState[0])
 		light0->enable();
@@ -320,4 +353,6 @@ void ProjScene::newGame() {
 
 	if(moves.size())
 		moves.clear();
+
+	currentPlayer = 'b';
 }
