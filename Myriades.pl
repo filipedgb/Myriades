@@ -123,7 +123,7 @@ noPieceBetweenO(R,C,R1,C1,B):-
 /* <- v : esquerda baixo */
 noPieceBetweenO(R,C,R1,C1,B):-
 		R1 > R, C1 < C,
-		R2 is R1+1, C2 is C-1,
+		R2 is R+1, C2 is C-1,
 		isEmpty(R2,C2,B),
 		noPieceBetweenO(R2,C2,R1,C1,B).
 
