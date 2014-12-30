@@ -170,11 +170,11 @@ void ProjScene::init() {
 	moves.push_back(theBoard);
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(1,'b'),0,1));
 	moves.push_back(theBoard);
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(2,'b'),1,0));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(2,'w'),1,0));
 	moves.push_back(theBoard);
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(0,'g'),2,1));
 	moves.push_back(theBoard);
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(3,'b'),1,1));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(10,'b'),1,1));
 	moves.push_back(theBoard);
 
 	setUpdatePeriod(50);
