@@ -108,11 +108,11 @@ void ProjScene::setSelectedCoords(int x, int y) {
 				out.append(to_string(adj));
 				out.append(" adjacent pieces.\n");
 
-				if(changePiece())
-					adj--;
-
-				if(sck.numPieces(currentPlayer,&theBoard) < 2)
+				if(sck.numPieces(currentPlayer,&theBoard) < 2)	//cant change piece that moved
 					break;
+
+				//if(changePiece())
+					adj--;
 
 				TPinterface::setOutput(out);
 			}
@@ -134,9 +134,22 @@ void ProjScene::setSelectedCoords(int x, int y) {
 		oldX = x;
 		oldY = y;
 
-		if(theBoard.getPieceColor(x,y) == currentPlayer) {
-			toMove = true;
+		Piece * piece = theBoard.getPiece(x,y);
+		if(piece != NULL) {
+			string pout = "Selected ";
+			if(piece->getColor() == 'b') pout.append("black ");
+			else if(piece->getColor() == 'w') pout.append("white ");
+			else if(piece->getColor() == 'g') pout.append("gray ");
+			pout.append("piece. Value = ");
+			pout.append(to_string(piece->getNumber()));
+
+			TPinterface::setCurrentPiece(pout);
+
+			if(piece->getColor() == currentPlayer) {
+				toMove = true;
+			}
 		}
+		else TPinterface::setCurrentPiece("No piece selected");
 	}
 }
 
@@ -287,7 +300,7 @@ void ProjScene::addPieceValue() {
 		moves.push_back(theBoard);
 
 		if(sck.isFull(&theBoard)) {
-			TPinterface::setOutput("Winner is: " + sck.getWinner(&theBoard));
+			showWinner(sck.getWinner(&theBoard));
 			return;
 		}
 
@@ -365,4 +378,8 @@ void ProjScene::newGame() {
 		moves.clear();
 
 	currentPlayer = 'b';
+}
+
+void ProjScene::showWinner(string p) {
+	TPinterface::setOutput("Winner is: " + p);
 }

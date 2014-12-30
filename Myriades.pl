@@ -339,10 +339,12 @@ adjAuxW(P,[H|T],Acc,N):-
 		isBlack(H),
 		getValue(P,V1),
 		getValue(H,V2),
+		(
 		V1 > V2,
-		Acc1 is Acc+1,
-		adjAuxW(P,T,Acc1,N);
-		adjAuxW(P,T,Acc,N).
+			Acc1 is Acc+1,
+			adjAuxW(P,T,Acc1,N);
+		adjAuxW(P,T,Acc,N)
+		).
 
 /* adjacentes que sao brancas*/
 adjAuxB(_,[],N,N).
@@ -350,10 +352,12 @@ adjAuxB(P,[H|T],Acc,N):-
 		isWhite(H),
 		getValue(P,V1),
 		getValue(H,V2),
+		(
 		V1 > V2,
-		Acc1 is Acc+1,
-		adjAuxB(P,T,Acc1,N);
-		adjAuxB(P,T,Acc,N).
+			Acc1 is Acc+1,
+			adjAuxB(P,T,Acc1,N);
+		adjAuxB(P,T,Acc,N)
+		).
 
 /*PIECE FUNCS*/
 color(b). /*black*/
@@ -1122,7 +1126,7 @@ parse_input(endOfGame(Board),Answer):-
 	winner(Board,Answer).
 
 parse_input(adjacentes(X,Y,Board),Answer):-
-	adjacentes(X,Y,Board,Answer).
+	adjacentes(X,Y,Board,Answer),!.
 
 parse_input(addGray(R,C,B),Answer):-
 	changePiece(R,C,B,Answer).

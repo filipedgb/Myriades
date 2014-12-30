@@ -6,6 +6,7 @@
 TPinterface::TPinterface() {}
 
 GLUI_StaticText* TPinterface::gameOutput = new GLUI_StaticText();
+GLUI_StaticText* TPinterface::currentPiece = new GLUI_StaticText();
 
 void TPinterface::initGUI() {
 
@@ -27,7 +28,11 @@ void TPinterface::initGUI() {
 	GLUI_Button* exitGame = addButtonToPanel(gamePanel,"Exit Game",14);
 
 	addSeparatorToPanel(gamePanel);
-	gameOutput = addStaticTextToPanel(gamePanel,"gameOutput");
+	GLUI_Panel* output = addPanelToPanel(gamePanel,"Output",1); 
+	gameOutput = addStaticTextToPanel(output,"gameOutput");
+
+	addSeparatorToPanel(output);
+	currentPiece = addStaticTextToPanel(output,"currentPiece");
 
 	addColumn();
 
