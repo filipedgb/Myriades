@@ -1,17 +1,17 @@
-#ifndef CAMERA
-#define CAMERA
+#ifndef CAMERA_H
+#define CAMERA_H
 
 #include "CGFcamera.h"
 
 class Camera : public CGFcamera {
 protected:
 	char* id;
-	float near,far;
+	float near1,far1;
 public:
-	Camera(char* id, float near, float far) {
+	Camera(char* id, float near1, float far1) {
 		this->id = id;
-		this->near = near;
-		this->far = far;
+		this->near1 = near1;
+		this->far1 = far1;
 	}
 
 	char* getId() {

@@ -91,19 +91,17 @@ string CtoPlSocket::addPiece(Board* board, Piece* p, int posX, int posY) {
 	s.append(").\n");
 
 	envia(s);
-	char ans[512];
+	char ans[1024];
 	recebe(ans);
 
 	return string(ans);
 }
 
-string CtoPlSocket::initBoard(int size, int opp) {
+string CtoPlSocket::initBoard(int size) {
 	if(size > 10) return NULL;
 
 	string s ="initBoard(";
 	s.append(to_string(size));
-	s.append(",");
-	s.append(to_string(opp));
 	s.append(").\n");
 
 	envia(s);
@@ -127,7 +125,7 @@ string CtoPlSocket::movePiece(Board* board, int posX, int posY, int newPx, int n
 	s.append(").\n");
 
 	envia(s);
-	char ans[512];
+	char ans[1024];
 	recebe(ans);
 
 	return string(ans);
@@ -143,7 +141,7 @@ string CtoPlSocket::addGray(Board* board, int newPx, int newPy) {
 	s.append(").\n");
 
 	envia(s);
-	char ans[512];
+	char ans[1024];
 	recebe(ans);
 
 	return string(ans);
@@ -162,7 +160,7 @@ int CtoPlSocket::numberOfAdjacentes(int x, int y, Board* board) {
 	char ans[10], ans1[10];
 	recebe(ans);
 
-	strncpy(ans1,ans,strlen(ans)-1);
+	strncpy_s(ans1,ans,strlen(ans)-1);
 
 	return atoi(ans1);
 }
@@ -205,7 +203,37 @@ int CtoPlSocket::numPieces(char player, Board* board) {
 	char ans[10], ans1[10];
 	recebe(ans);
 
-	strncpy(ans1,ans,strlen(ans)-1);
+	strncpy_s(ans1,ans,strlen(ans)-1);
 
 	return atoi(ans1);
+}
+
+string CtoPlSocket::pcAdd(Board *b, char player) {
+	string s ="pcAdd(";
+	s.append(b->toString());
+	s.append(",");
+	s+=player;
+	s.append(").\n");
+
+	envia(s);
+	char ans[1024];
+	recebe(ans);
+
+	return string(ans);
+}
+
+string CtoPlSocket::pcMove(Board *b, char player, int lvl) {
+	string s ="pcMove(";
+	s.append(b->toString());
+	s.append(",");
+	s.append(to_string(lvl));
+	s.append(",");
+	s+=player;
+	s.append(").\n");
+
+	envia(s);
+	char ans[1024];
+	recebe(ans);
+
+	return string(ans);
 }

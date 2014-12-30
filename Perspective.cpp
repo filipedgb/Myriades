@@ -20,7 +20,7 @@ void Perspective::updateProjectionMatrix(int width, int height)
 	float aspect= (float) width / (float) height;
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(angle,aspect,near,far);
+	gluPerspective(angle,aspect,near1,far1);
 	glMatrixMode(GL_MODELVIEW);
 }
 

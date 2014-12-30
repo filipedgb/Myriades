@@ -1,5 +1,5 @@
-#include "ProjScene.h"
 #include "TPinterface.h"
+#include "ProjScene.h"
 
 GLfloat ambientLight[4] = {0.8, 0.8, 0.8, 1};
 GLfloat background[4] = {0, 0, 0, 0.8};
@@ -159,11 +159,12 @@ void ProjScene::init() {
 	toMove = false;
 	hasMoved = false;
 	opponent = 0;
+	level = 0;
 
 	theBoard = Board(3);
 	sck.socketConnect();
-	theBoard.boardParser(sck.initBoard(3,opponent)); //Socket
-	
+	theBoard.boardParser(sck.initBoard(3)); //Socket
+
 	moves.push_back(theBoard);
 
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(0,'w'),0,0));
@@ -296,15 +297,32 @@ void ProjScene::addPieceValue() {
 		string out = "Added a piece.\n";
 		TPinterface::setOutput(out);
 
-		if(currentPlayer == 'b') currentPlayer = 'w';
-		else currentPlayer = 'b';
+		changeCurrentPlayer();
 
 		lastMove = theBoard;
 		moves.push_back(theBoard);
 
 		if(sck.isFull(&theBoard)) {
-			showWinner(sck.getWinner(&theBoard));
+			showWinner();
 			return;
+		}
+		else if(opponent == 1) {
+			theBoard.boardParser(sck.pcMove(&theBoard,currentPlayer,level));
+			if(theBoard != moves[moves.size()-1])
+				moves.push_back(theBoard);
+
+			theBoard.boardParser(sck.pcAdd(&theBoard,currentPlayer));
+			moves.push_back(theBoard);
+
+			if(sck.isFull(&theBoard)) {
+				showWinner();
+				return;
+			}
+
+			changeCurrentPlayer();
+
+			out = "Pc added a piece.\n";
+			TPinterface::setOutput(out);
 		}
 
 		out.append("Move or add a piece.\n");
@@ -383,7 +401,7 @@ void ProjScene::undo(int x) {
 
 void ProjScene::newGame() {
 	theBoard = Board(this->newBoardSize);
-	theBoard.boardParser(sck.initBoard(this->newBoardSize, this->opponent)); //Socket
+	theBoard.boardParser(sck.initBoard(this->newBoardSize)); //Socket
 
 	if(moves.size())
 		moves.clear();
@@ -392,8 +410,34 @@ void ProjScene::newGame() {
 
 	hasMoved = false;
 	toMove = false;
+
+	moves.push_back(theBoard);
+
+	if(opponent == 2) pcVSpc();
 }
 
-void ProjScene::showWinner(string p) {
+void ProjScene::pcVSpc() {
+	while(!sck.isFull(&theBoard)) {
+		theBoard.boardParser(sck.pcMove(&theBoard,currentPlayer,level));
+
+		if(theBoard != moves[moves.size()-1])
+			moves.push_back(theBoard);
+
+		theBoard.boardParser(sck.pcAdd(&theBoard,currentPlayer));
+		moves.push_back(theBoard);
+
+		changeCurrentPlayer();
+	}
+
+	showWinner();
+}
+
+void ProjScene::showWinner() {
+	string p = sck.getWinner(&theBoard);
 	TPinterface::setOutput("Winner is: " + p);
+}
+
+void ProjScene::changeCurrentPlayer() {
+	if(currentPlayer == 'b') currentPlayer = 'w';
+	else currentPlayer = 'b';
 }

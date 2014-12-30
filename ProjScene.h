@@ -17,6 +17,7 @@
 #include "Board.h"
 #include "Socket.h"
 
+
 class ProjScene : public CGFscene {
 private:
 	CGFlight* light0;
@@ -86,8 +87,12 @@ public:
 
 	int newBoardSize;
 	int opponent; //0-h vs h, 1-h vs pc, 2-pc vs pc
+	int level; //0- easy, 1-medium, 2-hard
 	void newGame();
-	void showWinner(string p);
+	void showWinner();
+	void pcVSpc();
+
+	void changeCurrentPlayer();
 };
 
 #endif

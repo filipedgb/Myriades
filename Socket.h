@@ -16,7 +16,7 @@ public:
 	void recebe(char* ans);
 	void quit();
 
-	string initBoard(int size, int opp);
+	string initBoard(int size);
 	string addPiece(Board* board, Piece* p, int posX, int posY);
 	string movePiece(Board* board, int posX, int posY, int newPx, int newPy);
 	string addGray(Board* board, int newPx, int newPy);
@@ -24,6 +24,9 @@ public:
 	int numPieces(char player, Board* board);
 	bool isFull(Board* b);
 	string getWinner(Board* b);
+
+	string pcAdd(Board *b, char player);
+	string pcMove(Board *b, char player, int lvl);
 };
 
 #endif

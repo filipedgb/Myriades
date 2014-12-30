@@ -13,7 +13,7 @@ void Ortho::updateProjectionMatrix(int width, int height)
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(left, right, bottom, top, near, far);
+	glOrtho(left, right, bottom, top, near1, far1);
 	glMatrixMode(GL_MODELVIEW);
 }
 

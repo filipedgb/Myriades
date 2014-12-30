@@ -1110,8 +1110,22 @@ serverLoop(Stream) :-
 	
 parse_input(quit, ok-bye) :- !.
 		
-parse_input(initBoard(Size,Opponent),Answer):-
+parse_input(initBoard(Size),Answer):-
 	initBoard(Answer,Size).
+
+parse_input(pcAdd(B,CorJogador),B2):-
+	pcAdd(B,B2,CorJogador),!.
+
+parse_input(pcMove(B,Level,CorJogador),B2):-
+	(existsPiecesInBoard(B,CorJogador), !,
+		(
+			Level = 1, !, B2 = B;
+			Level = 2, !, (random(0,100,R), (R < 50, !, pcMove(B,B2,CorJogador), !; 
+										B2 = B));
+			Level = 3, !, pcMove(B,B2,CorJogador), !
+		)
+	);
+	B2 = B.
 
 parse_input(addPiece([Color,N],X,Y,Board),Answer):-
 	addPiece([Color,N],X,Y,Board,Answer),!; Answer = Board.
@@ -1133,3 +1147,7 @@ parse_input(addGray(R,C,B),Answer):-
 
 parse_input(numPieces(Player,Board),Answer):-
 	numPieces(Player,Board,Answer).
+
+
+/*----------------------- AUXILIAR FUNCTIONS ------------------------*/
+/*------------------------------ PC vs PC ----------------------------------------------------------------------------------------------------------*/
