@@ -9,7 +9,7 @@ class Perspective : public Camera {
 	float pos[3], target[3];
 	float upVector[3];
 public:
-	Perspective(char* id, float near, float far,float angle, float* pos, float* target);
+	Perspective(char* id, float near1, float far1,float angle, float* pos, float* target);
 	float* getPos() {return &pos[0];}
 	float* getTarget() {return &target[0];}
 

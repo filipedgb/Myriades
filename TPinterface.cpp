@@ -24,6 +24,13 @@ void TPinterface::initGUI() {
 	addRadioButtonToGroup(opponent,"Human vs PC");
 	addRadioButtonToGroup(opponent,"PC vs PC");
 
+	addSeparatorToPanel(newGameR);
+
+	GLUI_RadioGroup* level = addRadioGroupToPanel(newGameR,&(((ProjScene*)scene)->level));
+	addRadioButtonToGroup(level,"Easy");
+	addRadioButtonToGroup(level,"Medium");
+	addRadioButtonToGroup(level,"Hard");
+
 	GLUI_Button* addPiece = addButtonToPanel(gamePanel,"Add Piece",11);
 	GLUI_Spinner *pieceValue = addSpinnerToPanel(gamePanel,"New piece Value: ", GLUI_SPINNER_INT,&(((ProjScene*) scene)->addNewPieceValue),-1);
 	pieceValue->set_int_limits(0,49, GLUI_LIMIT_WRAP);
