@@ -19,6 +19,11 @@ void TPinterface::initGUI() {
 	boardSize->set_int_limits(3,11, GLUI_LIMIT_WRAP);
 	boardSize->set_int_val(5);
 
+	GLUI_RadioGroup* opponent = addRadioGroupToPanel(newGameR,&(((ProjScene*)scene)->opponent));
+	addRadioButtonToGroup(opponent,"Human vs Human");
+	addRadioButtonToGroup(opponent,"Human vs PC");
+	addRadioButtonToGroup(opponent,"PC vs PC");
+
 	GLUI_Button* addPiece = addButtonToPanel(gamePanel,"Add Piece",11);
 	GLUI_Spinner *pieceValue = addSpinnerToPanel(gamePanel,"New piece Value: ", GLUI_SPINNER_INT,&(((ProjScene*) scene)->addNewPieceValue),-1);
 	pieceValue->set_int_limits(0,49, GLUI_LIMIT_WRAP);

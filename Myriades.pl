@@ -1110,8 +1110,8 @@ serverLoop(Stream) :-
 	
 parse_input(quit, ok-bye) :- !.
 		
-parse_input(initBoard(Size),Answer):-
-	initBoard(Answer,Size).		
+parse_input(initBoard(Size,Opponent),Answer):-
+	initBoard(Answer,Size).
 
 parse_input(addPiece([Color,N],X,Y,Board),Answer):-
 	addPiece([Color,N],X,Y,Board,Answer),!; Answer = Board.

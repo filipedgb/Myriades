@@ -3,7 +3,6 @@
 
 #include <math.h>
 #include <iostream>
-
 #include "CGFscene.h"
 #include "CGFaxis.h"
 #include "CGFapplication.h"
@@ -86,6 +85,7 @@ public:
 	bool changePiece();
 
 	int newBoardSize;
+	int opponent; //0-h vs h, 1-h vs pc, 2-pc vs pc
 	void newGame();
 	void showWinner(string p);
 };

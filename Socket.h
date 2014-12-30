@@ -16,7 +16,7 @@ public:
 	void recebe(char* ans);
 	void quit();
 
-	string initBoard(int size);
+	string initBoard(int size, int opp);
 	string addPiece(Board* board, Piece* p, int posX, int posY);
 	string movePiece(Board* board, int posX, int posY, int newPx, int newPy);
 	string addGray(Board* board, int newPx, int newPy);

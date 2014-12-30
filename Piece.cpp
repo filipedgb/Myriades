@@ -19,7 +19,7 @@ Piece::Piece(int number, char color) {
 	this->newPiece = false;
 	this->isMoving1 = false;
 	this->addingPiece = new Linear("adding piece",2);
-	this->movingPiece = new Linear("moving piece",2);
+	this->movingPiece = new Linear("moving piece",5);
 
 	//shader= new Shader(number);
 
@@ -58,6 +58,30 @@ void Piece::setNumber(int n) {
 void Piece::draw(float text_s, float text_t) {
 	glPushMatrix();
 	//this->shader->bind();
+	if(color != 'g') {
+		glPushMatrix();
+		if(color == 'b') (new CGFappearance(ambW1,specW1,white1,120))->apply();
+		else (new CGFappearance(ambB1,specB1,black1,120))->apply();
+
+		int n1 = number/10;
+		int n2 = number%10;
+
+		if(n1 != 0) {
+			glRasterPos3f(-0.1, 0.01, 0);
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,'0'+n1);
+
+			glRasterPos3f(0.1, 0.01, 0);
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,'0'+n2);
+		}
+		else {
+			glRasterPos3f(0, 0.01, 0);
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,'0'+n2);
+		}
+
+
+		glPopMatrix();
+	}
+
 	this->pieceApp->apply();
 	this->piece->draw(text_s,text_t);
 	//this->shader->unbind();
@@ -74,6 +98,7 @@ void Piece::setNew(int x, int y, int size) {
 
 void Piece::setMoving(int oldx, int oldy, int newx, int newy, int size) {
 	isMoving1 = true;
-	movingPiece->addControlPoint(2*oldy, 0, 2*oldx+2);
-	movingPiece->addControlPoint(2*newy, 0, 2*newx+2);
+	this->movingPiece->reset();
+	movingPiece->addControlPoint(2*oldy, 0, 2*oldx);
+	movingPiece->addControlPoint(2*newy, 0, 2*newx);
 }

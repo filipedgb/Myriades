@@ -122,8 +122,7 @@ void ProjScene::setSelectedCoords(int x, int y) {
 			TPinterface::setOutput(out);
 		}
 		else {
-			string out = "Player " + currentPlayer;
-			out.append(": can't make that move.\n");
+			string out = "Can't make that move.\n";
 
 			TPinterface::setOutput(out);
 		}
@@ -136,10 +135,10 @@ void ProjScene::setSelectedCoords(int x, int y) {
 
 		Piece * piece = theBoard.getPiece(x,y);
 		if(piece != NULL) {
-			string pout = "Selected ";
-			if(piece->getColor() == 'b') pout.append("black ");
-			else if(piece->getColor() == 'w') pout.append("white ");
-			else if(piece->getColor() == 'g') pout.append("gray ");
+			string pout;
+			if(piece->getColor() == 'b') pout= "Black ";
+			else if(piece->getColor() == 'w') pout = "White ";
+			else if(piece->getColor() == 'g') pout = "Gray ";
 			pout.append("piece. Value = ");
 			pout.append(to_string(piece->getNumber()));
 
@@ -159,10 +158,11 @@ void ProjScene::init() {
 	currentPlayer = 'b';
 	toMove = false;
 	hasMoved = false;
+	opponent = 0;
 
 	theBoard = Board(3);
 	sck.socketConnect();
-	theBoard.boardParser(sck.initBoard(3)); //Socket
+	theBoard.boardParser(sck.initBoard(3,opponent)); //Socket
 	
 	moves.push_back(theBoard);
 
@@ -373,18 +373,25 @@ void ProjScene::undo(int x) {
 
 		theBoard = moves[moves.size()-1];
 	}
-	else theBoard = lastMove;
+	else {
+		hasMoved = false;
+		toMove = false;
+		theBoard = lastMove;
+	}
 
 }
 
 void ProjScene::newGame() {
 	theBoard = Board(this->newBoardSize);
-	theBoard.boardParser(sck.initBoard(this->newBoardSize)); //Socket
+	theBoard.boardParser(sck.initBoard(this->newBoardSize, this->opponent)); //Socket
 
 	if(moves.size())
 		moves.clear();
 
 	currentPlayer = 'b';
+
+	hasMoved = false;
+	toMove = false;
 }
 
 void ProjScene::showWinner(string p) {
