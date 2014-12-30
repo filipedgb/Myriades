@@ -25,7 +25,8 @@ void TPinterface::initGUI() {
 	pieceValue->set_int_val(0);
 
 	GLUI_Button* undo = addButtonToPanel(gamePanel,"Undo",13);
-	GLUI_Button* exitGame = addButtonToPanel(gamePanel,"Exit Game",14);
+	GLUI_Button* undo1 = addButtonToPanel(gamePanel,"Undo player move",14);
+	GLUI_Button* exitGame = addButtonToPanel(gamePanel,"Exit Game",15);
 
 	addSeparatorToPanel(gamePanel);
 	GLUI_Panel* output = addPanelToPanel(gamePanel,"Output",1); 
@@ -56,7 +57,7 @@ void TPinterface::initGUI() {
 	addSeparatorToPanel(panel);
 
 	//add ambient
-	GLUI_Listbox *ambient = addListboxToPanel(panel,"Ambient ",&(((ProjScene*) scene)->ambientState),15);
+	GLUI_Listbox *ambient = addListboxToPanel(panel,"Ambient ",&(((ProjScene*) scene)->ambientState),16);
 	for(unsigned int i = 0; i < ((ProjScene*) scene)->getAmbientID().size(); i++) {
 		ambient->add_item(i, ((ProjScene*) scene)->getAmbientID()[i].c_str());
 	}
@@ -150,14 +151,18 @@ void TPinterface::processGUI(GLUI_Control *ctrl) {
 		break;
 	case 13:
 		printf("Button undo\n");
-		((ProjScene*) scene)->undo();
+		((ProjScene*) scene)->undo(1);
 		break;
 	case 14:
+		printf("Button player undo\n");
+		((ProjScene*) scene)->undo(0);
+		break;
+	case 15:
 		printf("Button exit game\n");
 		((ProjScene*) scene)->getSck()->quit();
 		exit(0);
 		break;
-	case 15:
+	case 16:
 		printf("Change ambient\n");
 		((ProjScene*) scene)->changeTextures();
 		break;
