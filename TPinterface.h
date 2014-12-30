@@ -15,9 +15,14 @@ public:
 	void processHits(GLint hits, GLuint buffer[]); 
 
 	static GLUI_StaticText* gameOutput;
+	static GLUI_StaticText* currentPiece;
 
 	static void setOutput(std::string output) {
 		gameOutput->set_text(output.c_str());
+	}
+
+	static void setCurrentPiece(std::string output) {
+		currentPiece->set_text(output.c_str());
 	}
 };
 

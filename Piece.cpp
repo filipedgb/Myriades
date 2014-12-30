@@ -21,6 +21,8 @@ Piece::Piece(int number, char color) {
 	this->addingPiece = new Linear("adding piece",2);
 	this->movingPiece = new Linear("moving piece",2);
 
+	//shader= new Shader(number);
+
 	setAppearance();
 }
 
@@ -46,6 +48,7 @@ void Piece::setTexture(CGFtexture* t) {
 	this->text = t;
 	setAppearance();
 	this->pieceApp->setTexture(text);
+	//this->shader->setTexture(t);
 }
 
 void Piece::setNumber(int n) {
@@ -54,8 +57,10 @@ void Piece::setNumber(int n) {
 
 void Piece::draw(float text_s, float text_t) {
 	glPushMatrix();
+	//this->shader->bind();
 	this->pieceApp->apply();
 	this->piece->draw(text_s,text_t);
+	//this->shader->unbind();
 	glPopMatrix();
 }
 

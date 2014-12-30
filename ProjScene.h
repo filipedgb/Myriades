@@ -86,6 +86,7 @@ public:
 
 	int newBoardSize;
 	void newGame();
+	void showWinner(string p);
 };
 
 #endif
