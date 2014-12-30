@@ -34,6 +34,7 @@ private:
 	bool hasMoved, toMove;
 
 	Board theBoard;
+	Board lastMove;
 
 	vector<Board> moves;
 	CtoPlSocket sck;
@@ -80,7 +81,7 @@ public:
 	int addNewPieceValue;
 	void setSelectedCoords(int x, int y);
 	void addPieceValue();
-	void undo();
+	void undo(int x);
 
 	bool changePiece();
 

@@ -112,7 +112,7 @@ void ProjScene::setSelectedCoords(int x, int y) {
 					break;
 
 				//if(changePiece())
-					adj--;
+				adj--;
 
 				TPinterface::setOutput(out);
 			}
@@ -163,7 +163,7 @@ void ProjScene::init() {
 	theBoard = Board(3);
 	sck.socketConnect();
 	theBoard.boardParser(sck.initBoard(3)); //Socket
-
+	
 	moves.push_back(theBoard);
 
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(0,'w'),0,0));
@@ -176,6 +176,8 @@ void ProjScene::init() {
 	moves.push_back(theBoard);
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(10,'b'),1,1));
 	moves.push_back(theBoard);
+
+	lastMove = theBoard;
 
 	setUpdatePeriod(50);
 
@@ -297,6 +299,7 @@ void ProjScene::addPieceValue() {
 		if(currentPlayer == 'b') currentPlayer = 'w';
 		else currentPlayer = 'b';
 
+		lastMove = theBoard;
 		moves.push_back(theBoard);
 
 		if(sck.isFull(&theBoard)) {
@@ -304,7 +307,7 @@ void ProjScene::addPieceValue() {
 			return;
 		}
 
-		out.append("Next player: Move or add a piece.\n");
+		out.append("Move or add a piece.\n");
 		TPinterface::setOutput(out);
 	}
 	else {
@@ -363,11 +366,15 @@ ProjScene::~ProjScene() {
 		delete(cameras[i]);
 }
 
-void ProjScene::undo() {
-	if(moves.size() > 1) 
-		moves.pop_back();
+void ProjScene::undo(int x) {
+	if(x) {
+		if(moves.size() > 1) 
+			moves.pop_back();
 
-	theBoard = moves[moves.size()-1];
+		theBoard = moves[moves.size()-1];
+	}
+	else theBoard = lastMove;
+
 }
 
 void ProjScene::newGame() {
