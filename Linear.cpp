@@ -68,6 +68,7 @@ void Linear::update(unsigned long t) {
 }
 
 void Linear::draw() {
+	//printf("dx: %f, cp_x: %f, dy: %f, cp_y: %f, dz: %f, cp_z: %f\n", dx,cp_x,dy,cp_y,dz,cp_z);
 	glTranslated(dx+cp_x,cp_y+dy,cp_z+dz);
 	glRotated(direction,0,1,0);
 }

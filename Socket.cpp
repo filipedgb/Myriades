@@ -97,11 +97,13 @@ string CtoPlSocket::addPiece(Board* board, Piece* p, int posX, int posY) {
 	return string(ans);
 }
 
-string CtoPlSocket::initBoard(int size) {
+string CtoPlSocket::initBoard(int size, int opp) {
 	if(size > 10) return NULL;
 
 	string s ="initBoard(";
 	s.append(to_string(size));
+	s.append(",");
+	s.append(to_string(opp));
 	s.append(").\n");
 
 	envia(s);
