@@ -4,7 +4,6 @@
 #include "Cylinder.h"
 #include "CGFappearance.h"
 #include "Linear.h"
-#include "Shader.h"
 
 class Piece: public Primitive {
 	Cylinder* piece;
@@ -17,7 +16,6 @@ class Piece: public Primitive {
 	Linear* addingPiece;
 	Linear* movingPiece;
 
-	Shader* shader;
 
 	bool newPiece;
 	bool isMoving1;

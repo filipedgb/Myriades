@@ -81,8 +81,39 @@ void ProjScene::addNewAmbient(string id, CGFtexture* pieceApp, CGFtexture* board
 	ambients.push_back(ambient);
 }
 
-void ProjScene::setSelectedCoords(int x, int y) { 
-	if(!hasMoved && toMove) { //ja escolheu peca para mover
+void ProjScene::pickingActions(int x, int y) { 
+	if(removes > 0) { 
+		oldX = x;
+		oldY = y;
+		toMove = false;
+		hasMoved = true;
+
+		string out = "You have ";
+		out.append(to_string(removes));
+		out.append(" adjacent pieces.\n");
+
+
+		if(sck.numPieces(currentPlayer,&theBoard) < 2) { //cant change piece that moved
+			removes = 0;
+			return;
+		}
+
+		Piece * piece = theBoard.getPiece(x,y);
+
+		if(piece != NULL) { 
+			printf("Going to remove piece from %d %d\n",oldX,oldY);
+
+			if(changePiece())
+				removes--;
+			TPinterface::setOutput(out);
+
+			printf("numer of removes: %d", removes);
+
+		}
+
+	}
+
+	else if(!hasMoved && toMove) { //ja escolheu peca para mover
 		newX = x;
 		newY = y;
 
@@ -101,23 +132,10 @@ void ProjScene::setSelectedCoords(int x, int y) {
 			out.append(": moved a piece.\n");
 			TPinterface::setOutput(out);
 
-			int adj = sck.numberOfAdjacentes(movedX,movedY,&theBoard);
+			removes = sck.numberOfAdjacentes(movedX,movedY,&theBoard);
 
-			while(adj) {
-				out = "You have ";
-				out.append(to_string(adj));
-				out.append(" adjacent pieces.\n");
-
-				if(sck.numPieces(currentPlayer,&theBoard) < 2)	//cant change piece that moved
-					break;
-
-				//if(changePiece())
-				adj--;
-
-				TPinterface::setOutput(out);
-			}
-
-			out = "Now add a piece.\n";
+			if(removes > 0) out = "You must remove a piece now";
+			else out = "Now add a piece.\n";
 
 			TPinterface::setOutput(out);
 		}
@@ -160,10 +178,11 @@ void ProjScene::init() {
 	hasMoved = false;
 	opponent = 0;
 	level = 0;
+	removes = 0;
 
-	theBoard = Board(3);
+	theBoard = Board(10);
 	sck.socketConnect();
-	theBoard.boardParser(sck.initBoard(3)); //Socket
+	theBoard.boardParser(sck.initBoard(10)); //Socket
 
 	moves.push_back(theBoard);
 

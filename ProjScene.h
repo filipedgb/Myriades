@@ -32,6 +32,7 @@ private:
 	int oldX, oldY, newX,newY;
 	int movedX, movedY;
 	bool hasMoved, toMove;
+	int removes;
 
 	Board theBoard;
 	Board lastMove;
@@ -79,7 +80,7 @@ public:
 	void changeTextures();
 
 	int addNewPieceValue;
-	void setSelectedCoords(int x, int y);
+	void pickingActions(int x, int y);
 	void addPieceValue();
 	void undo(int x);
 
