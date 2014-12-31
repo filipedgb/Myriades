@@ -273,7 +273,7 @@ void TPinterface::processHits(GLint hits, GLuint buffer[])
 		// possibly invoking a method on the scene class and passing "selected" and "nselected"
 		printf("Picked ID's: ");
 
-		((ProjScene*)scene)->setSelectedCoords(selected[0],selected[1]);
+		((ProjScene*)scene)->pickingActions(selected[0],selected[1]);
 
 		for (unsigned int i=0; i<nselected; i++) { 
 			printf("%d ",selected[i]);
