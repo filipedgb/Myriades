@@ -23,7 +23,7 @@ Piece::Piece(int number, char color) {
 	this->newPiece = false;
 	this->isMoving1 = false;
 	this->addingPiece = new Linear("adding piece",2);
-	this->movingPiece = new Linear("moving piece",5);
+	this->movingPiece = new Linear("moving piece",2);
 
 	setAppearance();
 }

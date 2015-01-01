@@ -25,8 +25,6 @@ private:
 	vector<Camera*> cameras; 
 	vector<Animation*> animations;
 
-//	vector<Camera*> transitionalCameras;
-
 	Perspective* mainCamera;
 
 	vector<vector<CGFtexture*>> ambients;	//each i is a vector to use in all pieces-board/boardBox
@@ -58,9 +56,7 @@ public:
 	int searchCamera(char* id);
 	int searchAnimation(char* id);
 
-
 	void setTransitionalCameras(vector<vector3d> coordinates);
-
 
 	/** INTERFACE OPTIONS*/
 	int sceneVar;
@@ -79,6 +75,12 @@ public:
 	/* -- CAMERAS -- */
 	int cameraState;
 	void setInitialCamera();	
+
+	float cameraRotation[16];
+	void rotateCamera();
+	float cameraTranslationXY[2];
+	float cameraTranslationZ;
+	void translateCamera();
 
 	/* -- Ambient --*/
 	int ambientState;
@@ -102,6 +104,7 @@ public:
 	void pcVSpc();
 
 	void changeCurrentPlayer();
+	void replay();
 };
 
 #endif
