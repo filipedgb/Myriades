@@ -29,15 +29,15 @@ void ProjScene::updateDrawing() {
 
 /*
 void ProjScene::setTransitionalCameras(vector<vector3d> coordinates) {
-	GLfloat target[3] = {10,0,10};
+GLfloat target[3] = {10,0,10};
 
 
-	for(unsigned int i = 0; i < coordinates.size(); i++) {
-		GLfloat position[3] = {coordinates[i].getX(),coordinates[i].getY(),coordinates[i].getZ()};
-		
-		Perspective* temp = new Perspective("nome",0,0,0,position,target);
-		transitionalCameras.push_back(temp);
-	}
+for(unsigned int i = 0; i < coordinates.size(); i++) {
+GLfloat position[3] = {coordinates[i].getX(),coordinates[i].getY(),coordinates[i].getZ()};
+
+Perspective* temp = new Perspective("nome",0,0,0,position,target);
+transitionalCameras.push_back(temp);
+}
 }
 
 */
@@ -53,15 +53,25 @@ void ProjScene::setAllAmbient() {
 	/* CAMARAS */
 
 
-	mainCamera = new Perspective("p1",0,0,0,p1Pos,p1Tar);;
-//	Perspective* p1 = new Perspective("p1",0,0,0,p1Pos,p1Tar);
-//	transitionalCameras.push_back()
+	mainCamera = new Perspective("Sided Camera",0,0,0,p1Pos,p1Tar);;
+	Perspective* p1 = new Perspective("p1",0,0,0,p1Pos,p1Tar);
+
+	Perspective* p2 = new Perspective("p2",0,0,0,p2Pos,p2Tar);
+	Perspective* p3 = new Perspective("p3",0,0,0,p3Pos,p3Tar);
+
+
+	//	transitionalCameras.push_back()
 	mainCamera->calculatePoints();
-//	setTransitionalCameras(p1->getPoints());
+	mainCamera->setRotative();
+	cameras.push_back(mainCamera);
+	cameras.push_back(p1);
+	cameras.push_back(p2);
+	cameras.push_back(p3);
 
 
-//	Perspective* p2 = new Perspective("p2",0,0,0,p2Pos,p2Tar);
-//	Perspective* p3 = new Perspective("p3",0,0,0,p3Pos,p3Tar);
+	//	setTransitionalCameras(p1->getPoints());
+
+
 
 
 	/*Lights*/
@@ -283,14 +293,14 @@ void ProjScene::display() {
 	// Apply transformations corresponding to the camera position relative to the origin
 	CGFapplication::activeApp->forceRefresh();
 
-	/*
+
 	if(cameraState == 0) 
 		CGFscene::activeCamera->applyView();
 	else this->cameras[cameraState-1]->applyView();
-	*/
 
 
-	mainCamera->applyView(currentPlayer);
+
+	//mainCamera->applyView(currentPlayer);
 
 
 
@@ -475,6 +485,7 @@ void ProjScene::pcVSpc() {
 		moves.push_back(theBoard);
 
 		changeCurrentPlayer();
+
 	}
 
 	showWinner();
@@ -488,4 +499,7 @@ void ProjScene::showWinner() {
 void ProjScene::changeCurrentPlayer() {
 	if(currentPlayer == 'b') currentPlayer = 'w';
 	else currentPlayer = 'b';
+
+	mainCamera->toggleSide();
+
 }

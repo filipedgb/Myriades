@@ -17,6 +17,10 @@ public:
 	char* getId() {
 		return id;
 	}
+
+	virtual void applyView() {
+		//do nothing
+	}
 };
 
 #endif
