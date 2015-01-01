@@ -1,5 +1,8 @@
 #include "TPinterface.h"
+#include <Windows.h>
 #include "ProjScene.h"
+
+
 
 GLfloat ambientLight[4] = {0.8, 0.8, 0.8, 1};
 GLfloat background[4] = {0, 0, 0, 0.8};
@@ -26,22 +29,6 @@ void ProjScene::updateDrawing() {
 		break;
 	}
 }
-
-/*
-void ProjScene::setTransitionalCameras(vector<vector3d> coordinates) {
-GLfloat target[3] = {10,0,10};
-
-
-for(unsigned int i = 0; i < coordinates.size(); i++) {
-GLfloat position[3] = {coordinates[i].getX(),coordinates[i].getY(),coordinates[i].getZ()};
-
-Perspective* temp = new Perspective("nome",0,0,0,position,target);
-transitionalCameras.push_back(temp);
-}
-}
-
-*/
-
 
 void ProjScene::setAllAmbient() {
 	GLfloat p1Pos[3] = {10,1,11};
@@ -203,6 +190,15 @@ void ProjScene::pickingActions(int x, int y) {
 }
 
 void ProjScene::init() {
+	memset(cameraRotation,0,sizeof(float)*16);
+	cameraRotation[0] = 1.0;
+	cameraRotation[5] = 1.0;
+	cameraRotation[10] = 1.0;
+	cameraRotation[15] = 1.0;
+	cameraTranslationXY[0] = 0.0;
+	cameraTranslationXY[1] = 0.0;
+	cameraTranslationZ = 0.0;
+
 	setAllAmbient();
 
 	currentPlayer = 'b';
@@ -289,20 +285,19 @@ void ProjScene::display() {
 	// Clear image and depth buffer everytime we update the scene
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-	// Initialize Model-View matrix as identity (no transformation
+	// Initialize Model-View matrix as identity (no transformation)
 	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	glLoadIdentity();	
 
 	// Apply transformations corresponding to the camera position relative to the origin
 	CGFapplication::activeApp->forceRefresh();
 
-
 	if(cameraState == 0) 
 		CGFscene::activeCamera->applyView();
 	else this->cameras[cameraState-1]->applyView();
-
+	
 	//mainCamera->applyView(currentPlayer);
-
+	
 	// Draw (and update) light
 	light0->draw();
 
@@ -310,9 +305,8 @@ void ProjScene::display() {
 		this->lights[i]->display();
 	}
 
-	//so it changes the box
-	theBoard.setPlayer(currentPlayer);
-	theBoard.draw();
+	translateCamera();
+	rotateCamera();
 
 	// Draw axis
 	axis.draw();
@@ -320,7 +314,11 @@ void ProjScene::display() {
 	// ---- END Background, camera and axis setup
 
 
-	// ---- BEGIN feature demos
+	// ---- BEGIN feature demos	
+	//so it changes the box
+	theBoard.setPlayer(currentPlayer);
+	theBoard.draw();
+
 	updateDrawing();
 	updateLightState();	
 
@@ -504,4 +502,19 @@ void ProjScene::changeCurrentPlayer() {
 	else currentPlayer = 'b';
 
 	mainCamera->toggleSide();
+}
+
+void ProjScene::replay() {
+	for(unsigned int i = 0; i < moves.size(); i++) {
+		theBoard = moves[i];
+		Sleep(101);
+	}
+}
+
+void ProjScene::rotateCamera() {
+	glMultMatrixf(this->cameraRotation);
+}
+
+void ProjScene::translateCamera() {
+	glTranslatef(cameraTranslationXY[0],cameraTranslationXY[1],-cameraTranslationZ);
 }

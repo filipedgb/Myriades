@@ -36,6 +36,8 @@ void TPinterface::initGUI() {
 	pieceValue->set_int_limits(0,49, GLUI_LIMIT_WRAP);
 	pieceValue->set_int_val(0);
 
+	GLUI_Button* replay = addButtonToPanel(gamePanel,"Replay",17);
+
 	GLUI_Button* undo = addButtonToPanel(gamePanel,"Undo",13);
 	GLUI_Button* undo1 = addButtonToPanel(gamePanel,"Undo player move",14);
 	GLUI_Button* exitGame = addButtonToPanel(gamePanel,"Exit Game",15);
@@ -107,12 +109,22 @@ void TPinterface::initGUI() {
 	GLUI_RadioGroup *camera = addRadioGroupToPanel(cameras, &(((ProjScene*) scene)->cameraState),10);
 
 	addRadioButtonToGroup(camera, "Free View");
-	//adding checkBoxes for each camera to the panel
+	//adding radio buttons for each camera to the panel
 	for(unsigned int i=0; i<((ProjScene*)scene)->getCameras().size();i++) {
 		addRadioButtonToGroup(camera, ((ProjScene*)scene)->getCameras()[i]->getId());
 	}
 
-	GLUI_Rotation* rot = addRotation("rotation"); 
+	addSeparatorToPanel(cameras);
+
+	GLUI_Rotation* rot = addRotationToPanel(cameras,"Rotation", ((ProjScene*)scene)->cameraRotation, 20); 
+
+	addSeparatorToPanel(cameras);
+
+	GLUI_Translation* transXY = addTranslationToPanel(cameras,"Translation xy", GLUI_TRANSLATION_XY, ((ProjScene*)scene)->cameraTranslationXY, 21);
+	transXY->set_speed(0.005);
+	addColumnToPanel(cameras);
+	GLUI_Translation* transZ = addTranslationToPanel(cameras,"Translation z", GLUI_TRANSLATION_Z, &((ProjScene*)scene)->cameraTranslationZ, 21); 
+	transZ->set_speed(0.005);
 }
 
 void TPinterface::processGUI(GLUI_Control *ctrl) {
@@ -177,6 +189,18 @@ void TPinterface::processGUI(GLUI_Control *ctrl) {
 	case 16:
 		printf("Change ambient\n");
 		((ProjScene*) scene)->changeTextures();
+		break;
+	case 17:
+		printf("Replay game\n");
+		((ProjScene*) scene)->replay();
+		break;
+	case 20:
+		printf("Moving Camera\n");
+		//((ProjScene*) scene)->rotateCamera();
+		break;
+	case 21:
+		printf("Moving Camera\n");
+		//((ProjScene*) scene)->translateCamera();
 		break;
 	};
 }
