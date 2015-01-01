@@ -160,7 +160,7 @@ int CtoPlSocket::numberOfAdjacentes(int x, int y, Board* board) {
 	char ans[10], ans1[10];
 	recebe(ans);
 
-	strncpy_s(ans1,ans,strlen(ans)-1);
+	strncpy_s(ans1,10,ans,strlen(ans)-1);
 
 	return atoi(ans1);
 }
@@ -203,7 +203,7 @@ int CtoPlSocket::numPieces(char player, Board* board) {
 	char ans[10], ans1[10];
 	recebe(ans);
 
-	strncpy_s(ans1,ans,strlen(ans)-1);
+	strncpy_s(ans1,10,ans,strlen(ans)-1);
 
 	return atoi(ans1);
 }

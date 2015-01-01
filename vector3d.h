@@ -68,9 +68,9 @@ public:
 	}
 
 	vector3d interpolate(const vector3d & v) const {
-		float a = (this->x + v.x)/2.0;
-		float b = (this->y + v.y)/2.0;
-		float c = (this->z + v.z)/2.0;
+		double a = (this->x + v.x)/2.0;
+		double b = (this->y + v.y)/2.0;
+		double c = (this->z + v.z)/2.0;
 
 		vector3d res(a,b,c);
 		return res;
@@ -101,7 +101,7 @@ public:
 
 		float radians = acos(dot_product/normals); 
 
-		return radians*(180/acos(-1.0));
+		return (float) radians*(180/acos(-1.0));
 	}
 
 };

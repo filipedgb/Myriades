@@ -123,7 +123,6 @@ void ProjScene::pickingActions(int x, int y) {
 		out.append(to_string(removes));
 		out.append(" adjacent pieces.\n");
 
-
 		if(sck.numPieces(currentPlayer,&theBoard) < 2) { //cant change piece that moved
 			removes = 0;
 			return;
@@ -138,12 +137,9 @@ void ProjScene::pickingActions(int x, int y) {
 				removes--;
 			TPinterface::setOutput(out);
 
-			printf("numer of removes: %d", removes);
-
+			printf("Number of removes: %d\n", removes);
 		}
-
 	}
-
 	else if(!hasMoved && toMove) { //ja escolheu peca para mover
 		newX = x;
 		newY = y;
@@ -157,9 +153,10 @@ void ProjScene::pickingActions(int x, int y) {
 			movedX = newX;			//guardar para nao poder retirar a peca que acabou de mover
 			movedY = newY;
 
-			theBoard.getPiece(movedX,movedY)->setMoving(oldX,oldY,movedX,movedY, theBoard.getSize());
+			theBoard.getPiece(movedX,movedY)->setMoving(oldX,oldY,movedX,movedY,theBoard.getSize());
 
-			string out = "Player " + currentPlayer;
+			string out = "Player ";
+			out+= currentPlayer;
 			out.append(": moved a piece.\n");
 			TPinterface::setOutput(out);
 
@@ -172,7 +169,6 @@ void ProjScene::pickingActions(int x, int y) {
 		}
 		else {
 			string out = "Can't make that move.\n";
-
 			TPinterface::setOutput(out);
 		}
 	}
@@ -219,11 +215,13 @@ void ProjScene::init() {
 
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(0,'w'),0,0));
 	moves.push_back(theBoard);
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(1,'b'),0,1));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(31,'b'),0,1));
 	moves.push_back(theBoard);
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(2,'w'),1,0));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(21,'w'),1,0));
 	moves.push_back(theBoard);
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(0,'g'),2,1));
+	moves.push_back(theBoard);
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(40,'b'),2,2));
 	moves.push_back(theBoard);
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(10,'b'),1,1));
 	moves.push_back(theBoard);
@@ -454,7 +452,6 @@ void ProjScene::undo(int x) {
 		toMove = false;
 		theBoard = lastMove;
 	}
-
 }
 
 void ProjScene::newGame() {

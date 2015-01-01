@@ -16,7 +16,6 @@ class Piece: public Primitive {
 	Linear* addingPiece;
 	Linear* movingPiece;
 
-
 	bool newPiece;
 	bool isMoving1;
 
