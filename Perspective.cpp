@@ -13,6 +13,7 @@ Perspective::Perspective(char* id, float near, float far, float angle, float* po
 	this->target[2] = target[2];
 
 	this->index = 0;
+	this->rotative = false;
 
 	calculateUpVector();
 }
@@ -49,7 +50,7 @@ void Perspective::calculatePoints() {
 	float angulo = 90;
 	float x,  y,  z;
 	int raio = 1;
-	
+
 	while(angulo <= 270+incAngle){
 		x = target[0] + raio*cos(angulo*(acos(-1.0)/180));
 		y = 1;
@@ -69,34 +70,28 @@ vector<vector3d> Perspective::getPoints() {
 }
 
 
-void Perspective::applyView(char player)
+void Perspective::applyView()
 {
-	printf("Player: %c\n",player);
-	printf("Indice: %d\n",index);
-	printf("Size do vector: %d\n",points.size());
-
 	CGFcamera::applyView();
 
-	if(player == 'b') {
-		gluLookAt(points[index].getX(),points[index].getY(),points[index].getZ(),10,0,10,0,1,0);
+	if(rotative) { 
 
-		if(index < points.size()-1)
-			index++;
-		
-		printf("Indice1: %d\n",index);
+		if(!side) {
+			gluLookAt(points[index].getX(),points[index].getY(),points[index].getZ(),10,0,10,0,1,0);
+
+			if(index < points.size()-1)
+				index++;
+		}
+
+		else {
+			gluLookAt(points[index].getX(),points[index].getY(),points[index].getZ(),10,0,10,0,1,0);
+
+			if(index != 0) 
+				index--;
+
+		}
 
 	}
-
-	else if (player == 'w') {
-		gluLookAt(points[index].getX(),points[index].getY(),points[index].getZ(),10,0,10,0,1,0);
-
-		if(index != 0) 
-			index--;
-	
-		printf("Indice2: %d\n",index);
-	}
-
-
-	//gluLookAt(pos[0],pos[1],pos[2],target[0],target[1],target[2],0,1,0);
+	else gluLookAt(pos[0],pos[1],pos[2],target[0],target[1],target[2],0,1,0);
 }
 
