@@ -15,13 +15,15 @@ GLfloat grey1[4] = {0.2,0.2,0.2,1};
 Piece::Piece(int number, char color) {
 	this->color = color; 
 	this->number = number;
-	this->piece = new Cylinder(0.7,0.7,0.2,30,30);
+
+	if(color == 'g')
+		this->piece = new Cylinder(0.7,0.7,0.2,30,30);
+	else this->piece = new Cylinder(0.7,0.7,0.2,(int) number/10 + 3,30);
+
 	this->newPiece = false;
 	this->isMoving1 = false;
 	this->addingPiece = new Linear("adding piece",2);
 	this->movingPiece = new Linear("moving piece",5);
-
-	//shader= new Shader(number);
 
 	setAppearance();
 }
@@ -48,7 +50,6 @@ void Piece::setTexture(CGFtexture* t) {
 	this->text = t;
 	setAppearance();
 	this->pieceApp->setTexture(text);
-	//this->shader->setTexture(t);
 }
 
 void Piece::setNumber(int n) {
@@ -57,7 +58,6 @@ void Piece::setNumber(int n) {
 
 void Piece::draw(float text_s, float text_t) {
 	glPushMatrix();
-	//this->shader->bind();
 	if(color != 'g') {
 		glPushMatrix();
 		if(color == 'b') (new CGFappearance(ambW1,specW1,white1,120))->apply();
@@ -77,14 +77,11 @@ void Piece::draw(float text_s, float text_t) {
 			glRasterPos3f(0, 0.01, 0);
 			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,'0'+n2);
 		}
-
-
 		glPopMatrix();
 	}
 
 	this->pieceApp->apply();
 	this->piece->draw(text_s,text_t);
-	//this->shader->unbind();
 	glPopMatrix();
 }
 
