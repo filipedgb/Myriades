@@ -12,10 +12,10 @@ void TPinterface::initGUI() {
 
 	//game panel
 	GLUI_Panel* gamePanel = addPanel("Game",1); 
-	
+
 	GLUI_Rollout* newGameR = addRolloutToPanel(gamePanel,"New Game",0);
 	GLUI_Button* newGame = addButtonToPanel(newGameR,"Start",12);
-	GLUI_Spinner *boardSize = addSpinnerToPanel(newGameR,"Board size: ", GLUI_SPINNER_INT,&(((ProjScene*) scene)->newBoardSize),-1);
+	GLUI_Spinner *boardSize = addSpinnerToPanel(newGameR,"Board size: ", GLUI_SPINNER_INT,&(((ProjScene*) scene)->newBoardSize));
 	boardSize->set_int_limits(3,11, GLUI_LIMIT_WRAP);
 	boardSize->set_int_val(5);
 
@@ -32,7 +32,7 @@ void TPinterface::initGUI() {
 	addRadioButtonToGroup(level,"Hard");
 
 	GLUI_Button* addPiece = addButtonToPanel(gamePanel,"Add Piece",11);
-	GLUI_Spinner *pieceValue = addSpinnerToPanel(gamePanel,"New piece Value: ", GLUI_SPINNER_INT,&(((ProjScene*) scene)->addNewPieceValue),-1);
+	GLUI_Spinner *pieceValue = addSpinnerToPanel(gamePanel,"New piece Value: ", GLUI_SPINNER_INT,&(((ProjScene*) scene)->addNewPieceValue));
 	pieceValue->set_int_limits(0,49, GLUI_LIMIT_WRAP);
 	pieceValue->set_int_val(0);
 
@@ -64,7 +64,7 @@ void TPinterface::initGUI() {
 		char* a = (char*) ((ProjScene*) scene)->getLights()[i-1]->getId();
 		addCheckboxToPanel(lights, a, &(((ProjScene*) scene)->lightState[i]), i);
 	}
-	
+
 	//add separator
 	addSeparatorToPanel(panel);
 
