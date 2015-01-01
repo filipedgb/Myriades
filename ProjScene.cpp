@@ -27,21 +27,42 @@ void ProjScene::updateDrawing() {
 	}
 }
 
+/*
+void ProjScene::setTransitionalCameras(vector<vector3d> coordinates) {
+	GLfloat target[3] = {10,0,10};
+
+
+	for(unsigned int i = 0; i < coordinates.size(); i++) {
+		GLfloat position[3] = {coordinates[i].getX(),coordinates[i].getY(),coordinates[i].getZ()};
+		
+		Perspective* temp = new Perspective("nome",0,0,0,position,target);
+		transitionalCameras.push_back(temp);
+	}
+}
+
+*/
+
+
 void ProjScene::setAllAmbient() {
-	GLfloat p1Pos[3] = {0,2,1};
-	GLfloat p1Tar[3] = {0,1.5,0};
-	GLfloat p2Pos[3] = {2,2,2};
-	GLfloat p2Tar[3] = {0,2,0};
+	GLfloat p1Pos[3] = {10,1,11};
+	GLfloat p1Tar[3] = {10,0,10};
+	GLfloat p2Pos[3] = {10,1,9};
+	GLfloat p2Tar[3] = {10,0,10};
 	GLfloat p3Pos[3] = {2,5,2};
 	GLfloat p3Tar[3] = {0,0,0};
 	/* CAMARAS */
-	Perspective* p1 = new Perspective("p1",0,0,0,p1Pos,p1Tar);
-	Perspective* p2 = new Perspective("p2",0,0,0,p2Pos,p2Tar);
-	Perspective* p3 = new Perspective("p3",0,0,0,p3Pos,p3Tar);
 
-	cameras.push_back(p1);
-	cameras.push_back(p2);
-	cameras.push_back(p3);
+
+	mainCamera = new Perspective("p1",0,0,0,p1Pos,p1Tar);;
+//	Perspective* p1 = new Perspective("p1",0,0,0,p1Pos,p1Tar);
+//	transitionalCameras.push_back()
+	mainCamera->calculatePoints();
+//	setTransitionalCameras(p1->getPoints());
+
+
+//	Perspective* p2 = new Perspective("p2",0,0,0,p2Pos,p2Tar);
+//	Perspective* p3 = new Perspective("p3",0,0,0,p3Pos,p3Tar);
+
 
 	/*Lights*/
 	GLfloat l1Pos[3] = {0,15,3};
@@ -261,9 +282,17 @@ void ProjScene::display() {
 
 	// Apply transformations corresponding to the camera position relative to the origin
 	CGFapplication::activeApp->forceRefresh();
+
+	/*
 	if(cameraState == 0) 
 		CGFscene::activeCamera->applyView();
 	else this->cameras[cameraState-1]->applyView();
+	*/
+
+
+	mainCamera->applyView(currentPlayer);
+
+
 
 	// Draw (and update) light
 	light0->draw();

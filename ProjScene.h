@@ -25,6 +25,10 @@ private:
 	vector<Camera*> cameras; 
 	vector<Animation*> animations;
 
+//	vector<Camera*> transitionalCameras;
+
+	Perspective* mainCamera;
+
 	vector<vector<CGFtexture*>> ambients;	//each i is a vector to use in all pieces-board/boardBox
 	vector<string> ambientID;					//id to show in interface
 
@@ -53,6 +57,10 @@ public:
 	
 	int searchCamera(char* id);
 	int searchAnimation(char* id);
+
+
+	void setTransitionalCameras(vector<vector3d> coordinates);
+
 
 	/** INTERFACE OPTIONS*/
 	int sceneVar;
