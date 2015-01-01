@@ -27,7 +27,6 @@ public:
 	void applyView();
 	void calculateUpVector();
 
-
 	void setRotative() {
 		rotative = true;
 	}
@@ -36,10 +35,8 @@ public:
 		side = !side;
 	}
 
-
 	void calculatePoints();
 	std::vector<vector3d> getPoints();
-
 };
 
 #endif

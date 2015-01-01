@@ -1137,16 +1137,16 @@ parse_input(isFull(Board),Answer):-
 	isFull(Board), Answer = 1, !; Answer = 0.
 
 parse_input(endOfGame(Board),Answer):-
-	winner(Board,Answer).
+	winner(Board,Answer),!.
 
 parse_input(adjacentes(X,Y,Board),Answer):-
 	adjacentes(X,Y,Board,Answer),!.
 
 parse_input(addGray(R,C,B),Answer):-
-	changePiece(R,C,B,Answer).
+	changePiece(R,C,B,Answer),!.
 
 parse_input(numPieces(Player,Board),Answer):-
-	numPieces(Player,Board,Answer).
+	numPieces(Player,Board,Answer),!.
 
 
 /*----------------------- AUXILIAR FUNCTIONS ------------------------*/

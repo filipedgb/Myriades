@@ -139,6 +139,11 @@ void ProjScene::pickingActions(int x, int y) {
 
 			printf("Number of removes: %d\n", removes);
 		}
+
+		if(removes > 0) out = "You must remove a piece now";
+		else out = "Now add a piece.\n";
+
+		TPinterface::setOutput(out);
 	}
 	else if(!hasMoved && toMove) { //ja escolheu peca para mover
 		newX = x;
@@ -207,9 +212,9 @@ void ProjScene::init() {
 	level = 0;
 	removes = 0;
 
-	theBoard = Board(10);
+	theBoard = Board(3);
 	sck.socketConnect();
-	theBoard.boardParser(sck.initBoard(10)); //Socket
+	theBoard.boardParser(sck.initBoard(3)); //Socket
 
 	moves.push_back(theBoard);
 
@@ -296,11 +301,7 @@ void ProjScene::display() {
 		CGFscene::activeCamera->applyView();
 	else this->cameras[cameraState-1]->applyView();
 
-
-
 	//mainCamera->applyView(currentPlayer);
-
-
 
 	// Draw (and update) light
 	light0->draw();
@@ -309,6 +310,7 @@ void ProjScene::display() {
 		this->lights[i]->display();
 	}
 
+	//so it changes the box
 	theBoard.setPlayer(currentPlayer);
 	theBoard.draw();
 
@@ -347,6 +349,7 @@ void ProjScene::addPieceValue() {
 
 	if(moves.empty() || theBoard != moves[moves.size()-1]) {			
 		hasMoved = false;
+		toMove = false;
 
 		theBoard.getPiece(oldX,oldY)->setNew(oldY,oldX,theBoard.getSize());
 
@@ -458,7 +461,7 @@ void ProjScene::newGame() {
 	theBoard = Board(this->newBoardSize);
 	theBoard.boardParser(sck.initBoard(this->newBoardSize)); //Socket
 
-	if(moves.size())
+	if(!moves.empty())
 		moves.clear();
 
 	currentPlayer = 'b';
@@ -469,6 +472,10 @@ void ProjScene::newGame() {
 	moves.push_back(theBoard);
 
 	if(opponent == 2) pcVSpc();
+	else {
+		string out = "Move or add a piece.";
+		TPinterface::setOutput(out);
+	}
 }
 
 void ProjScene::pcVSpc() {
@@ -482,7 +489,6 @@ void ProjScene::pcVSpc() {
 		moves.push_back(theBoard);
 
 		changeCurrentPlayer();
-
 	}
 
 	showWinner();
@@ -498,5 +504,4 @@ void ProjScene::changeCurrentPlayer() {
 	else currentPlayer = 'b';
 
 	mainCamera->toggleSide();
-
 }
