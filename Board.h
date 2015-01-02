@@ -22,6 +22,10 @@ class Board {
 	CGFtexture* boardText;
 	CGFtexture* pieceText;
 
+	Linear* slidingBoxWtoB;
+	Linear* slidingBoxBtoW;
+	bool isSliding;
+
 	char currentPlayer;
 
 public:
@@ -40,7 +44,9 @@ public:
 	void setTexture(char c);
 	void setTexture(CGFtexture* bt, CGFtexture* pt);
 
-	void setPlayer(char c) {currentPlayer = c; }
+	void setBoxAnimation();
+
+	void setPlayer(char c);
 
 	int getPieceNumber(int row, int col);
 	char getPieceColor(int row, int col);

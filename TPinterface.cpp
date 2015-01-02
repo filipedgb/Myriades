@@ -164,6 +164,7 @@ void TPinterface::processGUI(GLUI_Control *ctrl) {
 		break;
 	case 10:
 		printf("Camera: %d\n",(((ProjScene*) scene)->cameraState));
+		((ProjScene*) scene)->resetCameras();
 		break;
 	case 11:
 		printf("Button addPiece\n");
@@ -196,11 +197,9 @@ void TPinterface::processGUI(GLUI_Control *ctrl) {
 		break;
 	case 20:
 		printf("Moving Camera\n");
-		//((ProjScene*) scene)->rotateCamera();
 		break;
 	case 21:
 		printf("Moving Camera\n");
-		//((ProjScene*) scene)->translateCamera();
 		break;
 	};
 }

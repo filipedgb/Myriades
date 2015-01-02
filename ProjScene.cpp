@@ -107,8 +107,8 @@ void ProjScene::pickingActions(int x, int y) {
 	if(removes > 0) { 
 		oldX = x;
 		oldY = y;
-		toMove = false;
-		hasMoved = true;
+		//toMove = false;
+		//hasMoved = true;
 
 		string out = "You have ";
 		out.append(to_string(removes));
@@ -194,15 +194,7 @@ void ProjScene::pickingActions(int x, int y) {
 }
 
 void ProjScene::init() {
-	memset(cameraRotation,0,sizeof(float)*16);
-	cameraRotation[0] = 1.0;
-	cameraRotation[5] = 1.0;
-	cameraRotation[10] = 1.0;
-	cameraRotation[15] = 1.0;
-	cameraTranslationXY[0] = 0.0;
-	cameraTranslationXY[1] = 0.0;
-	cameraTranslationZ = 0.0;
-
+	resetCameras();
 
 	currentPlayer = 'b';
 	toMove = false;
@@ -216,7 +208,6 @@ void ProjScene::init() {
 	theBoard.boardParser(sck.initBoard(10)); //Socket
 
 	setAllAmbient();
-
 
 	moves.push_back(theBoard);
 
@@ -351,7 +342,7 @@ void ProjScene::addPieceValue() {
 
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(addNewPieceValue,currentPlayer),oldX,oldY));
 
-	if(moves.empty() || theBoard != moves[moves.size()-1]) {			
+	if(removes == 0 && (moves.empty() || theBoard != moves[moves.size()-1])) {			
 		hasMoved = false;
 		toMove = false;
 
@@ -523,4 +514,15 @@ void ProjScene::rotateCamera() {
 
 void ProjScene::translateCamera() {
 	glTranslatef(cameraTranslationXY[0],cameraTranslationXY[1],-cameraTranslationZ);
+}
+
+void ProjScene::resetCameras() {
+	memset(cameraRotation,0,sizeof(float)*16);
+	cameraRotation[0] = 1.0;
+	cameraRotation[5] = 1.0;
+	cameraRotation[10] = 1.0;
+	cameraRotation[15] = 1.0;
+	cameraTranslationXY[0] = 0.0;
+	cameraTranslationXY[1] = 0.0;
+	cameraTranslationZ = 0.0;
 }

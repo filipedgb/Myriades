@@ -80,6 +80,7 @@ public:
 	float cameraTranslationXY[2];
 	float cameraTranslationZ;
 	void translateCamera();
+	void resetCameras();
 
 	/* -- Ambient --*/
 	int ambientState;
