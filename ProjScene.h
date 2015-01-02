@@ -41,6 +41,10 @@ private:
 	vector<Board> moves;
 	CtoPlSocket sck;
 
+	bool replaying;
+	int replayingIndex, replayTime;
+	unsigned long oldT;
+
 public:
 	void init();
 	void display();
