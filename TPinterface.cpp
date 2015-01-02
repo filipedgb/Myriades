@@ -31,15 +31,24 @@ void TPinterface::initGUI() {
 	addRadioButtonToGroup(level,"Medium");
 	addRadioButtonToGroup(level,"Hard");
 
-	GLUI_Button* addPiece = addButtonToPanel(gamePanel,"Add Piece",11);
-	GLUI_Spinner *pieceValue = addSpinnerToPanel(gamePanel,"New piece Value: ", GLUI_SPINNER_INT,&(((ProjScene*) scene)->addNewPieceValue));
+	GLUI_Panel* addPieceP = addPanelToPanel(gamePanel,"",GLUI_PANEL_NONE);
+	GLUI_Button* addPiece = addButtonToPanel(addPieceP,"Add Piece",11);
+	addColumnToPanel(addPieceP);
+	GLUI_Spinner *pieceValue = addSpinnerToPanel(addPieceP,"Value: ", GLUI_SPINNER_INT,&(((ProjScene*) scene)->addNewPieceValue));
 	pieceValue->set_int_limits(0,49, GLUI_LIMIT_WRAP);
 	pieceValue->set_int_val(0);
 
-	GLUI_Button* replay = addButtonToPanel(gamePanel,"Replay",17);
+	GLUI_Panel* replayP = addPanelToPanel(gamePanel,"",GLUI_PANEL_NONE);
+	GLUI_Button* replay = addButtonToPanel(replayP,"Replay",17);
+	addColumnToPanel(replayP);
+	GLUI_Rollout* replayR = addRolloutToPanel(replayP,"",0,0);
+	GLUI_Spinner* replayTime = addSpinnerToPanel(replayR,"Replay Time",2,&(((ProjScene*) scene)->replayTime));
+	replayTime->set_int_limits(100,100000, GLUI_LIMIT_WRAP);
 
-	GLUI_Button* undo = addButtonToPanel(gamePanel,"Undo",13);
-	GLUI_Button* undo1 = addButtonToPanel(gamePanel,"Undo player move",14);
+	GLUI_Panel* undoP = addPanelToPanel(gamePanel,"",GLUI_PANEL_NONE);
+	GLUI_Button* undo = addButtonToPanel(undoP,"Undo",13);
+	addColumnToPanel(undoP);
+	GLUI_Button* undo1 = addButtonToPanel(undoP,"Undo player move",14);
 	GLUI_Button* exitGame = addButtonToPanel(gamePanel,"Exit Game",15);
 
 	addSeparatorToPanel(gamePanel);
@@ -116,14 +125,17 @@ void TPinterface::initGUI() {
 
 	addSeparatorToPanel(cameras);
 
-	GLUI_Rotation* rot = addRotationToPanel(cameras,"Rotation", ((ProjScene*)scene)->cameraRotation, 20); 
+	GLUI_Panel* translationP = addPanelToPanel(cameras,"",GLUI_PANEL_NONE);
+	GLUI_Rotation* rot = addRotationToPanel(translationP,"Rotation", ((ProjScene*)scene)->cameraRotation, 20); 
 
-	addSeparatorToPanel(cameras);
+	addSeparatorToPanel(translationP);
 
-	GLUI_Translation* transXY = addTranslationToPanel(cameras,"Translation xy", GLUI_TRANSLATION_XY, ((ProjScene*)scene)->cameraTranslationXY, 21);
+	GLUI_Panel* translationP1 = addPanelToPanel(translationP,"",GLUI_PANEL_NONE);
+
+	GLUI_Translation* transXY = addTranslationToPanel(translationP1,"Translation xy", GLUI_TRANSLATION_XY, ((ProjScene*)scene)->cameraTranslationXY, 21);
 	transXY->set_speed(0.005);
-	addColumnToPanel(cameras);
-	GLUI_Translation* transZ = addTranslationToPanel(cameras,"Translation z", GLUI_TRANSLATION_Z, &((ProjScene*)scene)->cameraTranslationZ, 21); 
+	addColumnToPanel(translationP1);
+	GLUI_Translation* transZ = addTranslationToPanel(translationP1,"Translation z", GLUI_TRANSLATION_Z, &((ProjScene*)scene)->cameraTranslationZ, 21); 
 	transZ->set_speed(0.005);
 }
 
