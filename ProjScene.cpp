@@ -1,7 +1,7 @@
 #include "TPinterface.h"
 #include <Windows.h>
 #include "ProjScene.h"
-
+#include <time.h>
 
 
 GLfloat ambientLight[4] = {0.8, 0.8, 0.8, 1};
@@ -203,6 +203,11 @@ void ProjScene::init() {
 	level = 0;
 	removes = 0;
 
+	replaying = false;
+	replayingIndex = 0;
+	oldT = 0;
+	replayTime = 1500;
+
 	theBoard = Board(3);
 	sck.socketConnect();
 	theBoard.boardParser(sck.initBoard(3)); //Socket
@@ -269,6 +274,15 @@ void ProjScene::update(unsigned long t) {
 			if(theBoard.getPiece(i,k) != NULL && theBoard.getPiece(i,k)->isMoving())
 				theBoard.getPiece(i,k)->getMovingAnimation()->update(t);
 		}
+
+		if(replaying) {	
+			if((t - oldT)%replayTime == 0) {
+				theBoard = moves[replayingIndex];
+				replayingIndex++;
+				if(replayingIndex == moves.size()) replaying = false;
+			}
+		}
+		else oldT = t;
 }
 
 void ProjScene::changeTextures() {
@@ -292,9 +306,9 @@ void ProjScene::display() {
 	if(cameraState == 0) 
 		CGFscene::activeCamera->applyView();
 	else this->cameras[cameraState-1]->applyView();
-	
+
 	//mainCamera->applyView(currentPlayer);
-	
+
 	// Draw (and update) light
 	light0->draw();
 
@@ -502,10 +516,7 @@ void ProjScene::changeCurrentPlayer() {
 }
 
 void ProjScene::replay() {
-	for(unsigned int i = 0; i < moves.size(); i++) {
-		theBoard = moves[i];
-		Sleep(101);
-	}
+	replaying = true;
 }
 
 void ProjScene::rotateCamera() {

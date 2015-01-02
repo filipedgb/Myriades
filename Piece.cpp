@@ -35,15 +35,11 @@ static float getAngleForPiece() {
 	float posy = camera_pos[1];
 	float posz = camera_pos[2];
 
-	printf("camera %f, %f, %f \n",posx,posy,posz);
-
 	vector3d cameraPos = vector3d(posx,posy,0.0);
 	vector3d zerovec = vector3d(0.0,1.0,0.0);
 	float angle = cameraPos.angleVectors(zerovec);
 	vector3d temp = vector3d(0,0,-1)*cameraPos;
 	if(temp.getY() < 0) angle = 360-angle;
-
-	printf("angle %f\n",angle);
 
 	return angle;
 }
