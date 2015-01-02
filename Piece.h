@@ -1,18 +1,28 @@
 #ifndef PIECE_H
 #define PIECE_H
 
+
 #include "Cylinder.h"
+#include "Rectangle.h"
 #include "CGFappearance.h"
 #include "Linear.h"
+#include "Cube.h"
+
 
 class Piece: public Primitive {
 	Cylinder* piece;
+	Cylinder* numberPlate;
+
 	char color; //(w)hite, (b)lack, (g)ray
 	int number;
 
 	CGFappearance* pieceApp;
-	CGFtexture* text;
+	CGFappearance* numberApp;
 
+	CGFtexture* text;	
+	
+	CGFappearance* numbers[9];
+	
 	Linear* addingPiece;
 	Linear* movingPiece;
 
@@ -23,6 +33,8 @@ public:
 	Piece(int number, char color);
 	char getColor() const;
 	int getNumber() const;
+
+	void loadTextures();
 	void setColor(char c);
 	void setNumber(int n);
 	void draw(float text_s, float text_t);

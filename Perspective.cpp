@@ -49,7 +49,7 @@ void Perspective::calculatePoints() {
 	float incAngle = 180/numPoints;
 	float angulo = 90;
 	float x,  y,  z;
-	int raio = 1;
+	float raio = 1;
 
 	while(angulo <= 270+incAngle){
 		x = target[0] + raio*cos(angulo*(acos(-1.0)/180));
