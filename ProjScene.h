@@ -42,7 +42,7 @@ private:
 	CtoPlSocket sck;
 
 	bool replaying;
-	int replayingIndex, replayTime;
+	int replayingIndex;
 	unsigned long oldT;
 
 public:
@@ -109,6 +109,7 @@ public:
 
 	void changeCurrentPlayer();
 	void replay();
+	int replayTime;
 };
 
 #endif
