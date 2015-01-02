@@ -12,6 +12,43 @@ GLfloat black1[4] = {0.1,0.1,0.1,1};
 GLfloat white1[4] = {0.9,0.9,0.9,1};
 GLfloat grey1[4] = {0.2,0.2,0.2,1};
 
+GLdouble camera_pos[3];
+
+static GLdouble* getRealWorldPosition() {
+	int viewport[4]; 
+	GLdouble modelView[16], matProjection[16];
+
+	// get matrixs and viewport:
+	glGetDoublev( GL_MODELVIEW_MATRIX, modelView ); 
+	glGetDoublev( GL_PROJECTION_MATRIX, matProjection ); 
+	glGetIntegerv( GL_VIEWPORT, viewport ); 
+	gluUnProject( (viewport[2]-viewport[0])/2 , (viewport[3]-viewport[1])/2, 
+		0.0, modelView, matProjection, viewport,  
+		&camera_pos[0],&camera_pos[1],&camera_pos[2]);
+
+	return camera_pos;
+}
+
+static float getAngleForPiece() {
+	GLdouble* camera_pos = getRealWorldPosition();
+	float posx = camera_pos[0];
+	float posy = camera_pos[1];
+	float posz = camera_pos[2];
+
+	printf("camera %f, %f, %f \n",posx,posy,posz);
+
+	vector3d cameraPos = vector3d(posx,posy,0.0);
+	vector3d zerovec = vector3d(0.0,1.0,0.0);
+	float angle = cameraPos.angleVectors(zerovec);
+	vector3d temp = vector3d(0,0,-1)*cameraPos;
+	if(temp.getY() < 0) angle = 360-angle;
+
+	printf("angle %f\n",angle);
+
+	return angle;
+}
+
+
 Piece::Piece(int number, char color) {
 	this->color = color; 
 	this->number = number;
@@ -20,7 +57,6 @@ Piece::Piece(int number, char color) {
 		this->piece = new Cylinder(0.7,0.7,0.2,30,30);
 	else this->piece = new Cylinder(0.7,0.7,0.2,(int) number/10 + 3,30);
 
-	//this->numberPlate = Cube();
 	this->numberPlate =  new Cylinder(0.3,0.3,0.025,30,30);
 
 	this->newPiece = false;
@@ -37,10 +73,8 @@ void Piece::loadTextures() {
 	for(int i = 0; i < 9; i++) {
 		string name = "tex" + std::to_string(i) + ".jpg" ;
 		numbers[i] = new CGFappearance(ambW1,white1,specW1,120);
-		numbers[i]->setTexture(name) ;
-
+		numbers[i]->setTexture(name);
 	}
-
 }
 
 char Piece::getColor() const {
@@ -72,53 +106,19 @@ void Piece::setNumber(int n) {
 }
 
 void Piece::draw(float text_s, float text_t) {
-
 	int n1 = number/10;
-	int n2 = number%10;
 
-
-		
 	glPushMatrix();
-		
-		numbers[n1]->apply();
-		
-		glTranslated(0,0,-0.025);
-		
-		
-		glRotated(90,0,0,1);
+	numbers[n1]->apply();
 
-		//glScaled(0.5,0.5,0.05);
+	angle = getAngleForPiece();
 
-		numberPlate->draw(1,1);
+	glTranslated(0,0,-0.025);
+	glRotatef(180 + 90 + angle,0,0,1);
+	numberPlate->draw(1,1);
 	glPopMatrix();
 
-
 	glPushMatrix();
-	if(color != 'g') {
-		glPushMatrix();
-		if(color == 'b') (new CGFappearance(ambW1,specW1,white1,120))->apply();
-		else (new CGFappearance(ambB1,specB1,black1,120))->apply();
-
-
-
-
-		/*
-		if(n1 != 0) {
-		glRasterPos3f(-0.1, 0.01, 0);
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,'0'+n1);
-
-		glRasterPos3f(0.1, 0.01, 0);
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,'0'+n2);
-		}
-		else {
-		glRasterPos3f(0, 0.01, 0);
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,'0'+n2);
-		}
-
-		*/
-
-		glPopMatrix();
-	}
 
 	this->pieceApp->apply();
 	this->piece->draw(text_s,text_t);
