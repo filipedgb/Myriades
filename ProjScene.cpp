@@ -31,8 +31,12 @@ void ProjScene::updateDrawing() {
 }
 
 void ProjScene::setAllAmbient() {
-	GLfloat p1Pos[3] = {10,1,11};
-	GLfloat p1Tar[3] = {10,0,10};
+	int size = theBoard.getSize();
+
+	printf("Size: %d\n", size);
+
+	GLfloat p1Pos[3] = {size,1,size+1};
+	GLfloat p1Tar[3] = {size,0,size};
 	GLfloat p2Pos[3] = {10,1,9};
 	GLfloat p2Tar[3] = {10,0,10};
 	GLfloat p3Pos[3] = {2,5,2};
@@ -199,7 +203,6 @@ void ProjScene::init() {
 	cameraTranslationXY[1] = 0.0;
 	cameraTranslationZ = 0.0;
 
-	setAllAmbient();
 
 	currentPlayer = 'b';
 	toMove = false;
@@ -208,9 +211,12 @@ void ProjScene::init() {
 	level = 0;
 	removes = 0;
 
-	theBoard = Board(3);
+	theBoard = Board(10);
 	sck.socketConnect();
-	theBoard.boardParser(sck.initBoard(3)); //Socket
+	theBoard.boardParser(sck.initBoard(10)); //Socket
+
+	setAllAmbient();
+
 
 	moves.push_back(theBoard);
 

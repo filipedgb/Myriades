@@ -13,7 +13,6 @@
 
 #include "Animation.h"
 
-#include "Piece.h"
 #include "Board.h"
 #include "Socket.h"
 

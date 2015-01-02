@@ -20,12 +20,27 @@ Piece::Piece(int number, char color) {
 		this->piece = new Cylinder(0.7,0.7,0.2,30,30);
 	else this->piece = new Cylinder(0.7,0.7,0.2,(int) number/10 + 3,30);
 
+	//this->numberPlate = Cube();
+	this->numberPlate =  new Cylinder(0.3,0.3,0.025,30,30);
+
 	this->newPiece = false;
 	this->isMoving1 = false;
 	this->addingPiece = new Linear("adding piece",2);
 	this->movingPiece = new Linear("moving piece",2);
 
+	loadTextures();
+
 	setAppearance();
+}
+
+void Piece::loadTextures() {
+	for(int i = 0; i < 9; i++) {
+		string name = "tex" + std::to_string(i) + ".jpg" ;
+		numbers[i] = new CGFappearance(ambW1,white1,specW1,120);
+		numbers[i]->setTexture(name) ;
+
+	}
+
 }
 
 char Piece::getColor() const {
@@ -57,31 +72,57 @@ void Piece::setNumber(int n) {
 }
 
 void Piece::draw(float text_s, float text_t) {
+
+	int n1 = number/10;
+	int n2 = number%10;
+
+
+		
+	glPushMatrix();
+		
+		numbers[n1]->apply();
+		
+		glTranslated(0,0,-0.025);
+		
+		
+		glRotated(90,0,0,1);
+
+		//glScaled(0.5,0.5,0.05);
+
+		numberPlate->draw(1,1);
+	glPopMatrix();
+
+
 	glPushMatrix();
 	if(color != 'g') {
 		glPushMatrix();
 		if(color == 'b') (new CGFappearance(ambW1,specW1,white1,120))->apply();
 		else (new CGFappearance(ambB1,specB1,black1,120))->apply();
 
-		int n1 = number/10;
-		int n2 = number%10;
 
+
+
+		/*
 		if(n1 != 0) {
-			glRasterPos3f(-0.1, 0.01, 0);
-			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,'0'+n1);
+		glRasterPos3f(-0.1, 0.01, 0);
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,'0'+n1);
 
-			glRasterPos3f(0.1, 0.01, 0);
-			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,'0'+n2);
+		glRasterPos3f(0.1, 0.01, 0);
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,'0'+n2);
 		}
 		else {
-			glRasterPos3f(0, 0.01, 0);
-			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,'0'+n2);
+		glRasterPos3f(0, 0.01, 0);
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,'0'+n2);
 		}
+
+		*/
+
 		glPopMatrix();
 	}
 
 	this->pieceApp->apply();
 	this->piece->draw(text_s,text_t);
+
 	glPopMatrix();
 }
 
