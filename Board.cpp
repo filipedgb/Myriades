@@ -16,12 +16,14 @@ Board::Board() {
 	this->size = 5;
 	setPiecesAppearances();
 	setAppearance(boardApp);
+	setBoxAnimation();
 }
 
 Board::Board(int s) {
 	this->size = s;
 	setPiecesAppearances();
 	setAppearance(boardApp);
+	setBoxAnimation();
 }
 
 Board::Board(vector<vector<Piece*>> boardIn) {
@@ -30,6 +32,20 @@ Board::Board(vector<vector<Piece*>> boardIn) {
 
 	setPiecesAppearances();
 	setAppearance(boardApp);
+	setBoxAnimation();
+}
+
+void Board::setBoxAnimation() {
+	isSliding = false;
+	slidingBoxBtoW = new Linear("sliding box b to w",2);
+
+	slidingBoxBtoW->addControlPoint(-2,2,size+1);
+	slidingBoxBtoW->addControlPoint(-2,2,size-1);
+
+	slidingBoxWtoB = new Linear("sliding box w to b",2);
+
+	slidingBoxWtoB->addControlPoint(-2,2,size-1);
+	slidingBoxWtoB->addControlPoint(-2,2,size+1);
 }
 
 void Board::setPiecesAppearances() {
@@ -64,6 +80,12 @@ void Board::setTexture(char c) {
 void Board::setTexture(CGFtexture* bt, CGFtexture* pt) {
 	this->boardText = bt;
 	this->pieceText = pt;
+}
+
+void Board::setPlayer(char c) {
+	if(c != currentPlayer) {
+		isSliding = true; 
+		currentPlayer = c; }
 }
 
 int Board::getPieceNumber(int row, int col) { 
@@ -121,37 +143,25 @@ void Board::draw() {
 				board[row][col]->setTexture(this->pieceText);
 
 				if(board[row][col]->isNew()) {
-					if(board[row][col]->getAddingAnimation()->isStopped()) {
+					if(board[row][col]->getAddingAnimation()->isStopped())
 						board[row][col]->setOld();
-					}
-					else{
-						board[row][col]->getAddingAnimation()->draw();
-						glTranslatef(1,0.7,1);
-						glRotatef(90,1,0,0);
-					}
+					else board[row][col]->getAddingAnimation()->draw();
 				}
 				else if(board[row][col]->isMoving()) {
-					if(board[row][col]->getMovingAnimation()->isStopped()) {
+					if(board[row][col]->getMovingAnimation()->isStopped())
 						board[row][col]->setMoving(false);
-					}
-					else{
-						board[row][col]->getMovingAnimation()->draw();
-						glTranslatef(1,0.7,1);
-						glRotatef(90,1,0,0);
-					}
+					else board[row][col]->getMovingAnimation()->draw();
 				}
 				else { 
 					glTranslatef(2*col,0,0);
 					glTranslatef(0,0,2*row);
-					glTranslatef(1,0.7,1);
-					glRotatef(90,1,0,0);
 				}
+
+				glTranslatef(1,0.7,1);
+				glRotatef(90,1,0,0);
 
 				board[row][col]->draw(1,1);
 				glPopMatrix();
-
-				//glRasterPos3f(row*2 - 1, col*2 - 1, 2);
-				//glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, '0'+getPieceNumber(row,col));	
 			}
 		}
 		glPopMatrix();
@@ -245,8 +255,28 @@ void Board::drawBox() {
 
 	//top
 	glPushMatrix();
-	if(currentPlayer == 'b') glTranslated(-1,0,0);
-	else glTranslated(1,0,0);
+	bool animated = false;
+	if(currentPlayer == 'b') {
+		if(isSliding) {
+			if(slidingBoxWtoB->isStopped()) isSliding = false;
+			else {
+				slidingBoxWtoB->draw();
+				animated = true;
+			}
+		}
+		glTranslated(-1,0,0);
+	}
+	else {
+		if(isSliding) {
+			if(slidingBoxBtoW->isStopped()) isSliding = false;
+			else {
+				slidingBoxBtoW->draw();
+				animated = true;
+			}
+		}
+		glTranslated(1,0,0);
+	}
+
 	glTranslated(0,2,0);
 	glScaled(1.6,0.5,1.6);
 	cube->draw();
