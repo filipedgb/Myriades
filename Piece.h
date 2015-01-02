@@ -28,6 +28,7 @@ class Piece: public Primitive {
 
 	bool newPiece;
 	bool isMoving1;
+	float angle;
 
 public:
 	Piece(int number, char color);
@@ -38,6 +39,8 @@ public:
 	void setColor(char c);
 	void setNumber(int n);
 	void draw(float text_s, float text_t);
+
+	void setAngle(float a) {angle = a;}
 
 	void setAppearance();
 	void setAppearance(CGFappearance* a);

@@ -203,9 +203,9 @@ void ProjScene::init() {
 	level = 0;
 	removes = 0;
 
-	theBoard = Board(10);
+	theBoard = Board(3);
 	sck.socketConnect();
-	theBoard.boardParser(sck.initBoard(10)); //Socket
+	theBoard.boardParser(sck.initBoard(3)); //Socket
 
 	setAllAmbient();
 
