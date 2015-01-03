@@ -72,9 +72,11 @@ void Piece::loadTextures() {
 		numbers[i]->setTexture(name);
 	}
 
+	infinityApp = new CGFappearance(ambW1,white1,specW1,120);
+	infinityApp->setTexture("infinity.jpg");
+
 	nonumberApp = new CGFappearance(ambW1,white1,specW1,120);
 	nonumberApp->setTexture("nonumber.jpg");
-
 }
 
 char Piece::getColor() const {
@@ -108,11 +110,11 @@ void Piece::setNumber(int n) {
 void Piece::draw(float text_s, float text_t) {
 	int n1 = number%10;
 
-	
 	glPushMatrix();
 
-	if(n1 == -1) nonumberApp->apply();
-	else numbers[n1]->apply();
+	if(color == 'g') infinityApp->apply();
+	else if(n1 > -1 && n1 < 10) numbers[n1]->apply();
+	else nonumberApp->apply();
 
 	angle = getAngleForPiece();
 

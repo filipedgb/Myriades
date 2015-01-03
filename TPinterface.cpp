@@ -56,10 +56,10 @@ void TPinterface::initGUI() {
 	addColumn();
 
 	GLUI_Panel* output = addPanel("Output",1); 
-	gameOutput = addStaticTextToPanel(output,"gameOutput");
+	gameOutput = addStaticTextToPanel(output,"Move or add a piece.");
 
 	addSeparatorToPanel(output);
-	currentPiece = addStaticTextToPanel(output,"currentPiece");
+	currentPiece = addStaticTextToPanel(output,"No piece selected.");
 
 	addColumn();
 

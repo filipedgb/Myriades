@@ -39,26 +39,22 @@ void ProjScene::setAllAmbient() {
 	GLfloat p1Tar[3] = {size,0,size};
 	GLfloat p2Pos[3] = {10,1,9};
 	GLfloat p2Tar[3] = {10,0,10};
-	GLfloat p3Pos[3] = {2,5,2};
-	GLfloat p3Tar[3] = {0,0,0};
+	//mudar isto
+	GLfloat p3Pos[3] = {size,10,-size*2+1};
+	GLfloat p3Tar[3] = {size,0,-size*2};
 
 	/* CAMARAS */
 	mainCamera = new Perspective("Sided Camera",0,0,0,p1Pos,p1Tar);;
 	Perspective* p1 = new Perspective("p1",0,0,0,p1Pos,p1Tar);
-
 	Perspective* p2 = new Perspective("p2",0,0,0,p2Pos,p2Tar);
 	Perspective* p3 = new Perspective("p3",0,0,0,p3Pos,p3Tar);
 
-
-	//	transitionalCameras.push_back()
 	mainCamera->calculatePoints();
 	mainCamera->setRotative();
 	cameras.push_back(mainCamera);
 	cameras.push_back(p1);
 	cameras.push_back(p2);
 	cameras.push_back(p3);
-
-	//	setTransitionalCameras(p1->getPoints());
 
 	/*Lights*/
 	GLfloat l1Pos[3] = {0,15,3};
@@ -84,7 +80,6 @@ void ProjScene::setAllAmbient() {
 	CGFtexture* metalBoard = new CGFtexture("metalBoard.jpg");
 
 	addNewAmbient("Metal",metalPiece,metalBoard);
-
 }
 
 void ProjScene::addNewAmbient(string id, CGFtexture* pieceApp, CGFtexture* boardApp) {
@@ -276,16 +271,16 @@ void ProjScene::update(unsigned long t) {
 				theBoard.getPiece(i,k)->getMovingAnimation()->update(t);
 		}
 
-
 		if(initialTime == 0) initialTime = t;
 		timePassed = (t - initialTime)/1000.0;
 
 		cronometro->update(timePassed);
 
 		if(timePassed >= cronometro->getTimeLimit()) {
+			toMove = false;
+			hasMoved = false;
 			changeCurrentPlayer();
 		}
-
 
 		if(replaying) {	
 			if(initialReplayTime == 0) initialReplayTime = t;
@@ -325,8 +320,6 @@ void ProjScene::display() {
 	if(cameraState == 0) 
 		CGFscene::activeCamera->applyView();
 	else this->cameras[cameraState-1]->applyView();
-
-	//mainCamera->applyView(currentPlayer);
 
 	// Draw (and update) light
 	light0->draw();
@@ -456,20 +449,6 @@ void ProjScene::updateLightState() {
 	}
 }
 
-int ProjScene::searchCamera(char* id) {
-	for(unsigned int i=0; i < cameras.size();i++)
-		if(!strcmp(cameras[i]->getId(),id))
-			return i;
-	return -1;
-}
-
-int ProjScene::searchAnimation(char* id) {
-	for(unsigned int i=0; i < animations.size();i++)
-		if(!strcmp(animations[i]->getId(),id))
-			return i;
-	return -1;
-}
-
 ProjScene::~ProjScene() {
 	delete(light0);
 
@@ -546,7 +525,6 @@ void ProjScene::changeCurrentPlayer() {
 	mainCamera->toggleSide();
 	initialTime = 0;
 	timePassed = 0;
-
 }
 
 void ProjScene::replay() {

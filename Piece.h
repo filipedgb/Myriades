@@ -23,6 +23,7 @@ class Piece: public Primitive {
 	
 	CGFappearance* numbers[9];
 	CGFappearance* nonumberApp;
+	CGFappearance* infinityApp;
 	
 	Linear* addingPiece;
 	Linear* movingPiece;
