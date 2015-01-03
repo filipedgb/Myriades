@@ -382,9 +382,6 @@ void ProjScene::addPieceValue() {
 		theBoard.getPiece(oldX,oldY)->setNew(oldY,oldX,theBoard.getSize());
 		theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
 
-		string out = "Added a piece.\n";
-		TPinterface::setOutput(out);
-
 		changeCurrentPlayer();
 
 		lastMove = theBoard;
@@ -408,16 +405,13 @@ void ProjScene::addPieceValue() {
 			}
 
 			changeCurrentPlayer();
-
-			out = "Pc added a piece.\n";
-			TPinterface::setOutput(out);
 		}
 
-		out.append("Move or add a piece.\n");
+		string out = "Move or add a piece.";
 		TPinterface::setOutput(out);
 	}
 	else {
-		string out = "Can't add that piece.\n";
+		string out = "Can't add that piece.";
 		TPinterface::setOutput(out);
 	}
 }

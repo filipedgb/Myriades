@@ -354,8 +354,11 @@ void Board::drawBox() {
 }
 
 void Board::boardParser(string answer) {
-	this->board.clear();
-	vector<Piece*> row;
+	//this->board.clear();
+	vector<vector<int>> tempBoardN;
+	vector<vector<char>> tempBoardC;
+	vector<int> rowN;
+	vector<char> rowC;
 
 	answer.erase(0,1); // erase first '['
 	answer.erase(answer.size()-3,answer.size()-3); // erase last '].\r'
@@ -376,15 +379,47 @@ void Board::boardParser(string answer) {
 				char color = cell[0];
 				int number = (int) atoi(cell.substr(cell.find(",") + 1, cell.size()-2).c_str());
 
-				row.push_back(new Piece(number, color));
+				rowN.push_back(number);
+				rowC.push_back(color);
 			}
-			else row.push_back(NULL); //empty cell
+			else {
+				rowC.push_back(NULL); //empty cell
+				rowN.push_back(NULL); //empty cell
+			}
 		}
 		else { //end of row
-			board.push_back(row);
-			row.clear();
+			tempBoardN.push_back(rowN);
+			tempBoardC.push_back(rowC);
+			rowC.clear();
+			rowN.clear();
 		}
 		answer.erase(0,posEnd+1);
+	}
+
+	checkBoard(tempBoardN, tempBoardC);
+}
+
+void Board::checkBoard(vector<vector<int>> bn, vector<vector<char>> bc) {
+	if(bn.size() != this->board.size()) {
+		board.clear();
+
+		for(unsigned int i=0; i < bn.size(); i++) {
+			vector<Piece*> row;
+			for(unsigned int j=0; j < bn[i].size(); j++) {
+				if(bc[i][j] == NULL) row.push_back(NULL);
+				else row.push_back(new Piece(bn[i][j],bc[i][j]));
+			}
+			board.push_back(row);
+		}
+		size = board.size();
+	}
+	else  {
+		for(unsigned int i=0; i < bn.size(); i++)
+			for(unsigned int j=0; j < bn[i].size(); j++)
+				if(board[i][j] == NULL || board[i][j]->getColor() != bc[i][j] || board[i][j]->getNumber() != bn[i][j]) {
+					if(bc[i][j] == NULL) board[i][j] = NULL;
+					else board[i][j] = new Piece(bn[i][j], bc[i][j]);
+				}
 	}
 }
 
@@ -530,3 +565,4 @@ void Board::setScore(int b, int w) {
 	this->scoreB = b;
 	this->scoreW = w;
 }
+
