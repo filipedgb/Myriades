@@ -117,7 +117,9 @@ void TPinterface::initGUI() {
 	//CAMERAS
 	GLUI_Rollout *cameras = addRolloutToPanel(panel, "Cameras",0);
 
-	GLUI_Rollout *changeCamera = addRolloutToPanel(cameras, "Change camera",0);
+	GLUI_Panel* tempCameras = addPanelToPanel(cameras,"",GLUI_PANEL_NONE);
+
+	GLUI_Rollout *changeCamera = addRolloutToPanel(tempCameras, "Change camera",0);
 
 	GLUI_RadioGroup *camera = addRadioGroupToPanel(changeCamera, &(((ProjScene*) scene)->cameraState),10);
 
@@ -127,9 +129,9 @@ void TPinterface::initGUI() {
 		addRadioButtonToGroup(camera, ((ProjScene*)scene)->getCameras()[i]->getId());
 	}
 
-	addSeparatorToPanel(cameras);
+	addColumnToPanel(tempCameras);
 
-	GLUI_Rollout* moveCameras = addRolloutToPanel(cameras,"Move camera",0);
+	GLUI_Rollout* moveCameras = addRolloutToPanel(tempCameras,"Move camera",0);
 
 	GLUI_Panel* translationP = addPanelToPanel(moveCameras,"",GLUI_PANEL_NONE);
 	GLUI_Rotation* rot = addRotationToPanel(translationP,"Rotation", ((ProjScene*)scene)->cameraRotation, 20); 
