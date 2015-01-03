@@ -14,15 +14,6 @@ Clock::Clock() {
 	timeLimit = 30;
 }
 
-
-int Clock::getLimit() {
-	return timeLimit;
-}
-
-void Clock::setLimit(int max) {
-	timeLimit = max;
-}
-
 void Clock::update(float segundos) { 
 	angle = (segundos*360)/timeLimit;
 }
