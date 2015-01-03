@@ -41,6 +41,7 @@ public:
 	void loadTextures();
 
 	void boardParser(string answer);
+	void checkBoard(vector<vector<int>> bn, vector<vector<char>> bc);
 	void draw();
 	void drawSolidBase();
 	void drawBase();

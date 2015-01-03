@@ -1119,10 +1119,10 @@ parse_input(pcAdd(B,CorJogador),B2):-
 parse_input(pcMove(B,Level,CorJogador),B2):-
 	(existsPiecesInBoard(B,CorJogador), !,
 		(
-			Level = 1, !, B2 = B;
-			Level = 2, !, (random(0,100,R), (R < 50, !, pcMove(B,B2,CorJogador), !; 
+			Level = 0, !, B2 = B;
+			Level = 1, !, (random(0,100,R), (R < 50, !, pcMove(B,B2,CorJogador), !; 
 										B2 = B));
-			Level = 3, !, pcMove(B,B2,CorJogador), !
+			Level = 2, !, pcMove(B,B2,CorJogador), !
 		)
 	);
 	B2 = B.
