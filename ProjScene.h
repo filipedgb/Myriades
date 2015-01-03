@@ -8,6 +8,8 @@
 #include "CGFapplication.h"
 #include "Light.h"
 
+#include "Clock.h"
+
 #include "Perspective.h"
 #include "Ortho.h"
 
@@ -23,6 +25,8 @@ private:
 	vector<Light*> lights;
 	vector<Camera*> cameras; 
 	vector<Animation*> animations;
+
+	Clock* cronometro;
 
 	Perspective* mainCamera;
 
