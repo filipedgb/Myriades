@@ -22,6 +22,7 @@ class Piece: public Primitive {
 	CGFtexture* text;	
 	
 	CGFappearance* numbers[9];
+	CGFappearance* nonumberApp;
 	
 	Linear* addingPiece;
 	Linear* movingPiece;

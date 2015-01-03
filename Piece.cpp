@@ -53,7 +53,7 @@ Piece::Piece(int number, char color) {
 		this->piece = new Cylinder(0.7,0.7,0.2,30,30);
 	else this->piece = new Cylinder(0.7,0.7,0.2,(int) number/10 + 3,30);
 
-	this->numberPlate =  new Cylinder(0.3,0.3,0.025,30,30);
+	this->numberPlate =  new Cylinder(0.3,0.3,0.01,30,30);
 
 	this->newPiece = false;
 	this->isMoving1 = false;
@@ -71,6 +71,10 @@ void Piece::loadTextures() {
 		numbers[i] = new CGFappearance(ambW1,white1,specW1,120);
 		numbers[i]->setTexture(name);
 	}
+
+	nonumberApp = new CGFappearance(ambW1,white1,specW1,120);
+	nonumberApp->setTexture("nonumber.jpg");
+
 }
 
 char Piece::getColor() const {
@@ -102,14 +106,17 @@ void Piece::setNumber(int n) {
 }
 
 void Piece::draw(float text_s, float text_t) {
-	int n1 = number/10;
+	int n1 = number%10;
 
+	
 	glPushMatrix();
-	numbers[n1]->apply();
+
+	if(n1 == -1) nonumberApp->apply();
+	else numbers[n1]->apply();
 
 	angle = getAngleForPiece();
 
-	glTranslated(0,0,-0.025);
+	glTranslated(0,0,-0.001);
 	glRotatef(180 + 90 + angle,0,0,1);
 	numberPlate->draw(1,1);
 	glPopMatrix();
@@ -126,11 +133,15 @@ void Piece::setNew(int x, int y, int size) {
 	newPiece = true;
 	addingPiece->addControlPoint(-3,2.25,size+1);
 	addingPiece->addControlPoint(-3,3,size+1);
-	addingPiece->addControlPoint(2*x,3,2*y+2);
-	addingPiece->addControlPoint(2*x,0,2*y+2);
+	addingPiece->addControlPoint(2*x,3,2*y);
+	addingPiece->addControlPoint(2*x,0,2*y);
 }
 
 void Piece::setMoving(int oldx, int oldy, int newx, int newy, int size) {
+	cout << "Old x:" << oldx << "Old y:" << oldy <<endl ;
+		cout << "new x:" << newx << "new y:" << newy << endl;
+
+
 	isMoving1 = true;
 	this->movingPiece->reset();
 	movingPiece->addControlPoint(2*oldy, 0, 2*oldx);
