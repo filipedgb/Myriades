@@ -1,8 +1,6 @@
 #include "TPinterface.h"
 #include "ProjScene.h"
 
-#include <iostream> 
-
 TPinterface::TPinterface() {}
 
 GLUI_StaticText* TPinterface::gameOutput = new GLUI_StaticText();
@@ -41,9 +39,12 @@ void TPinterface::initGUI() {
 	GLUI_Panel* replayP = addPanelToPanel(gamePanel,"",GLUI_PANEL_NONE);
 	GLUI_Button* replay = addButtonToPanel(replayP,"Replay",17);
 	addColumnToPanel(replayP);
-	GLUI_Rollout* replayR = addRolloutToPanel(replayP,"",0,0);
+	GLUI_Rollout* replayR = addRolloutToPanel(replayP,"Time",0,0);
 	GLUI_Spinner* replayTime = addSpinnerToPanel(replayR,"Replay Time",2,&(((ProjScene*) scene)->replayTime));
-	replayTime->set_int_limits(100,100000, GLUI_LIMIT_WRAP);
+	replayTime->set_int_limits(1,60, GLUI_LIMIT_WRAP);
+
+	GLUI_EditText* playTime = addEditTextToPanel(replayR,"Move time",&(((ProjScene*) scene)->playTime),19);
+	playTime->set_int_limits(20,120, GLUI_LIMIT_WRAP);
 
 	GLUI_Panel* undoP = addPanelToPanel(gamePanel,"",GLUI_PANEL_NONE);
 	GLUI_Button* undo = addButtonToPanel(undoP,"Undo",13);
@@ -72,9 +73,6 @@ void TPinterface::initGUI() {
 	for(unsigned int i = 0; i < ((ProjScene*) scene)->getAmbientID().size(); i++) {
 		ambient->add_item(i, ((ProjScene*) scene)->getAmbientID()[i].c_str());
 	}
-
-	//add separator
-	//addSeparatorToPanel(panel);
 
 	//add centered panel for drawing options
 	GLUI_Rollout *drawing = addRolloutToPanel(panel,"Drawing",0);
@@ -214,6 +212,10 @@ void TPinterface::processGUI(GLUI_Control *ctrl) {
 	case 17:
 		printf("Replay game\n");
 		((ProjScene*) scene)->replay();
+		break;
+	case 18:
+		printf("Play time\n");
+		((ProjScene*) scene)->changePlayLimit();
 		break;
 	case 20:
 		printf("Moving Camera\n");

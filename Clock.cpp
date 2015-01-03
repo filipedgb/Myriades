@@ -1,9 +1,6 @@
 #include "Clock.h"
 
-
-
 Clock::Clock() { 
-	
 	base = new Cylinder(1,1,0.1,30,30);
 
 	pointer = new Triangle(0.1,0,0,0,0.9,0,-0.1,0,0);
@@ -15,7 +12,6 @@ Clock::Clock() {
 	pointerApp->setTexture("nonumber.jpg");
 
 	timeLimit = 30;
-
 }
 
 
@@ -28,14 +24,11 @@ void Clock::setLimit(int max) {
 }
 
 void Clock::update(float segundos) { 
-	
 	angle = (segundos*360)/timeLimit;
-
 }
 
 
 void Clock::draw() {  
-
 	glPushMatrix();
 
 	pointerApp->apply();
@@ -47,5 +40,4 @@ void Clock::draw() {
 
 	clockApp->apply();
 	base->draw(1,1);
-
 }

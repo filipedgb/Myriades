@@ -201,13 +201,13 @@ void ProjScene::init() {
 
 	replaying = false;
 	replayingIndex = 0;
-	oldT = 0;
-	replayTime = 1500;
+	replayTime = 5;
 
 	theBoard = Board(10);
 	sck.socketConnect();
 
 	cronometro = new Clock();
+	playTime = cronometro->getTimeLimit();
 
 	theBoard.boardParser(sck.initBoard(10)); //Socket
 
@@ -217,7 +217,7 @@ void ProjScene::init() {
 
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(0,'w'),0,0));
 	moves.push_back(theBoard);
-/*	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(31,'b'),0,1));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(31,'b'),0,1));
 	moves.push_back(theBoard);
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(21,'w'),1,0));
 	moves.push_back(theBoard);
@@ -228,7 +228,6 @@ void ProjScene::init() {
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(41,'b'),1,1));
 	moves.push_back(theBoard);
 	theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
-*/
 	lastMove = theBoard;
 
 	setUpdatePeriod(50);
@@ -275,21 +274,9 @@ void ProjScene::update(unsigned long t) {
 				theBoard.getPiece(i,k)->getMovingAnimation()->update(t);
 		}
 
-		if(replaying) {	
-			if((t - oldT)%replayTime == 0) {
-				theBoard = moves[replayingIndex];
-				theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
-				replayingIndex++;
-				if(replayingIndex == moves.size()) replaying = false;
-			}
-		}
-		else oldT = t;
 
 		if(initialTime == 0) initialTime = t;
 		timePassed = (t - initialTime)/1000.0;
-
-		cout << timePassed << endl;
-
 
 		cronometro->update(timePassed);
 
@@ -297,6 +284,18 @@ void ProjScene::update(unsigned long t) {
 			changeCurrentPlayer();
 		}
 
+		if(replaying) {	
+			cout << "time passed " << (int) timePassed << endl;
+			if((int)timePassed % replayTime == 0) {
+				theBoard = moves[replayingIndex];
+				theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
+				replayingIndex++;
+				if(replayingIndex == moves.size()) {
+					replaying = false;
+					replayingIndex = 0;
+				}
+			}
+		}
 }
 
 void ProjScene::changeTextures() {
@@ -565,4 +564,8 @@ void ProjScene::resetCameras() {
 	cameraTranslationXY[0] = 0.0;
 	cameraTranslationXY[1] = 0.0;
 	cameraTranslationZ = 0.0;
+}
+
+void ProjScene::changePlayLimit() {
+	this->cronometro->setTimeLimit((float) this->playTime);
 }

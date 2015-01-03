@@ -5,31 +5,23 @@
 #include "Triangle.h"
 #include "CGFappearance.h"
 
-
 class Clock {
 	float seconds;
 	float angle;
-
-	float timeLimit;
 
 	CGFappearance* clockApp;
 	CGFappearance* pointerApp;
 
 	Cylinder* base;
 	Triangle* pointer;
-
+	float timeLimit;
 
 public:
 	Clock();
 	void draw();
 	void update(float seconds);
-	void setLimit(int max);
-	int getLimit();
-
-
+	void setTimeLimit(float t) { timeLimit = t;}
+	float getTimeLimit() {return timeLimit; }
 };
-
-
-
 
 #endif
