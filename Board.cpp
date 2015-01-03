@@ -278,30 +278,10 @@ void Board::drawBox() {
 
 	//top
 	glPushMatrix();
-	bool animated = false;
-	if(currentPlayer == 'b') {
-		if(isSliding) {
-			if(slidingBoxWtoB->isStopped()) isSliding = false;
-			else {
-				slidingBoxWtoB->draw();
-				animated = true;
-			}
-		}
-		glTranslated(-1,0,0);
-	}
-	else {
-		if(isSliding) {
-			if(slidingBoxBtoW->isStopped()) isSliding = false;
-			else {
-				slidingBoxBtoW->draw();
-				animated = true;
-			}
-		}
-		glTranslated(1,0,0);
-	}
+	
 
-	glTranslated(0,2,0);
-	glScaled(1.6,0.5,1.6);
+	glTranslated(0,2.2,0);
+	glScaled(1.6,0.1,1.6);
 	cube->draw();
 	glPopMatrix();
 

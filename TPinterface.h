@@ -16,6 +16,7 @@ public:
 
 	static GLUI_StaticText* gameOutput;
 	static GLUI_StaticText* currentPiece;
+	static GLUI_StaticText* gameCounter;
 
 	static void setOutput(std::string output) {
 		gameOutput->set_text(output.c_str());

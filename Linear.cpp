@@ -66,8 +66,10 @@ void Linear::update(unsigned long t) {
 	dy = (delta.getY()*time_in_segment)/span_per_segment;
 	dz = (delta.getZ()*time_in_segment)/span_per_segment;
 }
-
+ 
 void Linear::draw() {
+	cout << "trans x:" << dx+cp_x << " trans y: " << dy+cp_y << " trans z: " << cp_z+dx << endl;
+
 	glTranslated(dx+cp_x,cp_y+dy,cp_z+dz);
 	//glRotated(direction,0,1,0);
 }

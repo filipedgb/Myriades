@@ -35,6 +35,10 @@ private:
 	bool hasMoved, toMove;
 	int removes;
 
+	float initialTime;
+	float timePassed;
+
+
 	Board theBoard;
 	Board lastMove;
 
