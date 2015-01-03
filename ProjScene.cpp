@@ -201,7 +201,7 @@ void ProjScene::init() {
 
 	replaying = false;
 	replayingIndex = 0;
-	replayTime = 5;
+	replayTime = 3;
 	currentReplayTime = 0;
 	initialReplayTime = 0;
 
