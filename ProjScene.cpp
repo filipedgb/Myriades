@@ -206,6 +206,9 @@ void ProjScene::init() {
 
 	theBoard = Board(10);
 	sck.socketConnect();
+
+	cronometro = new Clock();
+
 	theBoard.boardParser(sck.initBoard(10)); //Socket
 
 	setAllAmbient();
@@ -287,9 +290,13 @@ void ProjScene::update(unsigned long t) {
 
 		cout << timePassed << endl;
 
+
+		cronometro->update(timePassed);
+
 		if(timePassed >= 30) {
 			changeCurrentPlayer();
 		}
+
 }
 
 void ProjScene::changeTextures() {
@@ -328,6 +335,13 @@ void ProjScene::display() {
 
 	// Draw axis
 	axis.draw();
+
+	glPushMatrix();
+	glTranslated(-2,1.5,theBoard.getSize());
+	glRotated(90,0,1,0);
+	cronometro->draw();
+	glPopMatrix();
+
 
 	// ---- END Background, camera and axis setup
 
