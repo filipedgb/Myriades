@@ -24,15 +24,13 @@ private:
 	CGFlight* light0;
 	vector<Light*> lights;
 	vector<Camera*> cameras; 
-	vector<Animation*> animations;
+	//vector<Animation*> animations;
 
 	Clock* cronometro;
 
-
-
 	Perspective* mainCamera;
 
-	vector<vector<CGFtexture*>> ambients;	//each i is a vector to use in all pieces-board/boardBox
+	vector<vector<CGFtexture*>> ambients;	    //each i is a vector to use in all pieces-board/boardBox
 	vector<string> ambientID;					//id to show in interface
 
 	char currentPlayer;
@@ -66,9 +64,6 @@ public:
 	vector<Light*>  getLights() { return lights;}
 	vector<Camera*> getCameras() { return cameras;} 
 	
-	int searchCamera(char* id);
-	int searchAnimation(char* id);
-
 	void setTransitionalCameras(vector<vector3d> coordinates);
 
 	/** INTERFACE OPTIONS*/
