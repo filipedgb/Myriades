@@ -11,7 +11,7 @@ Clock::Clock() {
 	pointerApp = new CGFappearance();
 	pointerApp->setTexture("nonumber.jpg");
 
-	timeLimit = 30;
+	timeLimit = 120;
 }
 
 void Clock::update(float segundos) { 

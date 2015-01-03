@@ -24,7 +24,6 @@ private:
 	CGFlight* light0;
 	vector<Light*> lights;
 	vector<Camera*> cameras; 
-	//vector<Animation*> animations;
 
 	Clock* cronometro;
 
@@ -63,7 +62,7 @@ public:
 
 	vector<Light*>  getLights() { return lights;}
 	vector<Camera*> getCameras() { return cameras;} 
-	
+
 	void setTransitionalCameras(vector<vector3d> coordinates);
 
 	/** INTERFACE OPTIONS*/

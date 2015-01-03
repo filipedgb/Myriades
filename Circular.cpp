@@ -45,17 +45,14 @@ void Circular::update(unsigned long t)
 		stop = true;
 		return;
 	}
-	
+
 	sum_angle = (time_animation*(rotang-startang))/span;
-	
 }
 
-void Circular::draw()
-{
-	glPushMatrix();
-	 glRotated(sum_angle,0,1,0);
-	 glRotated(startang,0,1,0);
- 
-	 glTranslated(radius,0,0);
+void Circular::draw() {
+	glRotated(sum_angle,0,1,0);
+	glRotated(startang,0,1,0);
+
+	glTranslated(radius,0,0);
 	glRotated(180,0,1,0); //a frente do  objecto deve estar orientada para +z
 }

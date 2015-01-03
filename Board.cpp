@@ -219,14 +219,12 @@ void Board::drawBase() {
 			glTranslatef(0,0,2*row);
 
 			glTranslatef(0,0.5,2);
-
 			glRotatef(-90,1,0,0);
 
 			if(row%2 == 0) {
 				if(col == 0) {
 					lastCol = 'b';
 				}
-
 				if(lastCol == 'b') {
 					this->setTexture('w');
 					this->boardApp->apply();
@@ -278,14 +276,12 @@ void Board::drawBox() {
 
 	//top
 	glPushMatrix();
-	
-	if(currentPlayer == 'b') {
 
+	if(currentPlayer == 'b') {
 		if(isSliding) {
 			if(slidingBoxWtoB->isStopped()) {
 				isSliding = false;
 			}
-			
 			else {
 				slidingBoxWtoB->draw();
 			}

@@ -140,8 +140,8 @@ void Piece::setNew(int x, int y, int size) {
 }
 
 void Piece::setMoving(int oldx, int oldy, int newx, int newy, int size) {
-	cout << "Old x:" << oldx << "Old y:" << oldy <<endl ;
-		cout << "new x:" << newx << "new y:" << newy << endl;
+	//cout << "Old x:" << oldx << "Old y:" << oldy <<endl ;
+	//cout << "new x:" << newx << "new y:" << newy << endl;
 
 	isMoving1 = true;
 	this->movingPiece->reset();
