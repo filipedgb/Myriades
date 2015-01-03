@@ -261,6 +261,7 @@ void ProjScene::init() {
 	system("pause");
 }
 
+
 void ProjScene::update(unsigned long t) {
 	for(int i = 0; i < theBoard.getSize(); i++)
 		for(int k = 0; k <  theBoard.getSize(); k++) {
@@ -271,16 +272,17 @@ void ProjScene::update(unsigned long t) {
 				theBoard.getPiece(i,k)->getMovingAnimation()->update(t);
 		}
 
+		theBoard.updateAnimation(t);
+
 		if(initialTime == 0) initialTime = t;
 		timePassed = (t - initialTime)/1000.0;
 
 		cronometro->update(timePassed);
 
 		if(timePassed >= cronometro->getTimeLimit()) {
-			toMove = false;
-			hasMoved = false;
 			changeCurrentPlayer();
 		}
+
 
 		if(replaying) {	
 			if(initialReplayTime == 0) initialReplayTime = t;
@@ -298,7 +300,6 @@ void ProjScene::update(unsigned long t) {
 			}
 		}
 }
-
 void ProjScene::changeTextures() {
 	theBoard.setTexture(ambients[ambientState][1], ambients[ambientState][0]);
 }
