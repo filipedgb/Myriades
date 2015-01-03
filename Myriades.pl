@@ -1148,6 +1148,9 @@ parse_input(addGray(R,C,B),Answer):-
 parse_input(numPieces(Player,Board),Answer):-
 	numPieces(Player,Board,Answer),!.
 
+parse_input(sumOf(P,Board),Answer):-
+	P = b, !,sumOfBlack(Board,Answer);
+	P = w, !,sumOfWhite(Board,Answer).
 
 /*----------------------- AUXILIAR FUNCTIONS ------------------------*/
 /*------------------------------ PC vs PC ----------------------------------------------------------------------------------------------------------*/

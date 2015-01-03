@@ -26,6 +26,10 @@ class Board {
 	Linear* slidingBoxBtoW;
 	bool isSliding;
 
+	CGFappearance* numbers[9];
+	Cube *score;
+	int scoreB, scoreW;
+
 	char currentPlayer;
 
 public:
@@ -33,19 +37,22 @@ public:
 	Board(int s);
 	Board(vector<vector<Piece*>> boardIn);
 
+	void loadTextures();
+
 	void boardParser(string answer);
 	void draw();
 	void drawSolidBase();
 	void drawBase();
 	void drawBox();
 	void drawBoxPiece();
+	void drawScore();
 	void setPiecesAppearances();
 	void setAppearance(CGFappearance* a);
 	void setTexture(char c);
 	void setTexture(CGFtexture* bt, CGFtexture* pt);
 
 	void setBoxAnimation();
-
+	void setScore(int b, int w);
 	void setPlayer(char c);
 
 	int getPieceNumber(int row, int col);
@@ -57,6 +64,8 @@ public:
 	Board& operator= (const Board& b) {
 		this->board = b.board;
 		this->size = b.size;
+		this->scoreB = b.scoreB;
+		this->scoreW = b.scoreW;
 		return *this;
 	}
 

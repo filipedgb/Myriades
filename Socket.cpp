@@ -237,3 +237,19 @@ string CtoPlSocket::pcMove(Board *b, char player, int lvl) {
 
 	return string(ans);
 }
+
+int CtoPlSocket::sumOf(char player, Board* board) {
+	string s = "sumOf(";
+	s+=player;
+	s.append(",");
+	s.append(board->toString());
+	s.append(").\n");
+
+	envia(s);
+	char ans[10], ans1[10];
+	recebe(ans);
+
+	strncpy_s(ans1,10,ans,strlen(ans)-1);
+
+	return atoi(ans1);
+}
