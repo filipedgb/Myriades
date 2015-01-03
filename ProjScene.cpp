@@ -199,13 +199,13 @@ void ProjScene::init() {
 	currentReplayTime = 0;
 	initialReplayTime = 0;
 
-	theBoard = Board(10);
+	theBoard = Board(4);
 	sck.socketConnect();
 
 	cronometro = new Clock();
 	playTime = cronometro->getTimeLimit();
 
-	theBoard.boardParser(sck.initBoard(10)); //Socket
+	theBoard.boardParser(sck.initBoard(theBoard.getSize())); //Socket
 
 	setAllAmbient();
 
@@ -260,7 +260,6 @@ void ProjScene::init() {
 	system("pause");
 }
 
-
 void ProjScene::update(unsigned long t) {
 	for(int i = 0; i < theBoard.getSize(); i++)
 		for(int k = 0; k <  theBoard.getSize(); k++) {
@@ -301,6 +300,7 @@ void ProjScene::update(unsigned long t) {
 			}
 		}
 }
+
 void ProjScene::changeTextures() {
 	theBoard.setTexture(ambients[ambientState][1], ambients[ambientState][0]);
 }
@@ -423,18 +423,19 @@ void ProjScene::addPieceValue() {
 }
 
 bool ProjScene::changePiece() {
-	if(oldX != movedX || oldY!= movedY) {
-		if(theBoard.getPiece(oldX,oldY) != NULL && theBoard.getPiece(oldX,oldY)->getColor() == currentPlayer)
-			theBoard.boardParser(sck.addGray(&theBoard,oldX,oldY));
+	if(removes)
+		if(oldX != movedX || oldY!= movedY) {
+			if(theBoard.getPiece(oldX,oldY) != NULL && theBoard.getPiece(oldX,oldY)->getColor() == currentPlayer)
+				theBoard.boardParser(sck.addGray(&theBoard,oldX,oldY));
 
-		if(theBoard != moves[moves.size()-1]) {
-			theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
-			moves.push_back(theBoard);
-			return true;
+			if(theBoard != moves[moves.size()-1]) {
+				theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
+				moves.push_back(theBoard);
+				return true;
+			}
 		}
-	}
 
-	return false;
+		return false;
 }
 
 void ProjScene::updateLightState() {
@@ -525,6 +526,8 @@ void ProjScene::changeCurrentPlayer() {
 	mainCamera->toggleSide();
 	initialTime = 0;
 	timePassed = 0;
+
+	removes = 0;
 }
 
 void ProjScene::replay() {
