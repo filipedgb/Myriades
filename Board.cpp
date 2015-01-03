@@ -57,13 +57,13 @@ void Board::setBoxAnimation() {
 	isSliding = false;
 	slidingBoxBtoW = new Linear("sliding box b to w",2);
 
-	slidingBoxBtoW->addControlPoint(-2,2,size+1);
-	slidingBoxBtoW->addControlPoint(-2,2,size-1);
+	slidingBoxBtoW->addControlPoint(0,0,0);
+	slidingBoxBtoW->addControlPoint(1,0,0);
 
 	slidingBoxWtoB = new Linear("sliding box w to b",2);
 
-	slidingBoxWtoB->addControlPoint(-2,2,size-1);
-	slidingBoxWtoB->addControlPoint(-2,2,size+1);
+	slidingBoxWtoB->addControlPoint(0,0,0);
+	slidingBoxWtoB->addControlPoint(-1,0,0);
 }
 
 void Board::setPiecesAppearances() {
@@ -279,9 +279,44 @@ void Board::drawBox() {
 	//top
 	glPushMatrix();
 	
+	if(currentPlayer == 'b') {
 
-	glTranslated(0,2.2,0);
+		if(isSliding) {
+			if(slidingBoxWtoB->isStopped()) {
+				isSliding = false;
+				cout << "chegou ao fim da anim W->B" << endl;
+			}
+			
+			else {
+				cout << "Esta a desenhar animação W->B" << endl;
+				slidingBoxWtoB->draw();
+			}
+		}
+		else  glTranslated(-1,0,0);
+
+
+	}else {
+		if(isSliding) {
+			if(slidingBoxBtoW->isStopped()) {
+				isSliding = false;
+				cout << "chegou ao fim da anim B->W" << endl;
+
+			}
+			else {
+				slidingBoxBtoW->draw();
+				cout << "Esta a desenhar animação B->W" << endl;
+
+			}
+		}
+
+		else glTranslated(1,0,0);
+
+	}
+
+	glTranslated(0,2,0);
 	glScaled(1.6,0.1,1.6);
+	//glScaled(10,10,10);
+
 	cube->draw();
 	glPopMatrix();
 

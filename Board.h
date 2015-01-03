@@ -24,6 +24,7 @@ class Board {
 
 	Linear* slidingBoxWtoB;
 	Linear* slidingBoxBtoW;
+
 	bool isSliding;
 
 	CGFappearance* numbers[9];
@@ -54,6 +55,11 @@ public:
 	void setBoxAnimation();
 	void setScore(int b, int w);
 	void setPlayer(char c);
+
+	void updateAnimation(unsigned long t) {
+		if(currentPlayer == 'w') slidingBoxBtoW->update(t);
+		else slidingBoxWtoB->update(t);
+	}
 
 	int getPieceNumber(int row, int col);
 	char getPieceColor(int row, int col);
