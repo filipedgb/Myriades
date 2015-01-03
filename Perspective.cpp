@@ -77,14 +77,14 @@ void Perspective::applyView()
 	if(rotative) { 
 
 		if(!side) {
-			gluLookAt(points[index].getX(),points[index].getY(),points[index].getZ(),10,0,10,0,1,0);
+			gluLookAt(points[index].getX(),points[index].getY(),points[index].getZ(),target[0],target[1],target[2],0,1,0);
 
 			if(index < points.size()-1)
 				index++;
 		}
 
 		else {
-			gluLookAt(points[index].getX(),points[index].getY(),points[index].getZ(),10,0,10,0,1,0);
+			gluLookAt(points[index].getX(),points[index].getY(),points[index].getZ(),target[0],target[1],target[2],0,1,0);
 
 			if(index != 0) 
 				index--;
