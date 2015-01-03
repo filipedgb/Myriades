@@ -44,7 +44,6 @@ private:
 	float initialTime;
 	float timePassed;
 
-
 	Board theBoard;
 	Board lastMove;
 
@@ -53,7 +52,6 @@ private:
 
 	bool replaying;
 	int replayingIndex;
-	unsigned long oldT;
 
 public:
 	void init();
@@ -120,6 +118,8 @@ public:
 	void changeCurrentPlayer();
 	void replay();
 	int replayTime;
+	int playTime;
+	void changePlayLimit();
 };
 
 #endif
