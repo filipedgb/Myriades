@@ -52,6 +52,8 @@ private:
 
 	bool replaying;
 	int replayingIndex;
+	float currentReplayTime;
+	float initialReplayTime;
 
 public:
 	void init();
