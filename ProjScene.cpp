@@ -212,7 +212,7 @@ void ProjScene::init() {
 
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(0,'w'),0,0));
 	moves.push_back(theBoard);
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(31,'b'),0,1));
+/*	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(31,'b'),0,1));
 	moves.push_back(theBoard);
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(21,'w'),1,0));
 	moves.push_back(theBoard);
@@ -223,7 +223,7 @@ void ProjScene::init() {
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(41,'b'),1,1));
 	moves.push_back(theBoard);
 	theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
-
+*/
 	lastMove = theBoard;
 
 	setUpdatePeriod(50);

@@ -69,5 +69,5 @@ void Linear::update(unsigned long t) {
 
 void Linear::draw() {
 	glTranslated(dx+cp_x,cp_y+dy,cp_z+dz);
-	glRotated(direction,0,1,0);
+	//glRotated(direction,0,1,0);
 }
