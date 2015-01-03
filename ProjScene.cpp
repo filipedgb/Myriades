@@ -202,6 +202,8 @@ void ProjScene::init() {
 	replaying = false;
 	replayingIndex = 0;
 	replayTime = 5;
+	currentReplayTime = 0;
+	initialReplayTime = 0;
 
 	theBoard = Board(10);
 	sck.socketConnect();
@@ -284,9 +286,12 @@ void ProjScene::update(unsigned long t) {
 			changeCurrentPlayer();
 		}
 
+
 		if(replaying) {	
-			cout << "time passed " << (int) timePassed << endl;
-			if((int)timePassed % replayTime == 0) {
+			if(initialReplayTime == 0) initialReplayTime = t;
+			currentReplayTime = (t - initialReplayTime)/1000.0;
+
+			if(currentReplayTime >= replayTime) {
 				theBoard = moves[replayingIndex];
 				theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
 				replayingIndex++;
@@ -294,6 +299,7 @@ void ProjScene::update(unsigned long t) {
 					replaying = false;
 					replayingIndex = 0;
 				}
+				initialReplayTime = 0;
 			}
 		}
 }
