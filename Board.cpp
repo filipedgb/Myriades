@@ -12,18 +12,33 @@ GLfloat black[4] = {0,0,0,1};
 GLfloat white[4] = {1,1,1,0};
 GLfloat grey[4] = {0.8,0.8,0.8,1};
 
+void Board::loadTextures() {
+	for(int i = 0; i < 9; i++) {
+		string name = "tex" + std::to_string(i) + ".jpg" ;
+		numbers[i] = new CGFappearance(ambW,white,specW,120);
+		numbers[i]->setTexture(name);
+	}
+}
+
 Board::Board() {
 	this->size = 5;
 	setPiecesAppearances();
-	setAppearance(boardApp);
 	setBoxAnimation();
+	scoreB = scoreW = 0;
+	loadTextures();
+	this->score = new Cube();
+
+	boardApp = new CGFappearance();
 }
 
 Board::Board(int s) {
 	this->size = s;
 	setPiecesAppearances();
-	setAppearance(boardApp);
 	setBoxAnimation();
+	boardApp = new CGFappearance();
+	scoreB = scoreW = 0;
+	loadTextures();
+	this->score = new Cube();
 }
 
 Board::Board(vector<vector<Piece*>> boardIn) {
@@ -31,8 +46,11 @@ Board::Board(vector<vector<Piece*>> boardIn) {
 	size = boardIn.size();
 
 	setPiecesAppearances();
-	setAppearance(boardApp);
 	setBoxAnimation();
+	boardApp = new CGFappearance();
+	scoreB = scoreW = 0;
+	loadTextures();
+	this->score = new Cube();
 }
 
 void Board::setBoxAnimation() {
@@ -124,7 +142,6 @@ void Board::draw() {
 
 	glPushMatrix();
 	drawBase();
-	setAppearance(boardApp);
 	drawSolidBase();
 	glTranslatef(-2,0.25,size);
 	glRotatef(90,0,1,0);
@@ -133,6 +150,12 @@ void Board::draw() {
 
 	drawBoxPiece();
 
+	glPopMatrix();
+
+	glPushMatrix();
+	glScaled(1,2,1.5);
+	glTranslated(size*2 + 2,1,size/2);
+	drawScore();
 	glPopMatrix();
 
 	glPushMatrix();
@@ -415,4 +438,90 @@ bool Board::operator== (const Board& b) {
 	}
 
 	return true;
+}
+
+void Board::drawScore() {
+	int centenasB,dezenasB,unidadesB;
+	int centenasW,dezenasW,unidadesW;
+
+	centenasB = scoreB / 100;
+	dezenasB = (scoreB % 100) / 10;
+	unidadesB = (scoreB % 10);
+	centenasW = scoreW / 100;
+	dezenasW = (scoreW % 100) / 10;
+	unidadesW = (scoreW % 10);
+
+	glPushMatrix();
+	glScaled(0.1,1.0,1.0);
+
+	double zT = 0;
+	if(centenasB) {
+		glPushMatrix();
+		glTranslated(0,0,zT++);
+		numbers[centenasB]->apply();
+		score->draw(1,1);
+		glPopMatrix();
+	}
+	if(dezenasB) {
+		glPushMatrix();
+		glTranslated(0,0,zT++);
+		numbers[dezenasB]->apply();
+		score->draw(1,1);
+		glPopMatrix();
+	}
+
+	//unidades b
+	glPushMatrix();
+	glTranslated(0,0,zT++);
+	numbers[unidadesB]->apply();
+	score->draw(1,1);
+	glPopMatrix();
+
+	glPushMatrix();
+	setTexture('b');
+	this->boardApp->apply();
+	glScaled(1,1.1,(zT+0.1));
+	glTranslated(0.1,0,0.5*((zT-1)/(zT+0.1)));
+	score->draw(1,1);
+	glPopMatrix();
+
+	glTranslated(0,0,zT+0.5);
+
+	zT = 0;
+
+	if(centenasW) {
+		glPushMatrix();
+		glTranslated(0,0,zT++);
+		numbers[centenasW]->apply();
+		score->draw(1,1);
+		glPopMatrix();
+	}
+	if(dezenasW) {
+		glPushMatrix();
+		glTranslated(0,0,zT++);
+		numbers[dezenasW]->apply();
+		score->draw(1,1);
+		glPopMatrix();
+	}
+	//unidades w
+	glPushMatrix();
+	glTranslated(0,0,zT++);
+	numbers[unidadesW]->apply();
+	score->draw(1,1);
+	glPopMatrix();
+
+	glPushMatrix();
+	setTexture('w');
+	this->boardApp->apply();
+	glScaled(1,1.1,(zT+0.1));
+	glTranslated(0.1,0,0.5*((zT-1)/(zT+0.1)));
+	score->draw(1,1);
+	glPopMatrix();
+
+	glPopMatrix();
+}
+
+void Board::setScore(int b, int w) {
+	this->scoreB = b;
+	this->scoreW = w;
 }

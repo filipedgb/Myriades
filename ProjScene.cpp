@@ -41,9 +41,8 @@ void ProjScene::setAllAmbient() {
 	GLfloat p2Tar[3] = {10,0,10};
 	GLfloat p3Pos[3] = {2,5,2};
 	GLfloat p3Tar[3] = {0,0,0};
+
 	/* CAMARAS */
-
-
 	mainCamera = new Perspective("Sided Camera",0,0,0,p1Pos,p1Tar);;
 	Perspective* p1 = new Perspective("p1",0,0,0,p1Pos,p1Tar);
 
@@ -59,11 +58,7 @@ void ProjScene::setAllAmbient() {
 	cameras.push_back(p2);
 	cameras.push_back(p3);
 
-
 	//	setTransitionalCameras(p1->getPoints());
-
-
-
 
 	/*Lights*/
 	GLfloat l1Pos[3] = {0,15,3};
@@ -107,8 +102,6 @@ void ProjScene::pickingActions(int x, int y) {
 	if(removes > 0) { 
 		oldX = x;
 		oldY = y;
-		//toMove = false;
-		//hasMoved = true;
 
 		string out = "You have ";
 		out.append(to_string(removes));
@@ -141,6 +134,7 @@ void ProjScene::pickingActions(int x, int y) {
 		newY = y;
 
 		theBoard.boardParser(sck.movePiece(&theBoard,oldX,oldY,newX,newY));
+		theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
 
 		if(moves.empty() || theBoard != moves[moves.size()-1]) {
 			toMove = false;
@@ -226,8 +220,9 @@ void ProjScene::init() {
 	moves.push_back(theBoard);
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(40,'b'),2,2));
 	moves.push_back(theBoard);
-	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(10,'b'),1,1));
+	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(41,'b'),1,1));
 	moves.push_back(theBoard);
+	theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
 
 	lastMove = theBoard;
 
@@ -278,6 +273,7 @@ void ProjScene::update(unsigned long t) {
 		if(replaying) {	
 			if((t - oldT)%replayTime == 0) {
 				theBoard = moves[replayingIndex];
+				theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
 				replayingIndex++;
 				if(replayingIndex == moves.size()) replaying = false;
 			}
@@ -408,6 +404,7 @@ bool ProjScene::changePiece() {
 			theBoard.boardParser(sck.addGray(&theBoard,oldX,oldY));
 
 		if(theBoard != moves[moves.size()-1]) {
+			theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
 			moves.push_back(theBoard);
 			return true;
 		}
@@ -469,6 +466,7 @@ void ProjScene::undo(int x) {
 void ProjScene::newGame() {
 	theBoard = Board(this->newBoardSize);
 	theBoard.boardParser(sck.initBoard(this->newBoardSize)); //Socket
+	theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
 
 	if(!moves.empty())
 		moves.clear();
@@ -490,11 +488,13 @@ void ProjScene::newGame() {
 void ProjScene::pcVSpc() {
 	while(!sck.isFull(&theBoard)) {
 		theBoard.boardParser(sck.pcMove(&theBoard,currentPlayer,level));
+		theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
 
 		if(theBoard != moves[moves.size()-1])
 			moves.push_back(theBoard);
 
 		theBoard.boardParser(sck.pcAdd(&theBoard,currentPlayer));
+		theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
 		moves.push_back(theBoard);
 
 		changeCurrentPlayer();

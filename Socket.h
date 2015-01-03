@@ -22,6 +22,7 @@ public:
 	string addGray(Board* board, int newPx, int newPy);
 	int numberOfAdjacentes(int x, int y, Board* board);
 	int numPieces(char player, Board* board);
+	int sumOf(char player, Board* board);
 	bool isFull(Board* b);
 	string getWinner(Board* b);
 
