@@ -23,6 +23,8 @@ public:
 	Clock();
 	void draw();
 	void update(float seconds);
+	void setLimit(int max);
+	int getLimit();
 
 
 };

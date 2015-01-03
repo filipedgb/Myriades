@@ -293,7 +293,7 @@ void ProjScene::update(unsigned long t) {
 
 		cronometro->update(timePassed);
 
-		if(timePassed >= 30) {
+		if(timePassed >= cronometro->getLimit()) {
 			changeCurrentPlayer();
 		}
 

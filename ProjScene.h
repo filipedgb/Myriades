@@ -28,6 +28,8 @@ private:
 
 	Clock* cronometro;
 
+
+
 	Perspective* mainCamera;
 
 	vector<vector<CGFtexture*>> ambients;	//each i is a vector to use in all pieces-board/boardBox
