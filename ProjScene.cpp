@@ -196,15 +196,17 @@ void ProjScene::init() {
 	opponent = 0;
 	level = 0;
 	removes = 0;
+	initialTime = 0;
+	timePassed = 0;
 
 	replaying = false;
 	replayingIndex = 0;
 	oldT = 0;
 	replayTime = 1500;
 
-	theBoard = Board(3);
+	theBoard = Board(10);
 	sck.socketConnect();
-	theBoard.boardParser(sck.initBoard(3)); //Socket
+	theBoard.boardParser(sck.initBoard(10)); //Socket
 
 	setAllAmbient();
 
@@ -279,6 +281,15 @@ void ProjScene::update(unsigned long t) {
 			}
 		}
 		else oldT = t;
+
+		if(initialTime == 0) initialTime = t;
+		timePassed = (t - initialTime)/1000.0;
+
+		cout << timePassed << endl;
+
+		if(timePassed >= 30) {
+			changeCurrentPlayer();
+		}
 }
 
 void ProjScene::changeTextures() {
@@ -513,6 +524,9 @@ void ProjScene::changeCurrentPlayer() {
 	else currentPlayer = 'b';
 
 	mainCamera->toggleSide();
+	initialTime = 0;
+	timePassed = 0;
+
 }
 
 void ProjScene::replay() {

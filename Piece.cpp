@@ -141,7 +141,6 @@ void Piece::setMoving(int oldx, int oldy, int newx, int newy, int size) {
 	cout << "Old x:" << oldx << "Old y:" << oldy <<endl ;
 		cout << "new x:" << newx << "new y:" << newy << endl;
 
-
 	isMoving1 = true;
 	this->movingPiece->reset();
 	movingPiece->addControlPoint(2*oldy, 0, 2*oldx);
