@@ -158,7 +158,6 @@ void ProjScene::pickingActions(int x, int y) {
 		}
 	}
 	else {
-		cout << "old x : " << oldX << " old y: " << oldY << endl;
 
 		oldX = x;
 		oldY = y;
@@ -374,8 +373,6 @@ void ProjScene::setLightState() {
 }
 
 void ProjScene::addPieceValue() {
-	cout << "Valor: " << addNewPieceValue << endl;
-
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(addNewPieceValue,currentPlayer),oldX,oldY));
 
 	if(removes == 0 && (moves.empty() || theBoard != moves[moves.size()-1])) {			

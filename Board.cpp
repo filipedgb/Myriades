@@ -284,11 +284,9 @@ void Board::drawBox() {
 		if(isSliding) {
 			if(slidingBoxWtoB->isStopped()) {
 				isSliding = false;
-				cout << "chegou ao fim da anim W->B" << endl;
 			}
 			
 			else {
-				cout << "Esta a desenhar animação W->B" << endl;
 				slidingBoxWtoB->draw();
 			}
 		}
@@ -299,13 +297,9 @@ void Board::drawBox() {
 		if(isSliding) {
 			if(slidingBoxBtoW->isStopped()) {
 				isSliding = false;
-				cout << "chegou ao fim da anim B->W" << endl;
-
 			}
 			else {
 				slidingBoxBtoW->draw();
-				cout << "Esta a desenhar animação B->W" << endl;
-
 			}
 		}
 
