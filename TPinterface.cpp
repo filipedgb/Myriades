@@ -51,8 +51,10 @@ void TPinterface::initGUI() {
 	GLUI_Button* undo1 = addButtonToPanel(undoP,"Undo player move",14);
 	GLUI_Button* exitGame = addButtonToPanel(gamePanel,"Exit Game",15);
 
-	addSeparatorToPanel(gamePanel);
-	GLUI_Panel* output = addPanelToPanel(gamePanel,"Output",1); 
+	////////////////////////////////////////////////////////////////////////////////////////////
+	addColumn();
+
+	GLUI_Panel* output = addPanel("Output",1); 
 	gameOutput = addStaticTextToPanel(output,"gameOutput");
 
 	addSeparatorToPanel(output);
@@ -65,28 +67,14 @@ void TPinterface::initGUI() {
 	//options panel
 	GLUI_Rollout* panel = addRollout("Environment Options",0);
 
-	//adding panel for controling lights
-	GLUI_Panel *lights = addPanelToPanel(panel,"Lights",1);
-
-	//adding checkBoxes for each light to the panel
-	addCheckboxToPanel(lights, "default", &(((ProjScene*) scene)->lightState[0]),0);
-
-	for(unsigned int i = 1; i < ((ProjScene*)scene)->lightState.size(); i++) {
-		char* a = (char*) ((ProjScene*) scene)->getLights()[i-1]->getId();
-		addCheckboxToPanel(lights, a, &(((ProjScene*) scene)->lightState[i]), i);
-	}
-
-	//add separator
-	addSeparatorToPanel(panel);
-
 	//add ambient
 	GLUI_Listbox *ambient = addListboxToPanel(panel,"Ambient ",&(((ProjScene*) scene)->ambientState),16);
 	for(unsigned int i = 0; i < ((ProjScene*) scene)->getAmbientID().size(); i++) {
 		ambient->add_item(i, ((ProjScene*) scene)->getAmbientID()[i].c_str());
 	}
 
-	//add column
-	addColumnToPanel(panel);
+	//add separator
+	//addSeparatorToPanel(panel);
 
 	//add centered panel for drawing options
 	GLUI_Rollout *drawing = addRolloutToPanel(panel,"Drawing",0);
@@ -112,10 +100,26 @@ void TPinterface::initGUI() {
 	addRadioButtonToGroup(shading, "Flat");
 	addRadioButtonToGroup(shading, "Gouraud");
 
-	//CAMERAS
-	GLUI_Panel *cameras = addPanelToPanel(panel, "Cameras",1);
+	//adding panel for controling lights
+	GLUI_Rollout *lights = addRolloutToPanel(panel,"Lights",0);
 
-	GLUI_RadioGroup *camera = addRadioGroupToPanel(cameras, &(((ProjScene*) scene)->cameraState),10);
+	//adding checkBoxes for each light to the panel
+	addCheckboxToPanel(lights, "default", &(((ProjScene*) scene)->lightState[0]),0);
+
+	for(unsigned int i = 1; i < ((ProjScene*)scene)->lightState.size(); i++) {
+		char* a = (char*) ((ProjScene*) scene)->getLights()[i-1]->getId();
+		addCheckboxToPanel(lights, a, &(((ProjScene*) scene)->lightState[i]), i);
+	}
+
+	//add column
+	addColumnToPanel(panel);
+
+	//CAMERAS
+	GLUI_Rollout *cameras = addRolloutToPanel(panel, "Cameras",0);
+
+	GLUI_Rollout *changeCamera = addRolloutToPanel(cameras, "Change camera",0);
+
+	GLUI_RadioGroup *camera = addRadioGroupToPanel(changeCamera, &(((ProjScene*) scene)->cameraState),10);
 
 	addRadioButtonToGroup(camera, "Free View");
 	//adding radio buttons for each camera to the panel
@@ -125,7 +129,9 @@ void TPinterface::initGUI() {
 
 	addSeparatorToPanel(cameras);
 
-	GLUI_Panel* translationP = addPanelToPanel(cameras,"",GLUI_PANEL_NONE);
+	GLUI_Rollout* moveCameras = addRolloutToPanel(cameras,"Move camera",0);
+
+	GLUI_Panel* translationP = addPanelToPanel(moveCameras,"",GLUI_PANEL_NONE);
 	GLUI_Rotation* rot = addRotationToPanel(translationP,"Rotation", ((ProjScene*)scene)->cameraRotation, 20); 
 
 	addSeparatorToPanel(translationP);

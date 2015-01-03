@@ -382,6 +382,7 @@ void ProjScene::addPieceValue() {
 		toMove = false;
 
 		theBoard.getPiece(oldX,oldY)->setNew(oldY,oldX,theBoard.getSize());
+		theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
 
 		string out = "Added a piece.\n";
 		TPinterface::setOutput(out);
