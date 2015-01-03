@@ -41,7 +41,7 @@ void TPinterface::initGUI() {
 	addColumnToPanel(replayP);
 	GLUI_Rollout* replayR = addRolloutToPanel(replayP,"Time",0,0);
 	GLUI_Spinner* replayTime = addSpinnerToPanel(replayR,"Replay Time",2,&(((ProjScene*) scene)->replayTime));
-	replayTime->set_int_limits(1,60, GLUI_LIMIT_WRAP);
+	replayTime->set_int_limits(1,30, GLUI_LIMIT_WRAP);
 
 	GLUI_EditText* playTime = addEditTextToPanel(replayR,"Move time",&(((ProjScene*) scene)->playTime),19);
 	playTime->set_int_limits(20,120, GLUI_LIMIT_WRAP);
