@@ -509,25 +509,7 @@ void ProjScene::newGame() {
 	}
 }
 
-/*
-void ProjScene::findRemoves(vector<int> &removes, Board oldboard, Board newboard){ 
-	for( int i = 0; i < oldboard.getSize(); i++) {
-		for ( int k = 0; k < oldboard.getSize(); k++) {
-			if(oldboard.getPiece(i,k) != NULL && newboard.getPiece(i,k) != NULL) {
-				if( (*oldboard.getPiece(i,k)) !=  (*newboard.getPiece(i,k)) ) {
-					if(newboard.getPiece(i,k)->getColor() == 'g') {
-						removes.push_back(i);
-						removes.push_back(k);
-					}
-				}
-			}
-		}
-
-	}
-
-}
-*/
-void ProjScene::findMove(int &oldx, int &oldy, int &newx, int &newy,vector<int> &removesVec, Board oldboard, Board newboard) {
+void ProjScene::findMove(int &oldx, int &oldy, int &newx, int &newy,vector<int> &removesVec, const Board& oldboard,const Board& newboard) {
 	bool oldPos = false;
 	bool newPos = false;
 
@@ -559,8 +541,7 @@ void ProjScene::findMove(int &oldx, int &oldy, int &newx, int &newy,vector<int> 
 	cout << "Não encontrou nenhum move" << endl;
 }
 
-
-void ProjScene::findAdd(int &number, char &color, int &posx, int &posy, Board oldboard, Board newboard) {
+void ProjScene::findAdd(int &number, char &color, int &posx, int &posy,const Board& oldboard,const Board& newboard) {
 	for( int i = 0; i < oldboard.getSize(); i++) {
 		for ( int k = 0; k < oldboard.getSize(); k++) {
 			if(oldboard.getPiece(i,k) == NULL && newboard.getPiece(i,k) != NULL) {
@@ -572,26 +553,6 @@ void ProjScene::findAdd(int &number, char &color, int &posx, int &posy, Board ol
 			}
 
 		}
-	}
-}
-
-
-void ProjScene::pcRemovePieces(int number) {
-	int i = number;
-	for( int i = 0; i < theBoard.getSize(); i++) {
-		for ( int k = 0; k < theBoard.getSize(); k++) {
-			if(i == 0) return;
-
-			if(theBoard.getPiece(i,k) != NULL && theBoard.getPiece(i,k)->getColor() == currentPlayer) {
-				oldX = i;
-				oldY = k;
-				cout << "chegou até ao change piece, x: " << i << " y: " << k << endl;
-				changePiece();
-				i--;
-			}
-
-		}
-
 	}
 }
 
@@ -634,7 +595,6 @@ void ProjScene::pcVSpc() {
 
 		for(int i = 1; i < toRemove.size(); i++) {
 			cout << "Size aqui: " << toRemove.size() << endl;
-
 			oldX = toRemove[i-1];
 			oldY = toRemove[i];
 			removes++;
@@ -642,7 +602,6 @@ void ProjScene::pcVSpc() {
 		}
 	
 		///////////// ADD PIECE /////////////
-
 
 		int number = -1, x = -1, y = -1;
 		char color;
@@ -660,9 +619,7 @@ void ProjScene::pcVSpc() {
 
 		theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
 		moves.push_back(theBoard);
-
-
-
+		
 		changeCurrentPlayer();
 	}
 
