@@ -37,6 +37,7 @@ private:
 	int movedX, movedY;
 	bool hasMoved, toMove;
 	int removes;
+	Piece* removePiece;
 
 	float initialTime;
 	float timePassed;

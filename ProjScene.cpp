@@ -193,6 +193,7 @@ void ProjScene::init() {
 	opponent = 0;
 	level = 0;
 	removes = 0;
+	removePiece = new Piece(0,'g');
 	initialTime = 0;
 	timePassed = 0;
 
@@ -355,15 +356,30 @@ void ProjScene::display() {
 	// Draw axis
 	axis.draw();
 
+	// ---- END Background, camera and axis setup
+
+	// ---- BEGIN feature demos	
+
+	//draw removes
+	int tempRemoves = removes;
+	while(tempRemoves) {
+		glPushMatrix();
+		glRotated(90,1,0,0);
+		glTranslatef(-3,0.25,-tempRemoves*0.5);
+		removePiece->setTexture(ambients[ambientState][0]);
+		removePiece->draw(1,1);
+		glPopMatrix();
+
+		tempRemoves--;
+	}
+
+	//draw cronometro
 	glPushMatrix();
 	glTranslated(-2,1.5,theBoard.getSize());
 	glRotated(90,0,1,0);
 	cronometro->draw();
 	glPopMatrix();
 
-	// ---- END Background, camera and axis setup
-
-	// ---- BEGIN feature demos	
 	//so it changes the box
 	theBoard.setPlayer(currentPlayer);
 	theBoard.draw();
