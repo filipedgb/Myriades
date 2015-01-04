@@ -135,25 +135,21 @@ void Piece::setNew(int x, int y, int size) {
 	newPiece = true;
 
 	if(this->color == 'b') {
-	addingPiece->addControlPoint(-3,2.25,size-2);
-	addingPiece->addControlPoint(-3,3,size-2);
+		addingPiece->addControlPoint(-3,2.25,size-2);
+		addingPiece->addControlPoint(-3,3,size-2);
 	} 
 
 	else if(this->color == 'w')  {
-	addingPiece->addControlPoint(-3,2.25,size);
-	addingPiece->addControlPoint(-3,3,size);
-	
+		addingPiece->addControlPoint(-3,2.25,size);
+		addingPiece->addControlPoint(-3,3,size);
+
 	}
-	
-	
+
 	addingPiece->addControlPoint(2*x,3,2*y);
 	addingPiece->addControlPoint(2*x,0,2*y);
 }
 
 void Piece::setMoving(int oldx, int oldy, int newx, int newy, int size) {
-	//cout << "Old x:" << oldx << "Old y:" << oldy <<endl ;
-	//cout << "new x:" << newx << "new y:" << newy << endl;
-
 	isMoving1 = true;
 	this->movingPiece->reset();
 	movingPiece->addControlPoint(2*oldy, 0, 2*oldx);
