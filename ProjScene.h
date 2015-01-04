@@ -100,7 +100,7 @@ public:
 	int addNewPieceValue;
 	void pickingActions(int x, int y);
 	void addPieceValue();
-	void undo(int x);
+	void undo();
 
 	bool changePiece();
 	bool pcPlaying;
