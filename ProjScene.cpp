@@ -509,32 +509,52 @@ void ProjScene::newGame() {
 	}
 }
 
+/*
+void ProjScene::findRemoves(vector<int> &removes, Board oldboard, Board newboard){ 
+	for( int i = 0; i < oldboard.getSize(); i++) {
+		for ( int k = 0; k < oldboard.getSize(); k++) {
+			if(oldboard.getPiece(i,k) != NULL && newboard.getPiece(i,k) != NULL) {
+				if( (*oldboard.getPiece(i,k)) !=  (*newboard.getPiece(i,k)) ) {
+					if(newboard.getPiece(i,k)->getColor() == 'g') {
+						removes.push_back(i);
+						removes.push_back(k);
+					}
+				}
+			}
+		}
 
-void ProjScene::findMove(int &oldx, int &oldy, int &newx, int &newy, Board oldboard, Board newboard) {
+	}
+
+}
+*/
+void ProjScene::findMove(int &oldx, int &oldy, int &newx, int &newy,vector<int> &removesVec, Board oldboard, Board newboard) {
 	bool oldPos = false;
 	bool newPos = false;
-	
+
 	for( int i = 0; i < oldboard.getSize(); i++) {
 		for ( int k = 0; k < oldboard.getSize(); k++) {
 
-			if(oldPos && newPos) {
-				cout << "Encontrou o move" << endl;
-				return;
-			}
-
+		
 			if(oldboard.getPiece(i,k) == NULL && newboard.getPiece(i,k) != NULL) {
 				newx = i;
 				newy = k;
-				newPos = true;
 			}
 
 			else if (newboard.getPiece(i,k) == NULL && oldboard.getPiece(i,k) != NULL) {
 				oldx = i;
 				oldy = k;
-				oldPos = true;
 			}
+
+			else if(newboard.getPiece(i,k) != NULL && newboard.getPiece(i,k)->getColor() == 'g' &&
+				oldboard.getPiece(i,k) != NULL && oldboard.getPiece(i,k)->getColor() != 'g') {
+					removesVec.push_back(i);
+					removesVec.push_back(k);
+			}
+
 		}
 	}
+
+	return;
 
 	cout << "Não encontrou nenhum move" << endl;
 }
@@ -544,31 +564,57 @@ void ProjScene::findAdd(int &number, char &color, int &posx, int &posy, Board ol
 	for( int i = 0; i < oldboard.getSize(); i++) {
 		for ( int k = 0; k < oldboard.getSize(); k++) {
 			if(oldboard.getPiece(i,k) == NULL && newboard.getPiece(i,k) != NULL) {
-					posx = i;
-					posy = k;
-					color = newboard.getPiece(i,k)->getColor();
-					number = newboard.getPiece(i,k)->getNumber();
-					break;
+				posx = i;
+				posy = k;
+				color = newboard.getPiece(i,k)->getColor();
+				number = newboard.getPiece(i,k)->getNumber();
+				return;
 			}
 
 		}
 	}
 }
 
+
+void ProjScene::pcRemovePieces(int number) {
+	int i = number;
+	for( int i = 0; i < theBoard.getSize(); i++) {
+		for ( int k = 0; k < theBoard.getSize(); k++) {
+			if(i == 0) return;
+
+			if(theBoard.getPiece(i,k) != NULL && theBoard.getPiece(i,k)->getColor() == currentPlayer) {
+				oldX = i;
+				oldY = k;
+				cout << "chegou até ao change piece, x: " << i << " y: " << k << endl;
+				changePiece();
+				i--;
+			}
+
+		}
+
+	}
+}
+
 void ProjScene::pcVSpc() {
 	if(!sck.isFull(&theBoard)) {
-		Board copy = theBoard;
 
+		///////////// MOVE PIECE /////////////
+
+		Board copy = theBoard;
+		vector<int> toRemove;
 
 		int old_x = -1, old_y = -1, new_x = -1, new_y = -1;
 		copy.boardParser(sck.pcMove(&copy,currentPlayer,level));
-		
+
 		if(copy != theBoard) {
-			findMove(old_x, old_y, new_x, new_y,theBoard,copy);
+			findMove(old_x, old_y, new_x, new_y,toRemove,theBoard,copy);
 		}
 		else cout << "lol o board nem sequer é diferente" << endl;
 
 		cout << "MOVE: " << old_x << " " << old_y << " " << new_x << " " << new_y << " " << endl;
+
+		movedX = new_x;
+		movedY = new_y;
 
 		if(old_x > -1 && old_y > -1 && new_x > -1 && new_y > -1) {
 			theBoard.boardParser(sck.movePiece(&theBoard,old_x,old_y,new_x,new_y));
@@ -580,6 +626,22 @@ void ProjScene::pcVSpc() {
 		if(theBoard != moves[moves.size()-1])
 			moves.push_back(theBoard);
 
+		///////////// REMOVE PIECES /////////////
+		
+		//process remove coordinates vector;
+
+		cout << toRemove.size() << endl;
+
+		for(int i = 1; i < toRemove.size(); i++) {
+			cout << "Size aqui: " << toRemove.size() << endl;
+
+			oldX = toRemove[i-1];
+			oldY = toRemove[i];
+			removes++;
+			changePiece();
+		}
+	
+		///////////// ADD PIECE /////////////
 
 
 		int number = -1, x = -1, y = -1;
@@ -593,6 +655,8 @@ void ProjScene::pcVSpc() {
 
 		theBoard.boardParser(sck.addPiece(&theBoard,new Piece(number,color),x,y));
 		if(theBoard.getPiece(x,y) != NULL) theBoard.getPiece(x,y)->setNew(y,x,theBoard.getSize());
+
+
 
 		theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
 		moves.push_back(theBoard);

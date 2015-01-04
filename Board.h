@@ -52,6 +52,7 @@ public:
 	void setScore(int b, int w);
 	void setPlayer(char c);
 
+
 	void updateAnimation(unsigned long t) {
 		if(currentPlayer == 'w') slidingBoxBtoW->update(t);
 		else slidingBoxWtoB->update(t);

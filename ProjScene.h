@@ -114,9 +114,9 @@ public:
 	void showWinner();
 	
 	void pcVSpc();
-	void findMove(int &oldx, int &oldy, int &newx, int &newy, Board oldboard, Board newboard);
+	void findMove(int &oldx, int &oldy, int &newx, int &newy,vector<int> &removes, Board oldboard, Board newboard);
 	void findAdd(int &num, char &color, int &x, int &y, Board oldboard, Board newboard);
-
+	void pcRemovePieces(int number);
 
 	void changeCurrentPlayer();
 	void replay();
