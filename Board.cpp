@@ -139,7 +139,6 @@ void Board::drawBoxPiece() {
 }
 
 void Board::draw() { 
-
 	int pecas_animacao = 0;
 	int totalPecas = 0;
 
@@ -147,6 +146,8 @@ void Board::draw() {
 
 	glPushMatrix();
 	drawBase();
+	this->setTexture('w');
+	this->boardApp->apply();
 	drawSolidBase();
 	glTranslatef(-2,0.25,size);
 	glRotatef(90,0,1,0);
@@ -266,21 +267,18 @@ void Board::drawBase() {
 					lastCol = 'b';
 				}
 			}
-			
+
 			if (row == selectedX1 && col == selectedY1) {
 				this->setTexture('B');
 				this->boardApp->apply();
 			}
 
-		
 			temp->draw(1,1);
 
 			glPopName();
 			glPopMatrix();
 		}
 		glPopMatrix();
-
-
 	}
 	glPopName();
 }
