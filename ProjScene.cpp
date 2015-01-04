@@ -106,8 +106,6 @@ void ProjScene::pickingActions(int x, int y) {
 		oldX = x;
 		oldY = y;
 
-
-
 		string out = "You have ";
 		out.append(to_string(removes));
 		out.append(" adjacent pieces.\n");
@@ -169,7 +167,6 @@ void ProjScene::pickingActions(int x, int y) {
 		}
 	}
 	else {
-
 		oldX = x;
 		oldY = y;
 
