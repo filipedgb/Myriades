@@ -98,7 +98,7 @@ public:
 	/* -- Ambient --*/
 	int ambientState;
 	void setAllAmbient();
-	void addNewAmbient(string id, CGFtexture* pieceApp, CGFtexture* boardApp);
+	void addNewAmbient(string id, CGFtexture* pieceApp, CGFtexture* boardApp, CGFtexture* tableApp);
 	vector<string> getAmbientID() {return ambientID;}
 	void changeTextures();
 
