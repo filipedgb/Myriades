@@ -926,7 +926,7 @@ pcAdd(B,B1,CorJogador) :-
 		random(0,50,A),
 		write('Pc added piece number '), write(A), write(' in row '), write(R), write(' and column '), write(C), nl,nl, 
 		(
-			addPiece([CorJogador,A],R,C,B,B2), !, B1 = [[CorJogador,A],R,C,B2];
+			addPiece([CorJogador,A],R,C,B,B2), !, B1 = [[CorJogador,A],R,C];
 			pcAdd(B,B1,CorJogador)
 		).
 
