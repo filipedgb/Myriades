@@ -36,20 +36,11 @@ void TPinterface::initGUI() {
 	pieceValue->set_int_limits(0,49, GLUI_LIMIT_WRAP);
 	pieceValue->set_int_val(0);
 
-	GLUI_Panel* replayP = addPanelToPanel(gamePanel,"",GLUI_PANEL_NONE);
-	GLUI_Button* replay = addButtonToPanel(replayP,"Replay",17);
-	addColumnToPanel(replayP);
-	GLUI_Rollout* replayR = addRolloutToPanel(replayP,"Time",0,0);
-	GLUI_Spinner* replayTime = addSpinnerToPanel(replayR,"Replay Time",2,&(((ProjScene*) scene)->replayTime));
-	replayTime->set_int_limits(1,30, GLUI_LIMIT_WRAP);
-
-	GLUI_EditText* playTime = addEditTextToPanel(replayR,"Move time",&(((ProjScene*) scene)->playTime),19);
-	playTime->set_int_limits(10,4*60, GLUI_LIMIT_WRAP);
-
 	GLUI_Panel* tempPanel = addPanelToPanel(gamePanel,"",GLUI_PANEL_NONE);
-	GLUI_Button* undo = addButtonToPanel(tempPanel,"Undo player move",14);
+	GLUI_Button* replay = addButtonToPanel(tempPanel,"Replay",17);
 	addColumnToPanel(tempPanel);
-	GLUI_Button* exitGame = addButtonToPanel(tempPanel,"Exit Game",15);
+	GLUI_Button* undo = addButtonToPanel(tempPanel,"Undo last move",14);
+	GLUI_Button* exitGame = addButtonToPanel(gamePanel,"Exit Game",15);
 
 	////////////////////////////////////////////////////////////////////////////////////////////
 	addColumn();
@@ -65,13 +56,20 @@ void TPinterface::initGUI() {
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
 	//options panel
-	GLUI_Rollout* panel = addRollout("Environment Options",0);
+	GLUI_Rollout* panel = addRollout("Options",0);
 
 	//add ambient
 	GLUI_Listbox *ambient = addListboxToPanel(panel,"Ambient ",&(((ProjScene*) scene)->ambientState),16);
 	for(unsigned int i = 0; i < ((ProjScene*) scene)->getAmbientID().size(); i++) {
 		ambient->add_item(i, ((ProjScene*) scene)->getAmbientID()[i].c_str());
 	}
+
+	GLUI_Rollout* replayR = addRolloutToPanel(panel,"Time",0,0);
+	GLUI_Spinner* replayTime = addSpinnerToPanel(replayR,"Replay Time",2,&(((ProjScene*) scene)->replayTime));
+	replayTime->set_int_limits(1,30, GLUI_LIMIT_WRAP);
+
+	GLUI_EditText* playTime = addEditTextToPanel(replayR,"Move time",&(((ProjScene*) scene)->playTime),19);
+	playTime->set_int_limits(10,4*60, GLUI_LIMIT_WRAP);
 
 	//add centered panel for drawing options
 	GLUI_Rollout *drawing = addRolloutToPanel(panel,"Drawing",0);
