@@ -6,10 +6,10 @@ Clock::Clock() {
 	pointer = new Triangle(0.1,0,0,0,0.9,0,-0.1,0,0);
 
 	clockApp = new CGFappearance();
-	clockApp->setTexture("clock.jpg");
+	clockApp->setTexture("texturas/clock.jpg");
 
 	pointerApp = new CGFappearance();
-	pointerApp->setTexture("nonumber.jpg");
+	pointerApp->setTexture("texturas/nonumber.jpg");
 
 	timeLimit = 120;
 }

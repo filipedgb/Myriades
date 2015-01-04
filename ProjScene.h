@@ -118,7 +118,7 @@ public:
 	int level; //0- easy, 1-medium, 2-hard
 	void newGame();
 	void showWinner();
-	
+
 	void pcVSpc();
 	void findMove(int &oldx, int &oldy, int &newx, int &newy,vector<int> &removesVec, const Board& oldboard,const Board& newboard);
 	void findAdd(int &num, char &color, int &x, int &y,const Board& oldboard,const Board& newboard);
