@@ -106,6 +106,8 @@ void ProjScene::pickingActions(int x, int y) {
 		oldX = x;
 		oldY = y;
 
+
+
 		string out = "You have ";
 		out.append(to_string(removes));
 		out.append(" adjacent pieces.\n");
@@ -330,6 +332,9 @@ void ProjScene::update(unsigned long t) {
 			waitTime = 0;
 			initialWaitTime= 0;
 		}
+
+		theBoard.selectedFirst(oldX,oldY);
+		theBoard.selectedSecond(newX,newY);
 }
 
 void ProjScene::changeTextures() {

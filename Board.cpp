@@ -11,6 +11,9 @@ GLfloat specG[4] = {0.8,0.8,0.8,1};
 GLfloat black[4] = {0,0,0,1};
 GLfloat white[4] = {1,1,1,0};
 GLfloat grey[4] = {0.8,0.8,0.8,1};
+GLfloat red[4] = {1,0,0,1};
+GLfloat blue[4] = {0,0,1,1};
+
 
 Board::Board() {
 	this->size = 5;
@@ -61,6 +64,9 @@ void Board::setPiecesAppearances() {
 
 	whiteApp = new CGFappearance(ambW,white,specW,120);
 	blackApp =  new CGFappearance(ambB,black,specB,120);
+	redApp =  new CGFappearance(ambB,red,specB,120);
+	blueApp =  new CGFappearance(ambB,blue,specB,120);
+
 
 	this->whiteApp->setTexture(pieceText);
 	this->blackApp->setTexture(pieceText);
@@ -77,6 +83,12 @@ void Board::setTexture(char c) {
 		break;
 	case 'b':
 		boardApp = blackApp;
+		break;
+	case 'r':
+		boardApp = redApp;
+		break;
+	case 'B':
+		boardApp = blueApp;
 		break;
 	default:
 		break;
@@ -222,6 +234,7 @@ void Board::drawBase() {
 			glTranslatef(0,0.5,2);
 			glRotatef(-90,1,0,0);
 
+
 			if(row%2 == 0) {
 				if(col == 0) {
 					lastCol = 'b';
@@ -253,13 +266,21 @@ void Board::drawBase() {
 					lastCol = 'b';
 				}
 			}
+			
+			if (row == selectedX1 && col == selectedY1) {
+				this->setTexture('B');
+				this->boardApp->apply();
+			}
 
+		
 			temp->draw(1,1);
 
 			glPopName();
 			glPopMatrix();
 		}
 		glPopMatrix();
+
+
 	}
 	glPopName();
 }

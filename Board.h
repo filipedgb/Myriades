@@ -16,6 +16,9 @@ class Board {
 
 	CGFappearance* whiteApp;
 	CGFappearance* blackApp;
+	CGFappearance* redApp;
+	CGFappearance* blueApp;
+
 
 	CGFtexture* boardText;
 	CGFtexture* pieceText;
@@ -28,12 +31,24 @@ class Board {
 	Cube *score;
 	int scoreB, scoreW;
 
+	int selectedX1, selectedY1, selectedX2,selectedY2;
+
 	char currentPlayer;
 
 public:
 	Board();
 	Board(int s);
 	Board(vector<vector<Piece*>> boardIn);
+
+	void selectedFirst(int x, int y) {
+		selectedX1 = x;
+		selectedY1 = y;
+	}
+
+	void selectedSecond(int x, int y) {
+		selectedX2 = x;
+		selectedY2 = y;
+	}
 
 	void boardParser(string answer);
 	void checkBoard(vector<vector<int>> bn, vector<vector<char>> bc);
