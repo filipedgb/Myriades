@@ -182,6 +182,8 @@ void ProjScene::pickingActions(int x, int y) {
 }
 
 void ProjScene::init() {
+	Piece::loadTextures();
+
 	resetCameras();
 
 	currentPlayer = 'b';
