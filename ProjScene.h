@@ -103,13 +103,20 @@ public:
 	void undo(int x);
 
 	bool changePiece();
+	bool pcPlaying;
+	int waitTime;
+	int initialWaitTime;
 
 	int newBoardSize;
 	int opponent; //0-h vs h, 1-h vs pc, 2-pc vs pc
 	int level; //0- easy, 1-medium, 2-hard
 	void newGame();
 	void showWinner();
+	
 	void pcVSpc();
+	void findMove(int &oldx, int &oldy, int &newx, int &newy, Board oldboard, Board newboard);
+	void findAdd(int &num, char &color, int &x, int &y, Board oldboard, Board newboard);
+
 
 	void changeCurrentPlayer();
 	void replay();

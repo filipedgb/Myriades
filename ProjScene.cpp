@@ -201,6 +201,11 @@ void ProjScene::init() {
 	currentReplayTime = 0;
 	initialReplayTime = 0;
 
+	waitTime = 0;
+	initialWaitTime = 0;
+	pcPlaying = false;
+
+
 	theBoard = Board(4);
 	sck.socketConnect();
 
@@ -277,6 +282,9 @@ void ProjScene::update(unsigned long t) {
 		if(initialTime == 0) initialTime = t;
 		timePassed = (t - initialTime)/1000.0;
 
+		if(initialWaitTime == 0) initialWaitTime = t;
+		waitTime = (t - initialWaitTime)/1000.0;
+
 		cronometro->update(timePassed);
 
 		if(timePassed >= cronometro->getTimeLimit()) {
@@ -300,6 +308,12 @@ void ProjScene::update(unsigned long t) {
 				}
 				initialReplayTime = 0;
 			}
+		}
+
+		if(pcPlaying && waitTime >= 2) {
+			pcVSpc();
+			waitTime = 0;
+			initialWaitTime= 0;
 		}
 }
 
@@ -485,29 +499,110 @@ void ProjScene::newGame() {
 
 	moves.push_back(theBoard);
 
-	if(opponent == 2) pcVSpc();
+	if(opponent == 2) {
+		pcVSpc();
+		pcPlaying = true;
+	}
 	else {
 		string out = "Move or add a piece.";
 		TPinterface::setOutput(out);
 	}
 }
 
+
+void ProjScene::findMove(int &oldx, int &oldy, int &newx, int &newy, Board oldboard, Board newboard) {
+	bool oldPos = false;
+	bool newPos = false;
+	
+	for( int i = 0; i < oldboard.getSize(); i++) {
+		for ( int k = 0; k < oldboard.getSize(); k++) {
+
+			if(oldPos && newPos) {
+				cout << "Encontrou o move" << endl;
+				return;
+			}
+
+			if(oldboard.getPiece(i,k) == NULL && newboard.getPiece(i,k) != NULL) {
+				newx = i;
+				newy = k;
+				newPos = true;
+			}
+
+			else if (newboard.getPiece(i,k) == NULL && oldboard.getPiece(i,k) != NULL) {
+				oldx = i;
+				oldy = k;
+				oldPos = true;
+			}
+		}
+	}
+
+	cout << "Não encontrou nenhum move" << endl;
+}
+
+
+void ProjScene::findAdd(int &number, char &color, int &posx, int &posy, Board oldboard, Board newboard) {
+	for( int i = 0; i < oldboard.getSize(); i++) {
+		for ( int k = 0; k < oldboard.getSize(); k++) {
+			if(oldboard.getPiece(i,k) == NULL && newboard.getPiece(i,k) != NULL) {
+					posx = i;
+					posy = k;
+					color = newboard.getPiece(i,k)->getColor();
+					number = newboard.getPiece(i,k)->getNumber();
+					break;
+			}
+
+		}
+	}
+}
+
 void ProjScene::pcVSpc() {
-	while(!sck.isFull(&theBoard)) {
-		theBoard.boardParser(sck.pcMove(&theBoard,currentPlayer,level));
+	if(!sck.isFull(&theBoard)) {
+		Board copy = theBoard;
+
+
+		int old_x = -1, old_y = -1, new_x = -1, new_y = -1;
+		copy.boardParser(sck.pcMove(&copy,currentPlayer,level));
+		
+		if(copy != theBoard) {
+			findMove(old_x, old_y, new_x, new_y,theBoard,copy);
+		}
+		else cout << "lol o board nem sequer é diferente" << endl;
+
+		cout << "MOVE: " << old_x << " " << old_y << " " << new_x << " " << new_y << " " << endl;
+
+		if(old_x > -1 && old_y > -1 && new_x > -1 && new_y > -1) {
+			theBoard.boardParser(sck.movePiece(&theBoard,old_x,old_y,new_x,new_y));
+			theBoard.getPiece(new_x,new_y)->setMoving(old_x,old_y,new_x,new_y,theBoard.getSize());
+		}
+
 		theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
 
 		if(theBoard != moves[moves.size()-1])
 			moves.push_back(theBoard);
 
-		theBoard.boardParser(sck.pcAdd(&theBoard,currentPlayer));
+
+
+		int number = -1, x = -1, y = -1;
+		char color;
+		copy = theBoard;
+		copy.boardParser(sck.pcAdd(&copy,currentPlayer));
+		findAdd(number,color,x,y,theBoard,copy);
+
+		cout << "ADD: " << number << " " << color << " " << x << " " << y << " " << endl;
+
+
+		theBoard.boardParser(sck.addPiece(&theBoard,new Piece(number,color),x,y));
+		if(theBoard.getPiece(x,y) != NULL) theBoard.getPiece(x,y)->setNew(y,x,theBoard.getSize());
+
 		theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
 		moves.push_back(theBoard);
+
+
 
 		changeCurrentPlayer();
 	}
 
-	showWinner();
+	else { pcPlaying = false; showWinner(); }
 }
 
 void ProjScene::showWinner() {
