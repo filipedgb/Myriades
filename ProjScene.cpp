@@ -29,8 +29,6 @@ void ProjScene::updateDrawing() {
 	}
 }
 
-
-
 void ProjScene::setCameras() {
 	cameras.clear();
 
@@ -42,7 +40,6 @@ void ProjScene::setCameras() {
 	GLfloat p1Tar[3] = {size,0,size};
 	GLfloat p2Pos[3] = {size,1,size-1};
 	GLfloat p2Tar[3] = {size,0,size};
-	//mudar isto
 	GLfloat p3Pos[3] = {size,10,size};
 	GLfloat p3Tar[3] = {size,0,size-0.5};
 
@@ -58,12 +55,9 @@ void ProjScene::setCameras() {
 	cameras.push_back(p1);
 	cameras.push_back(p2);
 	cameras.push_back(p3);
-
-
 }
 
 void ProjScene::setAllAmbient() {
-	
 	setCameras();
 
 	/*Lights*/
@@ -76,21 +70,21 @@ void ProjScene::setAllAmbient() {
 	lights.push_back(l1);
 
 	/*Ambient*/
-	CGFtexture* woodPiece = new CGFtexture("woodPiece.jpg");
-	CGFtexture* woodBoard = new CGFtexture("woodBoard.jpg");
-	CGFtexture* woodTable = new CGFtexture("pokertable.jpg");
+	CGFtexture* woodPiece = new CGFtexture("texturas/woodPiece.jpg");
+	CGFtexture* woodBoard = new CGFtexture("texturas/woodBoard.jpg");
+	CGFtexture* woodTable = new CGFtexture("texturas/pokertable.jpg");
 
 	addNewAmbient("Wood",woodPiece,woodBoard,woodTable);
 
-	CGFtexture* porcelainPiece = new CGFtexture("porcelainPiece.jpg");
-	CGFtexture* porcelainBoard = new CGFtexture("porcelainBoard.jpg");
-	CGFtexture* porcelainTable = new CGFtexture("marbletable.jpg");
+	CGFtexture* porcelainPiece = new CGFtexture("texturas/porcelainPiece.jpg");
+	CGFtexture* porcelainBoard = new CGFtexture("texturas/porcelainBoard.jpg");
+	CGFtexture* porcelainTable = new CGFtexture("texturas/marbletable.jpg");
 
 	addNewAmbient("Porcelain",porcelainPiece,porcelainBoard,porcelainTable);
 
-	CGFtexture* metalPiece = new CGFtexture("metalPiece.jpg");
-	CGFtexture* metalBoard = new CGFtexture("metalBoard.jpg");
-	CGFtexture* metalTable = new CGFtexture("inoxtable.jpg");
+	CGFtexture* metalPiece = new CGFtexture("texturas/metalPiece.jpg");
+	CGFtexture* metalBoard = new CGFtexture("texturas/metalBoard.jpg");
+	CGFtexture* metalTable = new CGFtexture("texturas/inoxtable.jpg");
 
 	addNewAmbient("Metal",metalPiece,metalBoard,metalTable);
 }
@@ -673,7 +667,6 @@ void ProjScene::resetCameras() {
 	cameraTranslationXY[0] = 0.0;
 	cameraTranslationXY[1] = 0.0;
 	cameraTranslationZ = 0.0;
-	
 }
 
 void ProjScene::changePlayLimit() {

@@ -280,34 +280,22 @@ void Board::drawBox() {
 
 	if(currentPlayer == 'b') {
 		if(isSliding) {
-			if(slidingBoxWtoB->isStopped()) {
+			if(slidingBoxWtoB->isStopped())
 				isSliding = false;
-			}
-			else {
-				slidingBoxWtoB->draw();
-			}
+			else slidingBoxWtoB->draw();
 		}
 		else  glTranslated(-1,0,0);
-
-
-	}else {
+	} else {
 		if(isSliding) {
-			if(slidingBoxBtoW->isStopped()) {
+			if(slidingBoxBtoW->isStopped())
 				isSliding = false;
-			}
-			else {
-				slidingBoxBtoW->draw();
-			}
+			else slidingBoxBtoW->draw();
 		}
-
 		else glTranslated(1,0,0);
-
 	}
 
 	glTranslated(0,2,0);
 	glScaled(1.6,0.1,1.6);
-	//glScaled(10,10,10);
-
 	cube->draw();
 	glPopMatrix();
 
@@ -355,7 +343,6 @@ void Board::drawBox() {
 }
 
 void Board::boardParser(string answer) {
-	//this->board.clear();
 	vector<vector<int>> tempBoardN;
 	vector<vector<char>> tempBoardC;
 	vector<int> rowN;

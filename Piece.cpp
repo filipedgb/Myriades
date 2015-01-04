@@ -67,16 +67,16 @@ Piece::Piece(int number, char color) {
 
 void Piece::loadTextures() {
 	for(int i = 0; i < 10; i++) {
-		string name = "tex" + std::to_string(i) + ".jpg" ;
+		string name = "texturas/tex" + std::to_string(i) + ".jpg" ;
 		numbers[i] = new CGFappearance(ambW1,white1,specW1,120);
 		numbers[i]->setTexture(name);
 	}
 
 	infinityApp = new CGFappearance(ambW1,white1,specW1,120);
-	infinityApp->setTexture("infinity.jpg");
+	infinityApp->setTexture("texturas/infinity.jpg");
 
 	nonumberApp = new CGFappearance(ambW1,white1,specW1,120);
-	nonumberApp->setTexture("nonumber.jpg");
+	nonumberApp->setTexture("texturas/nonumber.jpg");
 }
 
 char Piece::getColor() const {
