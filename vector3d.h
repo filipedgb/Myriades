@@ -7,7 +7,7 @@
 #include <iostream>
 
 /* Esta classe tem como objectivo facilitar a representação do espaço tri-dimensional, servindo tanto para representar pontos como vectores.
-	Contém também um conjunto de overloads adequados para operações vectoriais
+Contém também um conjunto de overloads adequados para operações vectoriais
 */
 
 
@@ -68,9 +68,9 @@ public:
 	}
 
 	vector3d interpolate(const vector3d & v) const {
-		double a = (this->x + v.x)/2.0;
-		double b = (this->y + v.y)/2.0;
-		double c = (this->z + v.z)/2.0;
+		float a = (this->x + v.x)/2.0;
+		float b = (this->y + v.y)/2.0;
+		float c = (this->z + v.z)/2.0;
 
 		vector3d res(a,b,c);
 		return res;
@@ -90,7 +90,6 @@ public:
 
 	vector3d normalize() const {
 		float size = vecSize();
-		std::cout << size;
 		vector3d vec (x/size, y/size, z/size);
 		return vec;
 	}
