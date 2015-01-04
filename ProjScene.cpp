@@ -1,5 +1,4 @@
 ﻿#include "TPinterface.h"
-#include <Windows.h>
 #include "ProjScene.h"
 #include <time.h>
 
@@ -68,27 +67,31 @@ void ProjScene::setAllAmbient() {
 	/*Ambient*/
 	CGFtexture* woodPiece = new CGFtexture("woodPiece.jpg");
 	CGFtexture* woodBoard = new CGFtexture("woodBoard.jpg");
+	CGFtexture* woodTable = new CGFtexture("pokertable.jpg");
 
-	addNewAmbient("Wood",woodPiece,woodBoard);
+	addNewAmbient("Wood",woodPiece,woodBoard,woodTable);
 
 	CGFtexture* porcelainPiece = new CGFtexture("porcelainPiece.jpg");
 	CGFtexture* porcelainBoard = new CGFtexture("porcelainBoard.jpg");
+	CGFtexture* porcelainTable = new CGFtexture("marbletable.jpg");
 
-	addNewAmbient("Porcelain",porcelainPiece,porcelainBoard);
+	addNewAmbient("Porcelain",porcelainPiece,porcelainBoard,porcelainTable);
 
 	CGFtexture* metalPiece = new CGFtexture("metalPiece.jpg");
 	CGFtexture* metalBoard = new CGFtexture("metalBoard.jpg");
+	CGFtexture* metalTable = new CGFtexture("inoxtable.jpg");
 
-	addNewAmbient("Metal",metalPiece,metalBoard);
+	addNewAmbient("Metal",metalPiece,metalBoard,metalTable);
 }
 
-void ProjScene::addNewAmbient(string id, CGFtexture* pieceApp, CGFtexture* boardApp) {
+void ProjScene::addNewAmbient(string id, CGFtexture* pieceApp, CGFtexture* boardApp, CGFtexture* tableApp) {
 	vector<CGFtexture*> ambient;
 
 	ambientID.push_back(id);
 
 	ambient.push_back(pieceApp);
 	ambient.push_back(boardApp);
+	ambient.push_back(tableApp);
 
 	ambients.push_back(ambient);
 }
@@ -221,7 +224,6 @@ void ProjScene::init() {
 
 	table = new Cube();
 	tableApp = new CGFappearance();
-	tableApp->setTexture("inoxtable.jpg");
 
 	mainCamera->toggleSide();
 
@@ -365,13 +367,13 @@ void ProjScene::display() {
 	// ---- BEGIN feature demos	
 
 	//draw table
-
-	 glPushMatrix();
+	glPushMatrix();
 	glTranslated(theBoard.getSize(),-0.25,theBoard.getSize());
 	glScaled(40,0.5,30);
+	tableApp->setTexture(ambients[ambientState][2]);
 	tableApp->apply();
 	table->draw(1,1);
-	 glPopMatrix();
+	glPopMatrix();
 
 	//draw removes
 	int tempRemoves = removes;
@@ -479,24 +481,6 @@ void ProjScene::updateLightState() {
 			lights[i-1]->enable();
 		else lights[i-1]->disable();
 	}
-}
-
-ProjScene::~ProjScene() {
-	delete(light0);
-	delete(cronometro);
-	delete(mainCamera);
-	delete(tableApp);
-	delete(table);
-
-	for(unsigned int i=0; i<ambients.size();i++)
-		for(unsigned int j=0; j<ambients[i].size();j++)
-			delete(ambients[i][j]);
-
-	for(unsigned int i=0; i<lights.size();i++)
-		delete(lights[i]);
-
-	for(unsigned int i=0; i<cameras.size();i++)
-		delete(cameras[i]);
 }
 
 void ProjScene::undo() {
@@ -682,4 +666,23 @@ void ProjScene::resetCameras() {
 
 void ProjScene::changePlayLimit() {
 	this->cronometro->setTimeLimit((float) this->playTime);
+}
+
+ProjScene::~ProjScene() {
+	delete(light0);
+	delete(cronometro);
+	delete(mainCamera);
+	delete(table);
+	delete(tableApp);
+	delete(removePiece);
+
+	for(unsigned int i=0; i<ambients.size();i++)
+		for(unsigned int j=0; j<ambients[i].size();j++)
+			delete(ambients[i][j]);
+
+	for(unsigned int i=0; i<lights.size();i++)
+		delete(lights[i]);
+
+	for(unsigned int i=0; i<cameras.size();i++)
+		delete(cameras[i]);
 }
