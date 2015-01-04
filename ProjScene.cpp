@@ -295,7 +295,6 @@ void ProjScene::update(unsigned long t) {
 			pcAdd();
 		}
 
-
 		if(replaying) {	
 			if(initialReplayTime == 0) initialReplayTime = t;
 			currentReplayTime = (t - initialReplayTime)/1000.0;
@@ -415,8 +414,6 @@ void ProjScene::addPieceValue() {
 				showWinner();
 				return;
 			}
-
-			changeCurrentPlayer();
 		}
 
 		string out = "Move or add a piece.";
