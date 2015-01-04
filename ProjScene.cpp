@@ -138,7 +138,8 @@ void ProjScene::pickingActions(int x, int y) {
 			movedX = newX;			//guardar para nao poder retirar a peca que acabou de mover
 			movedY = newY;
 
-			theBoard.getPiece(movedX,movedY)->setMoving(oldX,oldY,movedX,movedY,theBoard.getSize());
+			if(displayAnimations)
+				theBoard.getPiece(movedX,movedY)->setMoving(oldX,oldY,movedX,movedY,theBoard.getSize());
 
 			string out = "Player ";
 			out+= currentPlayer;
@@ -205,6 +206,7 @@ void ProjScene::init() {
 	initialWaitTime = 0;
 	pcPlaying = false;
 
+	displayAnimations = 1;
 
 	theBoard = Board(4);
 	sck.socketConnect();
@@ -394,7 +396,8 @@ void ProjScene::addPieceValue() {
 		hasMoved = false;
 		toMove = false;
 
-		theBoard.getPiece(oldX,oldY)->setNew(oldY,oldX,theBoard.getSize());
+		if(displayAnimations)
+			theBoard.getPiece(oldX,oldY)->setNew(oldY,oldX,theBoard.getSize());
 		theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
 
 		changeCurrentPlayer();
@@ -550,7 +553,8 @@ void ProjScene::pcMove() {
 
 	if(old_x > -1 && old_y > -1 && new_x > -1 && new_y > -1) {
 		theBoard.boardParser(sck.movePiece(&theBoard,old_x,old_y,new_x,new_y));
-		theBoard.getPiece(new_x,new_y)->setMoving(old_x,old_y,new_x,new_y,theBoard.getSize());
+		if(displayAnimations)
+			theBoard.getPiece(new_x,new_y)->setMoving(old_x,old_y,new_x,new_y,theBoard.getSize());
 	}
 
 	theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
@@ -585,7 +589,7 @@ void ProjScene::pcAdd() {
 	findAdd(number,color,x,y,theBoard,copy);
 
 	theBoard.boardParser(sck.addPiece(&theBoard,new Piece(number,color),x,y));
-	if(theBoard.getPiece(x,y) != NULL) theBoard.getPiece(x,y)->setNew(y,x,theBoard.getSize());
+	if(theBoard.getPiece(x,y) != NULL && displayAnimations) theBoard.getPiece(x,y)->setNew(y,x,theBoard.getSize());
 
 	theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
 	moves.push_back(theBoard);

@@ -67,6 +67,7 @@ public:
 
 	/** INTERFACE OPTIONS*/
 	int sceneVar;
+	int displayAnimations;
 
 	/* -- LIGHTS -- */
 	vector<int> lightState;

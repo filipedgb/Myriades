@@ -64,6 +64,9 @@ void TPinterface::initGUI() {
 		ambient->add_item(i, ((ProjScene*) scene)->getAmbientID()[i].c_str());
 	}
 
+	GLUI_Checkbox* animations = addCheckboxToPanel(panel,"Animations",&(((ProjScene*) scene)->displayAnimations));
+
+	//TIME
 	GLUI_Rollout* replayR = addRolloutToPanel(panel,"Time",0,0);
 	GLUI_Spinner* replayTime = addSpinnerToPanel(replayR,"Replay Time",2,&(((ProjScene*) scene)->replayTime));
 	replayTime->set_int_limits(1,30, GLUI_LIMIT_WRAP);
@@ -71,7 +74,7 @@ void TPinterface::initGUI() {
 	GLUI_EditText* playTime = addEditTextToPanel(replayR,"Move time",&(((ProjScene*) scene)->playTime),19);
 	playTime->set_int_limits(10,4*60, GLUI_LIMIT_WRAP);
 
-	//add centered panel for drawing options
+	//add rollout for drawing options
 	GLUI_Rollout *drawing = addRolloutToPanel(panel,"Drawing",0);
 
 	//MODE
