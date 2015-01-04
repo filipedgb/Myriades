@@ -37,17 +37,17 @@ void ProjScene::setAllAmbient() {
 
 	GLfloat p1Pos[3] = {size,1,size+1};
 	GLfloat p1Tar[3] = {size,0,size};
-	GLfloat p2Pos[3] = {10,1,9};
-	GLfloat p2Tar[3] = {10,0,10};
+	GLfloat p2Pos[3] = {size,1,size-1};
+	GLfloat p2Tar[3] = {size,0,size};
 	//mudar isto
-	GLfloat p3Pos[3] = {size,10,-size*2+1};
-	GLfloat p3Tar[3] = {size,0,-size*2};
+	GLfloat p3Pos[3] = {size,10,size};
+	GLfloat p3Tar[3] = {size,0,size-0.5};
 
 	/* CAMARAS */
 	mainCamera = new Perspective("Sided Camera",0,0,0,p1Pos,p1Tar);;
-	Perspective* p1 = new Perspective("p1",0,0,0,p1Pos,p1Tar);
-	Perspective* p2 = new Perspective("p2",0,0,0,p2Pos,p2Tar);
-	Perspective* p3 = new Perspective("p3",0,0,0,p3Pos,p3Tar);
+	Perspective* p1 = new Perspective("Player 1 view",0,0,0,p1Pos,p1Tar);
+	Perspective* p2 = new Perspective("Player 2 view",0,0,0,p2Pos,p2Tar);
+	Perspective* p3 = new Perspective("Up view",0,0,0,p3Pos,p3Tar);
 
 	mainCamera->calculatePoints();
 	mainCamera->setRotative();
@@ -215,6 +215,8 @@ void ProjScene::init() {
 	theBoard.boardParser(sck.initBoard(theBoard.getSize())); //Socket
 
 	setAllAmbient();
+
+	mainCamera->toggleSide();
 
 	moves.push_back(theBoard);
 
