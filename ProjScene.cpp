@@ -5,7 +5,7 @@
 
 
 GLfloat ambientLight[4] = {0.8, 0.8, 0.8, 1};
-GLfloat background[4] = {0, 0, 0, 0.8};
+GLfloat background[4] = {0, 0.1, 0, 0.8};
 
 void ProjScene::updateDrawing() {
 	switch(this->mode) {
