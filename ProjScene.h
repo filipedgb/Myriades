@@ -117,6 +117,8 @@ public:
 	void findMove(int &oldx, int &oldy, int &newx, int &newy,vector<int> &removesVec, const Board& oldboard,const Board& newboard);
 	void findAdd(int &num, char &color, int &x, int &y,const Board& oldboard,const Board& newboard);
 	void pcRemovePieces(int number);
+	void pcMove();
+	void pcAdd();
 
 	void changeCurrentPlayer();
 	void replay();
