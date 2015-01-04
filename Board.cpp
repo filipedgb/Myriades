@@ -188,10 +188,7 @@ void Board::draw() {
 				glPopMatrix();
 			}
 		}
-		glPopMatrix();
-
-		cout << pecas_animacao << " " << totalPecas << endl;
-		
+		glPopMatrix();		
 }
 
 void Board::drawSolidBase() {
