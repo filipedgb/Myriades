@@ -219,6 +219,10 @@ void ProjScene::init() {
 
 	setAllAmbient();
 
+	table = new Cube();
+	tableApp = new CGFappearance();
+	tableApp->setTexture("inoxtable.jpg");
+
 	mainCamera->toggleSide();
 
 	moves.push_back(theBoard);
@@ -360,6 +364,15 @@ void ProjScene::display() {
 
 	// ---- BEGIN feature demos	
 
+	//draw table
+
+	 glPushMatrix();
+	glTranslated(theBoard.getSize(),-0.25,theBoard.getSize());
+	glScaled(40,0.5,30);
+	tableApp->apply();
+	table->draw(1,1);
+	 glPopMatrix();
+
 	//draw removes
 	int tempRemoves = removes;
 	while(tempRemoves) {
@@ -472,6 +485,8 @@ ProjScene::~ProjScene() {
 	delete(light0);
 	delete(cronometro);
 	delete(mainCamera);
+	delete(tableApp);
+	delete(table);
 
 	for(unsigned int i=0; i<ambients.size();i++)
 		for(unsigned int j=0; j<ambients[i].size();j++)
