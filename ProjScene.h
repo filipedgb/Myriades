@@ -39,6 +39,9 @@ private:
 	int removes;
 	Piece* removePiece;
 
+	Cube* table;
+	CGFappearance* tableApp;
+
 	float initialTime;
 	float timePassed;
 
