@@ -20,7 +20,7 @@ class Piece: public Primitive {
 	
 	CGFtexture* text;	
 	
-	static CGFappearance* numbers[9];
+	static CGFappearance* numbers[10];
 	static CGFappearance* nonumberApp;
 	static CGFappearance* infinityApp;
 	
