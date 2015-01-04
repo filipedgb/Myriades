@@ -60,7 +60,7 @@ public:
 
 	int getPieceNumber(int row, int col);
 	char getPieceColor(int row, int col);
-	int getSize() { return size;}
+	int getSize() const { return size;}
 
 	string toString();	
 
@@ -72,7 +72,7 @@ public:
 		return *this;
 	}
 
-	Piece* getPiece(int row, int col) {
+	Piece* getPiece(int row, int col) const {
 		return board[row][col];
 	}
 
