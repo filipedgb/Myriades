@@ -292,7 +292,7 @@ void ProjScene::update(unsigned long t) {
 		if(timePassed >= cronometro->getTimeLimit()) {
 			toMove = false;
 			hasMoved = false;
-			changeCurrentPlayer();
+			pcAdd();
 		}
 
 

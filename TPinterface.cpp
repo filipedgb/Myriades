@@ -44,7 +44,7 @@ void TPinterface::initGUI() {
 	replayTime->set_int_limits(1,30, GLUI_LIMIT_WRAP);
 
 	GLUI_EditText* playTime = addEditTextToPanel(replayR,"Move time",&(((ProjScene*) scene)->playTime),19);
-	playTime->set_int_limits(30,5*60, GLUI_LIMIT_WRAP);
+	playTime->set_int_limits(10,4*60, GLUI_LIMIT_WRAP);
 
 	GLUI_Panel* tempPanel = addPanelToPanel(gamePanel,"",GLUI_PANEL_NONE);
 	GLUI_Button* undo = addButtonToPanel(tempPanel,"Undo player move",14);
