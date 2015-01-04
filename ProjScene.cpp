@@ -407,13 +407,9 @@ void ProjScene::addPieceValue() {
 			return;
 		}
 		else if(opponent == 1) {
-			pcMove();
-			pcAdd();
-
-			if(sck.isFull(&theBoard)) {
-				showWinner();
-				return;
-			}
+			waitTime = 0;
+			initialWaitTime= 0;
+			pcPlaying = true;
 		}
 
 		string out = "Move or add a piece.";
@@ -521,7 +517,6 @@ void ProjScene::findMove(int &oldx, int &oldy, int &newx, int &newy,vector<int> 
 			}
 		}
 	}
-	//cout << "Nao encontrou nenhum move" << endl;
 }
 
 void ProjScene::findAdd(int &number, char &color, int &posx, int &posy,const Board& oldboard,const Board& newboard) {
@@ -571,6 +566,11 @@ void ProjScene::pcMove() {
 		oldY = toRemove[i];
 		removes++;
 		changePiece();
+
+		theBoard.setScore(sck.sumOf('b',&theBoard),sck.sumOf('w',&theBoard));
+
+		if(theBoard != moves[moves.size()-1])
+			moves.push_back(theBoard);
 	}
 }
 
@@ -597,6 +597,8 @@ void ProjScene::pcVSpc() {
 	if(!sck.isFull(&theBoard)) {
 		pcMove();
 		pcAdd();
+
+		if(opponent == 1) pcPlaying = false;
 	}
 	else { 
 		pcPlaying = false; 
