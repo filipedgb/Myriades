@@ -360,9 +360,7 @@ void ProjScene::display() {
 	cronometro->draw();
 	glPopMatrix();
 
-
 	// ---- END Background, camera and axis setup
-
 
 	// ---- BEGIN feature demos	
 	//so it changes the box
@@ -460,6 +458,12 @@ void ProjScene::updateLightState() {
 
 ProjScene::~ProjScene() {
 	delete(light0);
+	delete(cronometro);
+	delete(mainCamera);
+
+	for(unsigned int i=0; i<ambients.size();i++)
+		for(unsigned int j=0; j<ambients[i].size();j++)
+			delete(ambients[i][j]);
 
 	for(unsigned int i=0; i<lights.size();i++)
 		delete(lights[i]);
@@ -539,7 +543,6 @@ void ProjScene::findAdd(int &number, char &color, int &posx, int &posy,const Boa
 
 void ProjScene::pcMove() { 
 	///////////// MOVE PIECE /////////////
-
 	Board copy = theBoard;
 	vector<int> toRemove;
 
@@ -549,8 +552,6 @@ void ProjScene::pcMove() {
 	if(copy != theBoard) {
 		findMove(old_x, old_y, new_x, new_y,toRemove,theBoard,copy);
 	}
-
-	//	cout << "MOVE: " << old_x << " " << old_y << " " << new_x << " " << new_y << " " << endl;
 
 	movedX = new_x;
 	movedY = new_y;
@@ -568,11 +569,7 @@ void ProjScene::pcMove() {
 	///////////// REMOVE PIECES /////////////
 
 	//process remove coordinates vector;
-
-	//cout << toRemove.size() << endl;
-
-	for(int i = 1; i < toRemove.size(); i++) {
-		//cout << "Size aqui: " << toRemove.size() << endl;
+	for(unsigned int i = 1; i < toRemove.size(); i++) {
 		oldX = toRemove[i-1];
 		oldY = toRemove[i];
 		removes++;
