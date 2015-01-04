@@ -14,10 +14,9 @@ GLfloat grey1[4] = {0.2,0.2,0.2,1};
 
 GLdouble camera_pos[3];
 
-CGFappearance* Piece::numbers[9] = {NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
+CGFappearance* Piece::numbers[10] = {NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
 CGFappearance* Piece::nonumberApp = NULL;
 CGFappearance* Piece::infinityApp = NULL;
-
 
 static GLdouble* getRealWorldPosition() {
 	int viewport[4]; 
@@ -67,7 +66,7 @@ Piece::Piece(int number, char color) {
 }
 
 void Piece::loadTextures() {
-	for(int i = 0; i < 9; i++) {
+	for(int i = 0; i < 10; i++) {
 		string name = "tex" + std::to_string(i) + ".jpg" ;
 		numbers[i] = new CGFappearance(ambW1,white1,specW1,120);
 		numbers[i]->setTexture(name);
