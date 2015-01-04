@@ -191,6 +191,7 @@ void TPinterface::processGUI(GLUI_Control *ctrl) {
 	case 12:
 		printf("Button new Game\n");
 		((ProjScene*) scene)->newGame();
+		((ProjScene*) scene)->setCameras();
 		break;
 	case 14:
 		printf("Button player undo\n");

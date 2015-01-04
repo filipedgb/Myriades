@@ -29,7 +29,11 @@ void ProjScene::updateDrawing() {
 	}
 }
 
-void ProjScene::setAllAmbient() {
+
+
+void ProjScene::setCameras() {
+	cameras.clear();
+
 	int size = theBoard.getSize();
 
 	printf("Size: %d\n", size);
@@ -54,6 +58,13 @@ void ProjScene::setAllAmbient() {
 	cameras.push_back(p1);
 	cameras.push_back(p2);
 	cameras.push_back(p3);
+
+
+}
+
+void ProjScene::setAllAmbient() {
+	
+	setCameras();
 
 	/*Lights*/
 	GLfloat l1Pos[3] = {0,15,3};
@@ -212,7 +223,7 @@ void ProjScene::init() {
 
 	displayAnimations = 1;
 
-	theBoard = Board(4);
+	theBoard = Board(7);
 	sck.socketConnect();
 
 	cronometro = new Clock();
@@ -662,6 +673,7 @@ void ProjScene::resetCameras() {
 	cameraTranslationXY[0] = 0.0;
 	cameraTranslationXY[1] = 0.0;
 	cameraTranslationZ = 0.0;
+	
 }
 
 void ProjScene::changePlayLimit() {

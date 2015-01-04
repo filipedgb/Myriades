@@ -93,6 +93,7 @@ public:
 	float cameraTranslationXY[2];
 	float cameraTranslationZ;
 	void translateCamera();
+	void setCameras();
 	void resetCameras();
 
 	/* -- Ambient --*/
