@@ -14,6 +14,11 @@ GLfloat grey1[4] = {0.2,0.2,0.2,1};
 
 GLdouble camera_pos[3];
 
+CGFappearance* Piece::numbers[9] = {NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
+CGFappearance* Piece::nonumberApp = NULL;
+CGFappearance* Piece::infinityApp = NULL;
+
+
 static GLdouble* getRealWorldPosition() {
 	int viewport[4]; 
 	GLdouble modelView[16], matProjection[16];
@@ -44,7 +49,6 @@ static float getAngleForPiece() {
 	return angle;
 }
 
-
 Piece::Piece(int number, char color) {
 	this->color = color; 
 	this->number = number;
@@ -59,9 +63,6 @@ Piece::Piece(int number, char color) {
 	this->isMoving1 = false;
 	this->addingPiece = new Linear("adding piece",2);
 	this->movingPiece = new Linear("moving piece",2);
-
-	loadTextures();
-
 	setAppearance();
 }
 

@@ -3,9 +3,7 @@
 
 #include <vector>
 #include "Piece.h"
-#include "Cube.h"
 #include <GL/glut.h>
-#include "CGFappearance.h"
 
 class Board {	
 	vector<vector<Piece*>> board;
@@ -27,7 +25,6 @@ class Board {
 
 	bool isSliding;
 
-	CGFappearance* numbers[9];
 	Cube *score;
 	int scoreB, scoreW;
 
@@ -37,8 +34,6 @@ public:
 	Board();
 	Board(int s);
 	Board(vector<vector<Piece*>> boardIn);
-
-	void loadTextures();
 
 	void boardParser(string answer);
 	void checkBoard(vector<vector<int>> bn, vector<vector<char>> bc);

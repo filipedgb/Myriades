@@ -8,7 +8,6 @@
 #include "Linear.h"
 #include "Cube.h"
 
-
 class Piece: public Primitive {
 	Cylinder* piece;
 	Cylinder* numberPlate;
@@ -18,12 +17,12 @@ class Piece: public Primitive {
 
 	CGFappearance* pieceApp;
 	CGFappearance* numberApp;
-
+	
 	CGFtexture* text;	
 	
-	CGFappearance* numbers[9];
-	CGFappearance* nonumberApp;
-	CGFappearance* infinityApp;
+	static CGFappearance* numbers[9];
+	static CGFappearance* nonumberApp;
+	static CGFappearance* infinityApp;
 	
 	Linear* addingPiece;
 	Linear* movingPiece;
@@ -37,7 +36,6 @@ public:
 	char getColor() const;
 	int getNumber() const;
 
-	void loadTextures();
 	void setColor(char c);
 	void setNumber(int n);
 	void draw(float text_s, float text_t);
@@ -68,6 +66,16 @@ public:
 	void setMoving(int oldx, int oldy, int newx, int newy, int size);
 
 	void setMoving(bool t) { isMoving1 = t;}
+
+
+	static void loadTextures();
+	static CGFappearance* getNumberText(int i) { 
+		if(i>-1 && i<10) return numbers[i];
+		else return nonumberApp;
+	}
+	static CGFappearance* getInf() {
+		return infinityApp;
+	}
 };
 
 #endif

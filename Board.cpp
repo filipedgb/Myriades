@@ -12,20 +12,11 @@ GLfloat black[4] = {0,0,0,1};
 GLfloat white[4] = {1,1,1,0};
 GLfloat grey[4] = {0.8,0.8,0.8,1};
 
-void Board::loadTextures() {
-	for(int i = 0; i < 9; i++) {
-		string name = "tex" + std::to_string(i) + ".jpg" ;
-		numbers[i] = new CGFappearance(ambW,white,specW,120);
-		numbers[i]->setTexture(name);
-	}
-}
-
 Board::Board() {
 	this->size = 5;
 	setPiecesAppearances();
 	setBoxAnimation();
 	scoreB = scoreW = 0;
-	loadTextures();
 	this->score = new Cube();
 
 	boardApp = new CGFappearance();
@@ -37,7 +28,6 @@ Board::Board(int s) {
 	setBoxAnimation();
 	boardApp = new CGFappearance();
 	scoreB = scoreW = 0;
-	loadTextures();
 	this->score = new Cube();
 }
 
@@ -49,7 +39,6 @@ Board::Board(vector<vector<Piece*>> boardIn) {
 	setBoxAnimation();
 	boardApp = new CGFappearance();
 	scoreB = scoreW = 0;
-	loadTextures();
 	this->score = new Cube();
 }
 
@@ -498,14 +487,14 @@ void Board::drawScore() {
 	if(centenasB) {
 		glPushMatrix();
 		glTranslated(0,0,zT++);
-		numbers[centenasB]->apply();
+		Piece::getNumberText(centenasB)->apply();
 		score->draw(1,1);
 		glPopMatrix();
 	}
 	if(dezenasB) {
 		glPushMatrix();
 		glTranslated(0,0,zT++);
-		numbers[dezenasB]->apply();
+		Piece::getNumberText(dezenasB)->apply();
 		score->draw(1,1);
 		glPopMatrix();
 	}
@@ -513,7 +502,7 @@ void Board::drawScore() {
 	//unidades b
 	glPushMatrix();
 	glTranslated(0,0,zT++);
-	numbers[unidadesB]->apply();
+	Piece::getNumberText(unidadesB)->apply();
 	score->draw(1,1);
 	glPopMatrix();
 
@@ -532,21 +521,21 @@ void Board::drawScore() {
 	if(centenasW) {
 		glPushMatrix();
 		glTranslated(0,0,zT++);
-		numbers[centenasW]->apply();
+		Piece::getNumberText(centenasW)->apply();
 		score->draw(1,1);
 		glPopMatrix();
 	}
 	if(dezenasW) {
 		glPushMatrix();
 		glTranslated(0,0,zT++);
-		numbers[dezenasW]->apply();
+		Piece::getNumberText(dezenasW)->apply();
 		score->draw(1,1);
 		glPopMatrix();
 	}
 	//unidades w
 	glPushMatrix();
 	glTranslated(0,0,zT++);
-	numbers[unidadesW]->apply();
+	Piece::getNumberText(unidadesW)->apply();
 	score->draw(1,1);
 	glPopMatrix();
 
