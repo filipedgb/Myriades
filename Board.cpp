@@ -127,6 +127,10 @@ void Board::drawBoxPiece() {
 }
 
 void Board::draw() { 
+
+	int pecas_animacao = 0;
+	int totalPecas = 0;
+
 	glPushMatrix();
 
 	glPushMatrix();
@@ -154,15 +158,23 @@ void Board::draw() {
 				glPushMatrix();
 				board[row][col]->setTexture(this->pieceText);
 
+				totalPecas++;
+
 				if(board[row][col]->isNew()) {
 					if(board[row][col]->getAddingAnimation()->isStopped())
 						board[row][col]->setOld();
-					else board[row][col]->getAddingAnimation()->draw();
+					else {
+						board[row][col]->getAddingAnimation()->draw();
+						pecas_animacao++;
+					}
 				}
 				else if(board[row][col]->isMoving()) {
 					if(board[row][col]->getMovingAnimation()->isStopped())
 						board[row][col]->setMoving(false);
-					else board[row][col]->getMovingAnimation()->draw();
+					else {
+						board[row][col]->getMovingAnimation()->draw();
+						pecas_animacao++;
+					}
 				}
 				else { 
 					glTranslatef(2*col,0,0);
@@ -177,6 +189,9 @@ void Board::draw() {
 			}
 		}
 		glPopMatrix();
+
+		cout << pecas_animacao << " " << totalPecas << endl;
+		
 }
 
 void Board::drawSolidBase() {
@@ -554,4 +569,3 @@ void Board::setScore(int b, int w) {
 	this->scoreB = b;
 	this->scoreW = w;
 }
-
