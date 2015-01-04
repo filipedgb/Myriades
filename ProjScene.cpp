@@ -1,4 +1,4 @@
-#include "TPinterface.h"
+ï»¿#include "TPinterface.h"
 #include <Windows.h>
 #include "ProjScene.h"
 #include <time.h>
@@ -466,18 +466,10 @@ ProjScene::~ProjScene() {
 		delete(cameras[i]);
 }
 
-void ProjScene::undo(int x) {
-	if(x) {
-		if(moves.size() > 1) 
-			moves.pop_back();
-
-		theBoard = moves[moves.size()-1];
-	}
-	else {
-		hasMoved = false;
-		toMove = false;
-		theBoard = lastMove;
-	}
+void ProjScene::undo() {
+	theBoard = lastMove;
+	hasMoved = false;
+	toMove = false;
 }
 
 void ProjScene::newGame() {
@@ -511,30 +503,22 @@ void ProjScene::findMove(int &oldx, int &oldy, int &newx, int &newy,vector<int> 
 
 	for( int i = 0; i < oldboard.getSize(); i++) {
 		for ( int k = 0; k < oldboard.getSize(); k++) {
-
-
 			if(oldboard.getPiece(i,k) == NULL && newboard.getPiece(i,k) != NULL) {
 				newx = i;
 				newy = k;
 			}
-
 			else if (newboard.getPiece(i,k) == NULL && oldboard.getPiece(i,k) != NULL) {
 				oldx = i;
 				oldy = k;
 			}
-
 			else if(newboard.getPiece(i,k) != NULL && newboard.getPiece(i,k)->getColor() == 'g' &&
 				oldboard.getPiece(i,k) != NULL && oldboard.getPiece(i,k)->getColor() != 'g') {
 					removesVec.push_back(i);
 					removesVec.push_back(k);
 			}
-
 		}
 	}
-
-	return;
-
-	cout << "Não encontrou nenhum move" << endl;
+	//cout << "Nao encontrou nenhum move" << endl;
 }
 
 void ProjScene::findAdd(int &number, char &color, int &posx, int &posy,const Board& oldboard,const Board& newboard) {
@@ -547,11 +531,9 @@ void ProjScene::findAdd(int &number, char &color, int &posx, int &posy,const Boa
 				number = newboard.getPiece(i,k)->getNumber();
 				return;
 			}
-
 		}
 	}
 }
-
 
 void ProjScene::pcMove() { 
 	///////////// MOVE PIECE /////////////
@@ -566,7 +548,7 @@ void ProjScene::pcMove() {
 		findMove(old_x, old_y, new_x, new_y,toRemove,theBoard,copy);
 	}
 
-//	cout << "MOVE: " << old_x << " " << old_y << " " << new_x << " " << new_y << " " << endl;
+	//	cout << "MOVE: " << old_x << " " << old_y << " " << new_x << " " << new_y << " " << endl;
 
 	movedX = new_x;
 	movedY = new_y;
@@ -585,16 +567,15 @@ void ProjScene::pcMove() {
 
 	//process remove coordinates vector;
 
-	cout << toRemove.size() << endl;
+	//cout << toRemove.size() << endl;
 
 	for(int i = 1; i < toRemove.size(); i++) {
-		cout << "Size aqui: " << toRemove.size() << endl;
+		//cout << "Size aqui: " << toRemove.size() << endl;
 		oldX = toRemove[i-1];
 		oldY = toRemove[i];
 		removes++;
 		changePiece();
 	}
-
 }
 
 void ProjScene::pcAdd() {
@@ -614,7 +595,6 @@ void ProjScene::pcAdd() {
 	moves.push_back(theBoard);
 
 	changeCurrentPlayer();
-
 }
 
 void ProjScene::pcVSpc() {
@@ -622,8 +602,10 @@ void ProjScene::pcVSpc() {
 		pcMove();
 		pcAdd();
 	}
-
-	else { pcPlaying = false; showWinner(); }
+	else { 
+		pcPlaying = false; 
+		showWinner(); 
+	}
 }
 
 void ProjScene::showWinner() {

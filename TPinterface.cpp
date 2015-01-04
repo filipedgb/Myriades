@@ -46,11 +46,10 @@ void TPinterface::initGUI() {
 	GLUI_EditText* playTime = addEditTextToPanel(replayR,"Move time",&(((ProjScene*) scene)->playTime),19);
 	playTime->set_int_limits(30,5*60, GLUI_LIMIT_WRAP);
 
-	GLUI_Panel* undoP = addPanelToPanel(gamePanel,"",GLUI_PANEL_NONE);
-	GLUI_Button* undo = addButtonToPanel(undoP,"Undo",13);
-	addColumnToPanel(undoP);
-	GLUI_Button* undo1 = addButtonToPanel(undoP,"Undo player move",14);
-	GLUI_Button* exitGame = addButtonToPanel(gamePanel,"Exit Game",15);
+	GLUI_Panel* tempPanel = addPanelToPanel(gamePanel,"",GLUI_PANEL_NONE);
+	GLUI_Button* undo = addButtonToPanel(tempPanel,"Undo player move",14);
+	addColumnToPanel(tempPanel);
+	GLUI_Button* exitGame = addButtonToPanel(tempPanel,"Exit Game",15);
 
 	////////////////////////////////////////////////////////////////////////////////////////////
 	addColumn();
@@ -192,13 +191,9 @@ void TPinterface::processGUI(GLUI_Control *ctrl) {
 		printf("Button new Game\n");
 		((ProjScene*) scene)->newGame();
 		break;
-	case 13:
-		printf("Button undo\n");
-		((ProjScene*) scene)->undo(1);
-		break;
 	case 14:
 		printf("Button player undo\n");
-		((ProjScene*) scene)->undo(0);
+		((ProjScene*) scene)->undo();
 		break;
 	case 15:
 		printf("Button exit game\n");
