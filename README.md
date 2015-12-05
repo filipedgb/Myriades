@@ -6,7 +6,7 @@ The game dynamics were programmed in Prolog and communicated through sockets, wh
 
 Game rules: https://boardgamegeek.com/boardgame/160612/myriades
 
-Screenshots
+## Screenshots
 
 ![Alt text](/screenshots/PrintsLAIG3_T1_G07_3.png?raw=true)
 
