@@ -1,6 +1,6 @@
 # Myriades 3D board game
 
-Academic project for the "Logic Programming" and "Graphical Applications Laboratory" courses of the Faculty of Engineering of the University of Porto (2015).
+Academic project for the "Logic Programming" (PLOG) and "Graphical Applications Laboratory" (LAIG) courses of the Faculty of Engineering of the University of Porto (2015).
 
 The game dynamics were programmed in Prolog and communicated through sockets, while the entire graphics interface was programmed in C++ using OpenGL.
 
